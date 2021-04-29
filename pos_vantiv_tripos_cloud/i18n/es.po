@@ -1,0 +1,601 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* pos_vantiv_tripos_cloud
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0-20190714\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-17 02:24+0000\n"
+"PO-Revision-Date: 2020-04-17 02:24+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pos_vantiv_tripos_cloud
+#: model_terms:ir.ui.view,arch_db:pos_vantiv_tripos_cloud.view_pos_vantiv_tripos_cloud_configuration_form
+msgid "<i>triPOS Cloud Configurations</i> define what Express API Credentials will be used when\n"
+"                                processing credit card transactions in the Point Of Sale. Setting up a triPOS Cloud\n"
+"                                configuration will enable you to allow payments with various credit cards\n"
+"                                (eg. Visa, MasterCard, Discovery, American Express, ...). After setting up this\n"
+"                                configuration you should associate it with a Point Of Sale payment method."
+msgstr "<i> triPOS Cloud Configurations </i> define qué credenciales Express API se usarán cuando \ n "
+"procesamiento de transacciones con tarjeta de crédito en el punto de venta. Configuración de una nube triPOS \ n"
+"la configuración le permitirá permitir pagos con varias tarjetas de crédito \ n"
+"(por ejemplo, Visa, MasterCard, Discovery, American Express, ...). Después de configurar esto \ n"
+"configuración, debe asociarlo con un método de pago de Punto de Venta."
+
+#. module: pos_vantiv_tripos_cloud
+#: model_terms:ir.ui.view,arch_db:pos_vantiv_tripos_cloud.pos_config_view_form_inherit_vantiv
+msgid "<span class=\"o_form_label\">Vantiv Lanes</span>"
+msgstr "<span class=\"o_form_label\">Vantiv Lanes</span>"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__express_api_credentials_acceptor_id
+msgid "Acceptor ID"
+msgstr "ID de aceptador"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__express_api_credentials_account_id
+msgid "Account ID"
+msgstr "ID de cuenta"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__express_api_credentials_account_token
+msgid "Account Token"
+msgstr "Token de cuenta"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_lane__activation_code
+msgid "Activation Code"
+msgstr "Código activación"
+
+#. module: pos_vantiv_tripos_cloud
+#: model_terms:ir.ui.view,arch_db:pos_vantiv_tripos_cloud.view_lane_form
+msgid "Add from TriposCloud"
+msgstr "Añadir desde TriposCloud"
+
+#. module: pos_vantiv_tripos_cloud
+#: selection:pos_vantiv_tripos_cloud.lane,state:0
+msgid "Added"
+msgstr "Añadir"
+
+#. module: pos_vantiv_tripos_cloud
+#: selection:barcode.rule,type:0
+msgid "Alias"
+msgstr "Alias"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__express_api_credentials_application_id
+msgid "Application ID"
+msgstr "ID aplicación"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__express_api_credentials_application_name
+msgid "Application Name"
+msgstr "Nombre de aplicación"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__express_api_credentials_application_version
+msgid "Application Version"
+msgstr "Versión de aplicación"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model,name:pos_vantiv_tripos_cloud.model_barcode_rule
+msgid "Barcode Rule"
+msgstr "Regla de código de barras"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_lane__body
+msgid "Body"
+msgstr "Contenido"
+
+#. module: pos_vantiv_tripos_cloud
+#: model_terms:ir.ui.view,arch_db:pos_vantiv_tripos_cloud.view_lane_form
+msgid "Body Response"
+msgstr "Respuesta de contenido"
+
+#. module: pos_vantiv_tripos_cloud
+#. openerp-web
+#: code:addons/pos_vantiv_tripos_cloud/static/src/js/pos_vantiv_tripos_cloud.js:245
+#, python-format
+msgid "Card is gift only card but the configuration does not allow for gift transactions."
+msgstr "La tarjeta es solo tarjeta de regalo, pero la configuración no permite transacciones de regalo."
+
+#. module: pos_vantiv_tripos_cloud
+#: selection:barcode.rule,type:0
+msgid "Cashier"
+msgstr "Cajero"
+
+#. module: pos_vantiv_tripos_cloud
+#: selection:barcode.rule,type:0
+msgid "Client"
+msgstr "Cliente"
+
+#. module: pos_vantiv_tripos_cloud
+#. openerp-web
+#: code:addons/pos_vantiv_tripos_cloud/static/src/xml/pos_vantiv_tripos_cloud.xml:9
+#, python-format
+msgid "Close"
+msgstr "Cerrar"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.ui.menu,name:pos_vantiv_tripos_cloud.menu_pos_pos_vantiv_tripos_cloud_config
+msgid "Configurations"
+msgstr "Configuraciones"
+
+#. module: pos_vantiv_tripos_cloud
+#: model_terms:ir.actions.act_window,help:pos_vantiv_tripos_cloud.action_configuration_form
+msgid "Configure your Express API Credentials"
+msgstr "Configure sus credenciales de API Express"
+
+#. module: pos_vantiv_tripos_cloud
+#: model_terms:ir.actions.act_window,help:pos_vantiv_tripos_cloud.action_lane_configuration_form
+msgid "Configure your Lane"
+msgstr "Configura tu lane"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__create_uid
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_lane__create_uid
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_transaction__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__create_date
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_lane__create_date
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_transaction__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: pos_vantiv_tripos_cloud
+#: selection:barcode.rule,type:0
+msgid "Credit Card"
+msgstr "Tarjetas de Crédito"
+
+#. module: pos_vantiv_tripos_cloud
+#. openerp-web
+#: code:addons/pos_vantiv_tripos_cloud/static/src/js/pos_vantiv_tripos_cloud.js:273
+#, python-format
+msgid "Credit card has been declined."
+msgstr ""
+
+#. module: pos_vantiv_tripos_cloud
+#. openerp-web
+#: code:addons/pos_vantiv_tripos_cloud/static/src/js/pos_vantiv_tripos_cloud.js:252
+#, python-format
+msgid "Credit card has been failed."
+msgstr "La tarjeta de crédito ha sido rechazada."
+
+#. module: pos_vantiv_tripos_cloud
+#. openerp-web
+#: code:addons/pos_vantiv_tripos_cloud/static/src/js/pos_vantiv_tripos_cloud.js:157
+#, python-format
+msgid "Credit card refunds are not supported. Instead select your credit card payment method, click 'Validate' and refund the original charge manually through the Vantiv backend."
+msgstr "No se admiten reembolsos de tarjetas de crédito. En su lugar, seleccione el método de pago de su tarjeta de crédito, haga clic en 'Validar' y reembolse el cargo original manualmente a través del backend Vantiv."
+
+#. module: pos_vantiv_tripos_cloud
+#: model_terms:ir.ui.view,arch_db:pos_vantiv_tripos_cloud.view_lane_form
+msgid "Delete from TriposCloud"
+msgstr "Eliminar de TriposCloud"
+
+#. module: pos_vantiv_tripos_cloud
+#: selection:pos_vantiv_tripos_cloud.lane,state:0
+msgid "Deleted"
+msgstr "Eliminado"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_transaction__description
+msgid "Descripción"
+msgstr "Descripción"
+
+#. module: pos_vantiv_tripos_cloud
+#: code:addons/pos_vantiv_tripos_cloud/models/pos_vantiv_transaction.py:50
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_lane__description
+#: model:ir.model.fields,help:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_lane__description
+#, python-format
+msgid "Description"
+msgstr "Descripción"
+
+#. module: pos_vantiv_tripos_cloud
+#: selection:barcode.rule,type:0
+msgid "Discounted Product"
+msgstr "Producto con descuento"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__display_name
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_lane__display_name
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_transaction__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: pos_vantiv_tripos_cloud
+#: selection:pos_vantiv_tripos_cloud.lane,state:0
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: pos_vantiv_tripos_cloud
+#. openerp-web
+#: code:addons/pos_vantiv_tripos_cloud/static/src/js/pos_vantiv_tripos_cloud.js:391
+#, python-format
+msgid "Error"
+msgstr "Error"
+
+#. module: pos_vantiv_tripos_cloud
+#: model_terms:ir.ui.view,arch_db:pos_vantiv_tripos_cloud.view_pos_vantiv_tripos_cloud_configuration_form
+#: model_terms:ir.ui.view,arch_db:pos_vantiv_tripos_cloud.view_pos_vantiv_tripos_cloud_configuration_tree
+msgid "Express API Credentials"
+msgstr "Credenciales Express API"
+
+#. module: pos_vantiv_tripos_cloud
+#. openerp-web
+#: code:addons/pos_vantiv_tripos_cloud/static/src/js/pos_vantiv_tripos_cloud.js:89
+#, python-format
+msgid "Go to payment screen to use cards"
+msgstr "Ir a pantalla de pago para usar tarjetas"
+
+#. module: pos_vantiv_tripos_cloud
+#. openerp-web
+#: code:addons/pos_vantiv_tripos_cloud/static/src/js/pos_vantiv_tripos_cloud.js:203
+#, python-format
+msgid "Handling transaction..."
+msgstr "Manejo de transacciones ..."
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__id
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_lane__id
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_transaction__id
+msgid "ID"
+msgstr "ID"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,help:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__express_api_credentials_acceptor_id
+msgid "Identifier Acceptor of the Express API Credentials Account"
+msgstr "Aceptador identificador de la cuenta de credenciales de API Express"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,help:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__express_api_credentials_application_id
+msgid "Identifier Application of the Express API Credentials Account"
+msgstr "Aplicación de identificador de la cuenta de credenciales de API Express"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,help:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_lane__lane_id
+msgid "Identifier Lane Management"
+msgstr "Administración identificador lane"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,help:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_lane__terminal_id
+msgid "Identifier Terminal"
+msgstr "Terminal identificador"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,help:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__express_api_credentials_account_id
+msgid "Identifier of the Express API Credentials Account"
+msgstr "Identificador de la cuenta de credenciales de API Express"
+
+#. module: pos_vantiv_tripos_cloud
+#: code:addons/pos_vantiv_tripos_cloud/models/pos_vantiv_tripos_cloud.py:28
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__is_vantiv
+#, python-format
+msgid "Is Vantiv?"
+msgstr "¿Vantiv?"
+
+#. module: pos_vantiv_tripos_cloud
+#: code:addons/pos_vantiv_tripos_cloud/models/pos_vantiv_tripos_cloud.py:27
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__is_production
+#, python-format
+msgid "Is production ?"
+msgstr "¿Es producción?"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model,name:pos_vantiv_tripos_cloud.model_account_journal
+msgid "Journal"
+msgstr "Diario"
+
+#. module: pos_vantiv_tripos_cloud
+#: code:addons/pos_vantiv_tripos_cloud/models/pos_config.py:10
+#: code:addons/pos_vantiv_tripos_cloud/models/pos_vantiv_transaction.py:45
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_config__lane_id
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_transaction__lane_id
+#: model_terms:ir.ui.view,arch_db:pos_vantiv_tripos_cloud.view_lane_form
+#, python-format
+msgid "Lane"
+msgstr "Lane"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.actions.act_window,name:pos_vantiv_tripos_cloud.action_lane_configuration_form
+msgid "Lane Configurations"
+msgstr "Configuraciones de lane"
+
+#. module: pos_vantiv_tripos_cloud
+#: code:addons/pos_vantiv_tripos_cloud/models/pos_vantiv_tripos_cloud.py:45
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_lane__lane_id
+#, python-format
+msgid "Lane ID"
+msgstr "ID lane"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.ui.menu,name:pos_vantiv_tripos_cloud.menu_pos_pos_vantiv_tripos_cloud_lane_config
+#: model_terms:ir.ui.view,arch_db:pos_vantiv_tripos_cloud.view_lane_tree
+msgid "Lanes"
+msgstr "Lanes"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration____last_update
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_lane____last_update
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_transaction____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__write_uid
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_lane__write_uid
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_transaction__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__write_date
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_lane__write_date
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_transaction__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: pos_vantiv_tripos_cloud
+#: selection:barcode.rule,type:0
+msgid "Location"
+msgstr "Ubicación"
+
+#. module: pos_vantiv_tripos_cloud
+#: selection:barcode.rule,type:0
+msgid "Lot"
+msgstr "Lote"
+
+#. module: pos_vantiv_tripos_cloud
+#: code:addons/pos_vantiv_tripos_cloud/models/pos_vantiv_transaction.py:44
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__name
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_lane__name
+#, python-format
+msgid "Name"
+msgstr "Nombre"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,help:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__express_api_credentials_application_name
+msgid "Name Application of the Express API Credentials Account"
+msgstr "Nombre de la cuenta de Aplicacion de credenciales de API Express"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,help:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__name
+msgid "Name of the configuration Vantiv Tripos Cloud"
+msgstr "Nombre de la configuración Vantiv Tripos Cloud"
+
+#. module: pos_vantiv_tripos_cloud
+#. openerp-web
+#: code:addons/pos_vantiv_tripos_cloud/static/src/js/pos_vantiv_tripos_cloud.js:140
+#, python-format
+msgid "No response from Vantiv (Vantiv down?)"
+msgstr "No hay respuesta de Vantiv (Vantiv caido?)"
+
+#. module: pos_vantiv_tripos_cloud
+#. openerp-web
+#: code:addons/pos_vantiv_tripos_cloud/static/src/js/pos_vantiv_tripos_cloud.js:142
+#, python-format
+msgid "No response from server (connected to network?)"
+msgstr "No hay respuesta del servidor (¿conectado a la red?)"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_transaction__name
+msgid "Nombre"
+msgstr "Nombre"
+
+#. module: pos_vantiv_tripos_cloud
+#. openerp-web
+#: code:addons/pos_vantiv_tripos_cloud/static/src/js/pos_vantiv_tripos_cloud.js:292
+#, python-format
+msgid "Odoo error while processing transaction."
+msgstr "Error de Odoo al procesar la transacción."
+
+#. module: pos_vantiv_tripos_cloud
+#. openerp-web
+#: code:addons/pos_vantiv_tripos_cloud/static/src/js/pos_vantiv_tripos_cloud.js:392
+#, python-format
+msgid "One credit card swipe already pending."
+msgstr "Una tarjeta de crédito ya está pendiente."
+
+#. module: pos_vantiv_tripos_cloud
+#. openerp-web
+#: code:addons/pos_vantiv_tripos_cloud/static/src/xml/pos_vantiv_tripos_cloud.xml:6
+#, python-format
+msgid "Online Payment"
+msgstr "Pago en línea"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_transaction__order_name
+msgid "Order Name"
+msgstr "Nombre del pedido"
+
+#. module: pos_vantiv_tripos_cloud
+#. openerp-web
+#: code:addons/pos_vantiv_tripos_cloud/static/src/xml/pos_vantiv_tripos_cloud.xml:49
+#, python-format
+msgid "PLEASE FINISH PAYMENT"
+msgstr "POR FAVOR TERMINE EL PAGO"
+
+#. module: pos_vantiv_tripos_cloud
+#: selection:barcode.rule,type:0
+msgid "Package"
+msgstr "Paquete"
+
+#. module: pos_vantiv_tripos_cloud
+#. openerp-web
+#: code:addons/pos_vantiv_tripos_cloud/static/src/xml/pos_vantiv_tripos_cloud.xml:29
+#, python-format
+msgid "Pay by Card"
+msgstr "Pagar con tarjeta"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,help:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_lane__activation_code
+msgid "Pin Pads Activation Code"
+msgstr "Código de activación de pads"
+
+#. module: pos_vantiv_tripos_cloud
+#. openerp-web
+#: code:addons/pos_vantiv_tripos_cloud/static/src/js/pos_vantiv_tripos_cloud.js:284
+#, python-format
+msgid "Please setup lane in your POS."
+msgstr "Configure el lane en su punto de venta."
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model,name:pos_vantiv_tripos_cloud.model_pos_config
+msgid "Point of Sale Configuration"
+msgstr "Configuración del TPV"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model,name:pos_vantiv_tripos_cloud.model_pos_vantiv_tripos_cloud_configuration
+msgid "Point of Sale Vantiv triPOS Cloud Configuration"
+msgstr "Configuración de punto de venta en la nube Vantiv triPOS"
+
+#. module: pos_vantiv_tripos_cloud
+#: selection:barcode.rule,type:0
+msgid "Priced Product"
+msgstr "Producto con precio"
+
+#. module: pos_vantiv_tripos_cloud
+#. openerp-web
+#: code:addons/pos_vantiv_tripos_cloud/static/src/js/pos_vantiv_tripos_cloud.js:156
+#, python-format
+msgid "Refunds not supported"
+msgstr "Reembolsos no admitidos"
+
+#. module: pos_vantiv_tripos_cloud
+#: code:addons/pos_vantiv_tripos_cloud/models/pos_vantiv_tripos_cloud.py:49
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_lane__state
+#, python-format
+msgid "State"
+msgstr "Estado"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_lane__terminal_id
+msgid "Terminal ID"
+msgstr "ID terminal"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,help:pos_vantiv_tripos_cloud.field_account_journal__pos_vantiv_tripos_cloud_config_id
+msgid "The configuration of triPOS Cloud used for this journal"
+msgstr "La configuración de triPOS Cloud utilizada para esta revista"
+
+#. module: pos_vantiv_tripos_cloud
+#. openerp-web
+#: code:addons/pos_vantiv_tripos_cloud/static/src/js/pos_vantiv_tripos_cloud.js:266
+#, python-format
+msgid "The request has been canceled."
+msgstr "La solicitud ha sido cancelada."
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,help:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__express_api_credentials_account_token
+msgid "Token of the Express API Credentials Account"
+msgstr "Token de la cuenta de credenciales de API Express"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_transaction__transaction_id
+msgid "Transaction"
+msgstr "Transacción"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_transaction__transaction_amount
+msgid "Transaction Amount"
+msgstr "Total transacción"
+
+#. module: pos_vantiv_tripos_cloud
+#. openerp-web
+#: code:addons/pos_vantiv_tripos_cloud/static/src/js/pos_vantiv_tripos_cloud.js:259
+#, python-format
+msgid "Transaction Failed. Please re-attempt the transaction. Customer has not been charged."
+msgstr "Transacción fallida. Vuelva a intentar la transacción. El cliente no ha sido cargado."
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_transaction__transaction_status
+msgid "Transaction Status"
+msgstr "Estado de transacción"
+
+#. module: pos_vantiv_tripos_cloud
+#. openerp-web
+#: code:addons/pos_vantiv_tripos_cloud/static/src/js/pos_vantiv_tripos_cloud.js:239
+#, python-format
+msgid "Transaction Successful"
+msgstr "Transacción exitosa"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.ui.menu,name:pos_vantiv_tripos_cloud.menu_pos_vantiv_tripos_cloud_lane_transaction
+#: model_terms:ir.ui.view,arch_db:pos_vantiv_tripos_cloud.view_pos_vantiv_tripos_cloud_transaction_tree
+msgid "Transactions"
+msgstr "Transacciones"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_barcode_rule__type
+msgid "Type"
+msgstr "Tipo"
+
+#. module: pos_vantiv_tripos_cloud
+#: selection:barcode.rule,type:0
+msgid "Unit Product"
+msgstr "Unidad de producto"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.ui.menu,name:pos_vantiv_tripos_cloud.menu_pos_pos_vantiv_tripos_cloud_root
+msgid "Vantiv"
+msgstr "Vantiv"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_lane__configuration_id
+msgid "Vantiv Configuration"
+msgstr "Configuración Vantiv"
+
+#. module: pos_vantiv_tripos_cloud
+#: model_terms:ir.ui.view,arch_db:pos_vantiv_tripos_cloud.pos_config_view_form_inherit_vantiv
+msgid "Vantiv Lanes available"
+msgstr "Vantiv Lanes disponible"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model,name:pos_vantiv_tripos_cloud.model_pos_vantiv_tripos_cloud_lane
+msgid "Vantiv triPOS Cloud Lane Management"
+msgstr "Administración Vantiv triPOS Lane en la nube"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,help:pos_vantiv_tripos_cloud.field_pos_vantiv_tripos_cloud_configuration__express_api_credentials_application_version
+msgid "Version Application of the Express API Credentials Account"
+msgstr "Aplicación de versión de la cuenta de credenciales de API Express"
+
+#. module: pos_vantiv_tripos_cloud
+#: selection:barcode.rule,type:0
+msgid "Weighted Product"
+msgstr "Producto pesado"
+
+#. module: pos_vantiv_tripos_cloud
+#: model_terms:ir.ui.view,arch_db:pos_vantiv_tripos_cloud.view_lane_form
+msgid "name"
+msgstr "nombre"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model,name:pos_vantiv_tripos_cloud.model_pos_vantiv_tripos_cloud_transaction
+msgid "pos_vantiv_tripos_cloud.transaction"
+msgstr "pos_vantiv_tripos_cloud.transaction"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.actions.act_window,name:pos_vantiv_tripos_cloud.action_configuration_form
+msgid "triPOS Cloud Configurations"
+msgstr "Configuraciones en la nube triPOS"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.model.fields,field_description:pos_vantiv_tripos_cloud.field_account_journal__pos_vantiv_tripos_cloud_config_id
+msgid "triPOS Cloud Credentials"
+msgstr "TriPOS Credenciales en la nube"
+
+#. module: pos_vantiv_tripos_cloud
+#: model:ir.actions.act_window,name:pos_vantiv_tripos_cloud.action_transaction_form
+msgid "triPOS Cloud Transactions"
+msgstr "Transacciones triPOS en la nube"
+
