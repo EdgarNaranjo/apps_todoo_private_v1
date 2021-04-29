@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ftp_setting,access_ftp_setting,model_ftp_setting,base.group_user,1,1,1,1
+access_attachment_files_send,access_attachment_files_send,model_attachment_files_send,base.group_user,1,1,1,1

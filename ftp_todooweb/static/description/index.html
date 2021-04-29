@@ -42,31 +42,62 @@
     </div>
 </section>
 <br/>
-<h1 class="text-center">Stock Picking Split</h1>
+<h1 class="text-center">Transfer File via FTP to a server from odoo</h1>
 <hr>
 <div>
-    <p class="lead">With this module you can split a "stock.picking" as many times as necessary, reducing it to a stock.move.</p>
+    <p class="lead">With the FTP Transfer module the user could:</p>
     <ul>
-        <li>You select the delivery note from.</li>
-        <li>You enter the delivery note number.</li>
-        <li>You split the delivery note into as many delivery notes as you want.</li>
+        <li>Create attachments.</li>
+        <li>Attach it to the group of files you want to send.</li>
+        <li>And send it by fpt server to the server that you have previously configured.</li>
     </ul>
+
+    <p>The server can be configured with "TLS" encryption or it can be done with an anonymous connection.</p>
+</div>
+<br/>
+<div>
+    <p class="lead">The workflow to send a file by FTP is as follows:</p>
+    <br/>
+    <p class="lead">FTP server configuration</p>
+    <img class="img-responsive left-block" src="config.png" style="width:90%;">
 </div>
 <br/>
 <br/>
+<div>
+    <p class="lead">Create the model to send file</p>
+    <img class="img-responsive left-block" src="create.png" style="width:90%;">
+</div>
 <br/>
-<div style="background-color:#dbecf0">
+<br/>
+<div>
+    <p class="lead">Created the model you can attach files</p>
+    <img class="img-responsive left-block" src="files.png" style="width:90%;">
+</div>
+<br/>
+<br/>
+<div>
+    <p class="lead">Send to files to FTP</p>
+    <img class="img-responsive left-block" src="sent.png" style="width:90%;">
+</div>
+<br/>
+<br/>
+<div>
+    <p class="lead">Files sent to FTP</p>
+    <img class="img-responsive left-block" src="send.png" style="width:90%;">
+</div>
+<br/>
+<br/>
+<div>
+    <p class="lead">Files in FTP server</p>
+    <img class="img-responsive left-block" src="server.png" style="width:90%;">
+</div>
+<br/>
+<br/>
+<!--<div style="background-color:#dbecf0">
     <a href="https://youtu.be/HNGusvLC6ag" target="_blank" style="padding-top: 10px;padding-right: 30px;padding-bottom: 10px;padding-left: 30px;"><h3 class="oe_slogan">Tutorial Video</h3></a>
 </div>
 <br/>
-<br/>
-<div>
-    <p class="lead">Future developments:</p>
-    <ul>
-        <li>Improvements in the casuistry when split a "stock.picking"</li>
-    </ul>
-</div>
-<br/>
+<br/>-->
 <div style="background-color:#dbecf0">
     <a href="https://apps.odoo.com/apps/modules/browse?search=todooweb" target="_blank" style="padding-top: 10px;padding-right: 30px;padding-bottom: 10px;padding-left: 30px;"><h3 class="oe_slogan">Click for more APPS</h3></a>
 </div>
@@ -102,13 +133,13 @@
             <i class="fa fa-github"></i> Issues
         </a>
 	</div>
-    <img src="logo_todoo.svg" style="width: 200px; margin-bottom: 20px; display: block;" class="mx-auto center-block">
+	<img src="logo_todoo.svg" style="width: 200px; margin-bottom: 20px; display: block;" class="mx-auto center-block">
 </div>
 </body>
 <footer>
     <hr>
     <p class="text-center">
-        Power by <a href="https://todooweb.com/" title="Develop ToDOO">Develop ToDOO</a> from <a href="https://todooweb.com/" title="ToDOO">ToDOO Web</a>
+        Power by <a href="https://todooweb.com/" title="Develop ToDOO">Develop ToDOO Web</a> from <a href="https://todooweb.com/" title="ToDOO">ToDOO Web</a>
     </p>
 </footer>
 </html>

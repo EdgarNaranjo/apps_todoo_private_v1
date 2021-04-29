@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- View Form Settings -->
+        <record model="ir.ui.view" id="ftp_setting_form">
+            <field name="name">ftp.setting.form</field>
+            <field name="model">ftp.setting</field>
+            <field name="arch" type="xml">
+                <form string="Settings">
+                    <header>
+                        <button name="test_connection" string="Connect server" type="object" icon="fa-television" class="btn-primary" attrs="{'invisible':[('state','=','connect')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="no_connect,connect"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="user"/>
+                                <field name="type_connection"/>
+                                <field name="url"/>
+                                <field name="url_server_output"/>
+                            </group>
+                            <group>
+                                <field name="secret" password="True"/>
+                                <field name="type_encrypt"/>
+                                <field name="active"/>
+                            </group>
+                            <group string="Server routes">
+                                <field name="url_output"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- View Tree Settings -->
+        <record model="ir.ui.view" id="ftp_setting_tree">
+            <field name="name">ftp.setting.tree</field>
+            <field name="model">ftp.setting</field>
+            <field name="arch" type="xml">
+                <tree string="Settings" decoration-danger="state=='no_connect'">
+                    <field name="user"/>
+                    <field name="type_connection"/>
+                    <field name="url"/>
+                    <field name="url_output"/>
+                    <field name="url_server_output"/>
+                    <field name="active"/>
+                    <field name="state" invisible="True"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_ftp_setting" model="ir.actions.act_window">
+            <field name="name">Settings FTP</field>
+            <field name="res_model">ftp.setting</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('ftp_setting_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('ftp_setting_form')})]"/>
+        </record>
+
+        <!-- View Form attachment.files.send -->
+        <record model="ir.ui.view" id="attachment_files_send_form">
+            <field name="name">attachment.files.send.form</field>
+            <field name="model">attachment.files.send</field>
+            <field name="arch" type="xml">
+                <form string="Attachment files">
+                    <header>
+                        <button name="sent_server" string="Confirmed sent" type="object" attrs="{'invisible':[('state','!=','pend')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,pend,send"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="Document Name" required="True" readonly="True"/></h1>
+                        </div>
+                        <group>
+                            <group name="first_group">
+                                <field name="create_date" string="Fecha creado" readonly="1"/>
+                                <field name="create_uid" string="Creado por" readonly="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Attachments">
+                                <field name="attachment_ids" widget="many2many" domain="[('create_uid', '=', create_uid)]" attrs="{'readonly':[('state','=','send')]}">
+                                    <kanban quick_create="false" create="true" delete="true">
+                                        <field name="id"/>
+                                        <field name="name"/>
+                                        <field name="mimetype"/>
+                                        <field name="create_uid"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div style="position: relative" class="oe_kanban_global_click">
+                                                    <div class="oe_module_vignette">
+                                                        <div class="oe_module_desc o_kanban_record_title">
+                                                            <field name="name"/>
+                                                        </div>
+                                                        <div><field name="mimetype"/></div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+<!--                    <div class="oe_chatter">-->
+<!--                            <field name="message_follower_ids" widget="mail_followers"/>-->
+<!--                            <field name="activity_ids" widget="mail_activity"/>-->
+<!--                            <field name="message_ids" widget="mail_thread"/>-->
+<!--                    </div>-->
+                </form>
+            </field>
+        </record>
+
+        <!-- View Tree attachment.files.send -->
+        <record model="ir.ui.view" id="attachment_files_send_tree">
+            <field name="name">attachment.files.send.tree</field>
+            <field name="model">attachment.files.send</field>
+            <field name="arch" type="xml">
+                <tree string="Attachment files" decoration-info="state == 'draft'" decoration-muted = "state in ['pend']">
+                    <field name="name"/>
+                    <field name="create_date"/>
+                    <field name="create_uid"/>
+                    <field name="write_uid"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- View Search attachment.files.send -->
+        <record id="attachment_files_send_search" model="ir.ui.view">
+          <field name="name">attachment.files.send.search</field>
+          <field name="model">attachment.files.send</field>
+          <field name="arch" type="xml">
+            <search string="Attachment files">
+                <field name="name"/>
+                <field name="create_uid"/>
+                <field name="write_uid"/>
+                <field name="state"/>
+                <separator/>
+                <filter string="New" domain="[('state', '=', 'draft')]" name="modelnew"/>
+                <filter string="Pending sent" domain="[('state', '=', 'pend')]" name="modelsent"/>
+                <filter string="Send" domain="[('state', '=', 'send')]" name="modelsend"/>
+            </search>
+          </field>
+        </record>
+
+        <record id="action_attachment_files_send" model="ir.actions.act_window">
+            <field name="name">Attachment files</field>
+            <field name="res_model">attachment.files.send</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('attachment_files_send_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('attachment_files_send_form')})]"/>
+            <field name="search_view_id" ref="attachment_files_send_search"/>
+        </record>
+
+        <!-- Top menu item -->
+        <menuitem id='ftp_menu_principal' name='FTP Files' sequence="10" web_icon="ftp_todooweb,static/description/icon.png"/>
+        <menuitem name="FTP Files" id="ftp_menu_send_principal_item" parent="ftp_menu_principal" sequence="1"/>
+        <menuitem name="FTP Files" id="menu_send_principal_item_1" parent="ftp_menu_send_principal_item" action="action_attachment_files_send" sequence="1"/>
+        <menuitem name="Configuration" id="ftp_menu_principal_item"  parent="ftp_menu_principal" sequence="999"/>
+        <menuitem name="Settings" id="setting_ftp_item_list" parent="ftp_menu_principal_item" action="action_ftp_setting" sequence="999"/>
+    </data>
+</odoo>
