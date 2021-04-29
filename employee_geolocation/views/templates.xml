@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="employee_geo" name="employee_geo assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/employee_geolocation/static/src/js/employee_geo.js"></script>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>
