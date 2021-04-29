@@ -3,16 +3,16 @@
 
 from odoo.tools.float_utils import float_round as round
 from odoo import api, fields, models, _
-from datetime import datetime, time, date
 from dateutil.relativedelta import relativedelta
+from datetime import datetime, timedelta, date, time
 from lxml import etree
 import base64
 import re
-import hashlib
-from datetime import datetime, timedelta, date
 from odoo.exceptions import UserError, AccessError, ValidationError
 
 from odoo import tools
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class StockModelWzard(models.TransientModel):
@@ -21,27 +21,27 @@ class StockModelWzard(models.TransientModel):
     _rec_name = 'state_invoice'
 
     @api.multi
+    @api.depends('invoice_filters_ids', 'supplier_filters_ids')
     def _get_amounts_and_date_amount(self):
         user_id = self._uid
         company = self.env['res.users'].browse(user_id).company_id
         current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
         for wizard in self:
             amount_due = amount_overdue = 0.0
             supplier_amount_due = supplier_amount_overdue = 0.0
             for aml in wizard.invoice_filters_ids:
-                if (aml.company_id == company):
+                if aml.company_id == company:
                     date_maturity = aml.date_due or aml.date
                     amount_due += aml.result
-                    if (date_maturity <= current_date):
+                    if date_maturity <= current_date:
                         amount_overdue += aml.result
             wizard.payment_amount_due_amt = amount_due
             wizard.payment_amount_overdue_amt = amount_overdue
             for aml in wizard.supplier_filters_ids:
-                if (aml.company_id == company):
+                if aml.company_id == company:
                     date_maturity = aml.date_due or aml.date
                     supplier_amount_due += aml.result
-                    if (date_maturity <= current_date):
+                    if date_maturity <= current_date:
                         supplier_amount_overdue += aml.result
             wizard.payment_amount_due_amt_supplier = supplier_amount_due
             wizard.payment_amount_overdue_amt_supplier = supplier_amount_overdue
@@ -62,69 +62,53 @@ class StockModelWzard(models.TransientModel):
     sixty_ninty_days = fields.Float(string="60-90", compute="compute_sixty_ninty_days")
     ninty_plus_days = fields.Float(string="90+", compute="compute_ninty_plus_days")
     total = fields.Float(string="Total", compute="compute_total")
+    type = fields.Char('Type')
 
     @api.depends('start_date', 'end_date', 'state_invoice')
     @api.onchange('start_date', 'end_date', 'state_invoice')
     def onchage_get_invoice_filters(self):
-        list_invoice = []
-        list_invoice_sup = []
         for wizard in self:
-            if self.env.context.get('partner_id'):
-                partner_id = self.env.context.get('partner_id')
-                obj_partner_id = self.env['res.partner'].search([('id', '=', partner_id)])
-                if obj_partner_id:
-                    wizard.partner_id = obj_partner_id[0].id
-            if self.env.context.get('invoice_ids'):
-                invoice_ids = self.env.context.get('invoice_ids')
-                if wizard.start_date and wizard.end_date:
-                    if wizard.start_date > wizard.end_date:
-                        raise ValidationError('La fecha fin "%s" no puede ser menor que la fecha de inicio  "%s".' % (wizard.end_date, wizard.start_date))
-                    obj_invoice_id = self.env['account.invoice'].search([('id', 'in', invoice_ids)])
-                    invoice = []
-                    if obj_invoice_id:
-                        invoice_date = obj_invoice_id.filtered(lambda e: wizard.start_date <= e.date_invoice <= wizard.end_date)
-                        if invoice_date:
-                            if wizard.state_invoice:
-                                invoice_state = invoice_date.filtered(lambda e: e.state == 'open')
-                                if invoice_state:
-                                    invoice = invoice_state
-                            else:
-                                invoice = invoice_date
-                        if invoice:
-                            for inv_fil in invoice:
-                                if inv_fil not in list_invoice:
-                                    list_invoice.append(inv_fil.id)
-                    if list_invoice:
-                        wizard.invoice_filters_ids = [(6, 0, list_invoice)]
-            if self.env.context.get('supplier_ids'):
-                supplier_ids = self.env.context.get('supplier_ids')
-                if wizard.start_date and wizard.end_date:
-                    if wizard.start_date > wizard.end_date:
-                        raise ValidationError('La fecha fin "%s" no puede ser menor que la fecha de inicio  "%s".' % (wizard.end_date, wizard.start_date))
-                    obj_invoice_id = self.env['account.invoice'].search([('id', 'in', supplier_ids)])
-                    invoice = []
-                    if obj_invoice_id:
-                        invoice_date = obj_invoice_id.filtered(lambda e: wizard.start_date <= e.date_invoice <= wizard.end_date)
-                        if invoice_date:
-                            if wizard.state_invoice:
-                                invoice_state = invoice_date.filtered(lambda e: e.state == 'open')
-                                if invoice_state:
-                                    invoice = invoice_state
-                            else:
-                                invoice = invoice_date
-                        if invoice:
-                            for inv_fil in invoice:
-                                if inv_fil not in list_invoice_sup:
-                                    list_invoice_sup.append(inv_fil.id)
-                    if list_invoice_sup:
-                        wizard.supplier_filters_ids = [(6, 0, list_invoice_sup)]
-            wizard.amount_total = 0
-            if wizard.invoice_filters_ids:
-                for filt_invoice in wizard.invoice_filters_ids:
-                    wizard.amount_total += filt_invoice.amount_total
-            if wizard.supplier_filters_ids:
-                for fil_supplier in wizard.supplier_filters_ids:
-                    wizard.amount_total += fil_supplier.amount_total
+            if self.env.context.get('list_id'):
+                list_id = self.env.context.get('list_id')
+                obj_invoice_all = self.env['account.invoice'].search([('id', 'in', list_id)])
+                wizard.invoice_filters_ids = obj_invoice_all
+            if self.env.context.get('list_sup_id'):
+                list_sup_id = self.env.context.get('list_sup_id')
+                obj_invoice_sup_all = self.env['account.invoice'].search([('id', 'in', list_sup_id)])
+                wizard.supplier_filters_ids = obj_invoice_sup_all
+            if self.start_date and self.end_date:
+                if wizard.start_date > wizard.end_date:
+                    raise ValidationError('La fecha fin "%s" no puede ser menor que la fecha de inicio  "%s".' % (wizard.end_date, wizard.start_date))
+                if wizard.invoice_filters_ids:
+                    obj_invoice_date_id = wizard.invoice_filters_ids.filtered(lambda e: wizard.start_date <= e.date_invoice <= wizard.end_date)
+                    if obj_invoice_date_id:
+                        invoice = obj_invoice_date_id
+                        if self.state_invoice:
+                            obj_invoice_state_id = invoice.filtered(lambda e: e.state == 'open')
+                            invoice = obj_invoice_state_id
+                    else:
+                        invoice = []
+                    list_invoice = [inv_fil.id for inv_fil in invoice]
+                    _logger.info("For a list_invoice")
+                    wizard.invoice_filters_ids = wizard.invoice_filters_ids.filtered(lambda e: e.id in list_invoice)
+                    _logger.info("Asignar a invoice_filter el list_invoice")
+                    # wizard.amount_total = wizard.total
+                if wizard.supplier_filters_ids:
+                    obj_invoice_sup_date_id = wizard.supplier_filters_ids.filtered(lambda e: wizard.start_date <= e.date_invoice <= wizard.end_date)
+                    if obj_invoice_sup_date_id:
+                        invoice = obj_invoice_sup_date_id
+                        if self.state_invoice:
+                            obj_invoice_sup_state_id = invoice.filtered(lambda e: e.state == 'open')
+                            invoice = obj_invoice_sup_state_id
+                    else:
+                        invoice = []
+                    list_invoice = [inv_fil.id for inv_fil in invoice]
+                    _logger.info("For a list_invoice")
+                    wizard.supplier_filters_ids = wizard.supplier_filters_ids.filtered(lambda e: e.id in list_invoice)
+                    _logger.info("Asignar a invoice_filter el list_invoice")
+                    # for fil_supplier in wizard.supplier_filters_ids:
+                    #     if fil_supplier.state == 'open':
+                    #         wizard.amount_total += fil_supplier.amount_total
 
     @api.one
     @api.depends('invoice_filters_ids')
@@ -178,17 +162,11 @@ class StockModelWzard(models.TransientModel):
 
     @api.multi
     def action_print_customer_pdf(self):
-        ok_view_customer = False
-        ok_view_suppplier = False
         if self.invoice_filters_ids:
-            ok_view_customer = True
-        if self.supplier_filters_ids:
-            ok_view_suppplier = True
-        if ok_view_customer:
             return self.env.ref('account_statement_todoo.report_customer_filter_print').report_action(self)
-        if ok_view_suppplier:
+        if self.supplier_filters_ids:
             return self.env.ref('account_statement_todoo.report_supplier_filter_print').report_action(self)
-   
+
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
@@ -244,7 +222,7 @@ class ResPartner(models.Model):
         if self.customer:
             if self.balance_invoice_ids:
                 obj_invoice_ids = self.balance_invoice_ids.ids
-            context = ({'invoice_ids': obj_invoice_ids, 'partner_id': self.id})
+            context = ({'default_invoice_filters_ids': obj_invoice_ids, 'default_partner_id': self.id, 'list_id': obj_invoice_ids, 'default_type': 'consu'})
             view = self.env.ref('account_statement_todoo.customer_model_wizard_form')
             return {
                 'name': _('Print Invoice Customer'),
@@ -263,7 +241,7 @@ class ResPartner(models.Model):
         if self.supplier:
             if self.supplier_invoice_ids:
                 obj_invoice_ids = self.supplier_invoice_ids.ids
-            context = ({'supplier_ids': obj_invoice_ids, 'partner_id': self.id})
+            context = ({'default_supplier_filters_ids': obj_invoice_ids, 'default_partner_id': self.id, 'list_sup_id': obj_invoice_ids, 'default_type': 'supplier'})
             view = self.env.ref('account_statement_todoo.customer_model_wizard_form')
             return {
                 'name': _('Print Invoice Vendor'),

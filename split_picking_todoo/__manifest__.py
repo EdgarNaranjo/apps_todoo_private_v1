@@ -2,7 +2,7 @@
 ##############################################################################
 {
     'name': 'Stock Picking Split',
-    'version': '10.0.1.0.0',
+    'version': '11.0.1.0.0',
     'summary': 'This module allows to split a stock.picking',
     'description': """With this module you can split a "stock.picking" as many times as necessary, reducing it to a stock.move.""",
     'license': 'AGPL-3',

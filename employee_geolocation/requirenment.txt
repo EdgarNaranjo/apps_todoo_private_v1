@@ -1,6 +1,0 @@
-geopy
-httpagentparser
-pygeoip
-python-geoip-geolite2
-ipinfo
-user-agents
