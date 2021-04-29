@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.menu" id="base_geoengine.geoengine_base_menu">
+            <field name="groups_id" eval="[(6,0,[ref('group_make_invisible')])]"/>
+        </record>
+
+        <record id="hr_employee_view_form" model="ir.ui.view">
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='address_home_id']" position="attributes">
+                    <attribute name="required">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='address_id']" position="attributes">
+                    <attribute name="required">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='address_id']" position="attributes">
+                    <attribute name="domain">[('is_company', '=', True)]</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!--<record id="geolocate_hr_attendance_view_form_inherit" model="ir.ui.view">-->
+            <!--<field name="model">hr.attendance</field>-->
+            <!--<field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<xpath expr="//form/sheet/group" position="after">-->
+                    <!--<notebook>-->
+                        <!--<page string="Check In Information">-->
+                            <!--<group name="General Check In">-->
+                                <!--<group name="Locations Check In">-->
+                                    <!--<field name="location_ip_check_in" readonly="True"/>-->
+                                    <!--<field name="city_check_in" readonly="True"/>-->
+                                    <!--<field name="show_checkout" invisible="1"/>-->
+                                <!--</group>-->
+                                <!--<group name="other_data">-->
+                                    <!--<field name="type_disp_check_in" readonly="True"/>-->
+                                    <!--<field name="user_os_check_in" readonly="True"/>-->
+                                    <!--<field name="browser_name_check_in" readonly="True"/>-->
+                                <!--</group>-->
+                            <!--</group>-->
+                            <!--<field name="the_point_check_in" widget="geo_edit_map"/>-->
+                        <!--</page>-->
+                        <!--<page string="Check Out Information" attrs="{'invisible': [('show_checkout', '=', False)]}">-->
+                            <!--<group name="General Check Out">-->
+                                <!--<group name="Locations Check Out">-->
+                                    <!--<field name="location_ip_check_out" readonly="True"/>-->
+                                    <!--<field name="city_check_out" readonly="True"/>-->
+
+                                <!--</group>-->
+                                <!--<group name="other_data">-->
+                                    <!--<field name="type_disp_check_out" readonly="True"/>-->
+                                    <!--<field name="user_os_check_out" readonly="True"/>-->
+                                    <!--<field name="browser_name_check_out" readonly="True"/>-->
+                                <!--</group>-->
+                            <!--</group>-->
+                            <!--<field name="the_point_check_out" widget="geo_edit_map"/>-->
+                        <!--</page>-->
+                    <!--</notebook>-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <!--<record id="view_attendance_tree_inherit" model="ir.ui.view">-->
+            <!--<field name="model">hr.attendance</field>-->
+            <!--<field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<xpath expr="//field[@name='check_out']" position="after">-->
+                    <!--<field name="location_ip_check_in"/>-->
+                    <!--&lt;!&ndash;<field name="city"/>&ndash;&gt;-->
+                    <!--<field name="type_disp_check_in"/>-->
+                    <!--<field name="user_os_check_in"/>-->
+                    <!--<field name="browser_name_check_in"/>-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <!-- View Form Attendance Log -->
+        <record model="ir.ui.view" id="hr_employee_log_form">
+            <field name="name">hr.employee.log.form</field>
+            <field name="model">hr.employee.log</field>
+            <field name="arch" type="xml">
+                <form string="Employee log">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="not_processed,processed"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Name" default_focus="1"/>
+                            </h1>
+                        </div>
+                        <group name="group_p">
+                            <group name="data_general">
+                                <field name="employee_id" options="{'no_open':True,'no_create':True}" required="True"/>
+                               </group>
+                            <group name="group_f">
+                                <field name="check_in" readonly="True" attrs="{'invisible': [('check_type','=','anoon')]}"/>
+                                <field name="check_out" readonly="True" attrs="{'invisible': [('check_type','=','mning')]}"/>
+                                <field name="check_type" invisible="1"/>
+                                <field name="show_checkout" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Check In Information" attrs="{'invisible': [('show_checkout', '=', True)]}">
+                            <group name="General Check In">
+                                <group name="Locations Check In">
+                                    <field name="location_ip_check_in" readonly="True"/>
+                                    <field name="city_check_in" readonly="True"/>
+                                    <field name="code_country_in" readonly="True"/>
+                                </group>
+                                <group name="other_data">
+                                    <field name="device_type_in" readonly="True"/>
+                                    <field name="user_os_check_in" readonly="True"/>
+                                    <field name="browser_name_check_in" readonly="True"/>
+                                </group>
+                            </group>
+                            <field name="the_point_check_in" widget="geo_edit_map"/>
+                        </page>
+                        <page string="Check Out Information" attrs="{'invisible': [('show_checkout', '=', False)]}">
+                            <group name="General Check Out">
+                                <group name="Locations Check Out">
+                                    <field name="location_ip_check_in" readonly="True"/>
+                                    <field name="city_check_in" readonly="True"/>
+                                    <field name="code_country_in" readonly="True"/>
+
+                                </group>
+                                <group name="other_data">
+                                    <field name="device_type_in" readonly="True"/>
+                                    <field name="user_os_check_in" readonly="True"/>
+                                    <field name="browser_name_check_in" readonly="True"/>
+                                </group>
+                            </group>
+                            <field name="the_point_check_in" widget="geo_edit_map"/>
+                        </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- View Tree Attendance -->
+        <record model="ir.ui.view" id="hr_employee_log_tree">
+            <field name="name">hr.employee.log.tree</field>
+            <field name="model">hr.employee.log</field>
+            <field name="arch" type="xml">
+                <tree string="Employee log">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="check_in" attrs="{'invisible': [('check_type','=','anoon')]}"/>
+                    <field name="check_out" attrs="{'invisible': [('check_type','=','mning')]}"/>
+                    <field name="location_ip_check_in"/>
+                    <field name="device_type_in"/>
+                    <field name="city_check_in"/>
+                    <field name="code_country_in"/>
+                    <field name="user_os_check_in"/>
+                    <field name="browser_name_check_in"/>
+                    <field name="state"/>
+                    <field name="check_type" invisible="True"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- View search Attendance -->
+        <record model="ir.ui.view" id="hr_employee_log_search">
+            <field name="name">hr.employee.log.search</field>
+            <field name="model">hr.employee.log</field>
+            <field name="arch" type="xml">
+                <search string="Employee log">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="check_in"/>
+                    <field name="check_out"/>
+                    <field name="location_ip_check_in"/>
+                    <field name="device_type_in"/>
+                    <field name="city_check_in"/>
+                    <field name="code_country_in"/>
+                    <field name="user_os_check_in"/>
+                    <field name="browser_name_check_in"/>
+                    <separator/>
+                    <filter string="Not processed" domain="[('state', '=', 'not_processed')]" name="not_processed"/>
+                    <filter string="Processed" domain="[('state', '=', 'processed')]" name="processed"/>
+                    <separator/>
+                    <group expand='0' string='Group by...'>
+                        <filter string='State' name='state' domain="[]" context="{'group_by': 'state'}"/>
+                        <filter string='Employee' name="employee" domain="[]" context="{'group_by': 'employee_id'}"/>
+                        <filter string='Device' name="type_disp" domain="[]" context="{'group_by': 'type_disp'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--View Pivot Attendance-->
+        <record id="hr_employee_log_view_pivot" model="ir.ui.view">
+            <field name="name">hr.employee.log.pivot</field>
+            <field name="model">hr.employee.log</field>
+            <field name="arch" type="xml">
+                <pivot string="Employee log" display_quantity="true">
+                    <field name="employee_id"/>
+                    <field name="check_in" type="col"/>
+                    <field name="check_out" type="col"/>
+                </pivot>
+            </field>
+        </record>
+
+        <!-- actions Attendance -->
+        <record id="act_hr_employee_log" model="ir.actions.act_window">
+            <field name="name">Employee log</field>
+            <field name="res_model">hr.employee.log</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,pivot,form</field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                      (0, 0, {'view_mode': 'tree', 'view_id': ref('hr_employee_log_tree')}),
+                      (0, 0, {'view_mode': 'form', 'view_id': ref('hr_employee_log_form')})]"/>
+            <field name="search_view_id" ref="hr_employee_log_search"/>
+        </record>
+
+        <!-- View Form Settings -->
+        <record model="ir.ui.view" id="attendance_setting_form">
+            <field name="name">attendance.setting.form</field>
+            <field name="model">attendance.setting</field>
+            <field name="arch" type="xml">
+                <form string="Settings">
+                    <header>
+                        <button name="action_conect_ml" string="Connect server" type="object" class="btn-primary" attrs="{'invisible':[('state','=','connect')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="no_connect,connect"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="api_key" string="API KEY"/>
+                                <field name="secret" string="SECRET"/>
+                                <field name="credentials"/>
+                            </group>
+                            <group>
+                                <field name="url" string="URL"/>
+                                <field name="state_partner" readonly="True"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- View Tree Settings -->
+        <record model="ir.ui.view" id="attendance_setting_tree">
+            <field name="name">attendance.setting.tree</field>
+            <field name="model">attendance.setting</field>
+            <field name="arch" type="xml">
+                <tree string="Settings">
+                    <field name="api_key"/>
+                    <field name="secret"/>
+                    <field name="url"/>
+                    <field name="state_partner"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_attendance_settings" model="ir.actions.act_window">
+            <field name="name">Settings</field>
+            <field name="res_model">attendance.setting</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Top menu item -->
+        <menuitem name="Employee Log" id="hr_employee_log_menu_root" parent="hr_attendance.menu_hr_attendance_root" groups="hr.group_hr_manager" sequence="20"/>
+
+        <!-- menu categories -->
+        <menuitem name="Employee Log" id="hr_employee_log_menu_log" sequence="1" parent="hr_employee_log_menu_root" groups="hr.group_hr_manager" action="act_hr_employee_log"/>
+        <menuitem name="Settings" id="hr_employee_log_menu_setting" sequence="2" parent="hr_employee_log_menu_root" groups="hr.group_hr_manager" action="action_attendance_settings"/>
+    </data>
+</odoo>
