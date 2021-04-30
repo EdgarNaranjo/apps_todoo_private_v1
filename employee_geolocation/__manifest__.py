@@ -22,7 +22,7 @@
     'description': """
         Employee geolocation from attendance control, every time I check in and out.
     """,
-    'version': '12.0.0.0.1',
+    'version': '13.0.0.0.1',
     'category': 'Human Resources',
     'license': 'AGPL-3',
     'author': "ToDOO (www.todooweb.com)",
@@ -30,8 +30,8 @@
     'contributors': [
         "Equipo Dev <devtodoo@gmail.com>",
         "Edgar Naranjo <edgarnaranjof@gmail.com>",
-        'Antonio Ruban <antoniodavid8@gmail.com>',
-        'Yordi Chaveco <ychaveb@gmail.com>'
+        "Antonio Ruban <antoniodavid8@gmail.com>",
+        "Yordi Chaveco <ychaveb@gmail.com>"
     ],
     'external_dependencies': {
         'python': ['device_detector'],
@@ -41,13 +41,12 @@
         'base',
         'hr',
         'hr_attendance',
-        'decimal_precision',
         'utm',
         'base_geoengine',
     ],
     'data': [
-        'security/employee_geolocation_security.xml',
         'security/ir.model.access.csv',
+        'security/employee_geolocation_security.xml',
         'views/hr_attendance_view.xml',
         'views/geolocated_hr_attendance_view.xml',
         'views/templates.xml',

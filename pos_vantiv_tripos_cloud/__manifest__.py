@@ -23,7 +23,7 @@
     'description': """
         Allow credit card POS payments with triPOS Cloud. This module allows customers to pay for their orders with credit cards. The transactions are processed by triPOS Cloud.
     """,
-    'version': '12.1.0.0.1',
+    'version': '13.1.0.0.1',
     'category': 'Website',
     'license': 'LGPL-3',
     'author': "ToDOO (www.todooweb.com)",

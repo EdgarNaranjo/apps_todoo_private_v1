@@ -139,7 +139,7 @@
                                         <br/>
                                         <span><strong>Medium: </strong><span t-field="application.medium_id"/></span>
                                         <br/>
-                                        <span><strong>Referred by: </strong><span t-field="application.reference"/></span>
+                                        <!--<span><strong>Referred by: </strong><span t-field="application.reference"/></span>-->
                                     </div>
                                     <div class="col-lg-6">
                                         <h4 class="d-block mb-1"><strong>Other Info</strong></h4>
@@ -251,7 +251,7 @@
     <record model="ir.ui.view" id="hr_applicant_form_inherit">
         <field name="name">hr.applicant.inherit</field>
         <field name="model">hr.applicant</field>
-        <field name="inherit_id" ref="hr_recruitment.crm_case_form_view_job"/>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='salary_expected']" position="attributes">
                 <attribute name="required">True</attribute>

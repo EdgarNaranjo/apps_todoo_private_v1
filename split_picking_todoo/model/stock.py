@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, models, fields, _
+from odoo.addons.base.models.decimal_precision import dp
 from odoo.exceptions import UserError, AccessError, ValidationError
-from odoo.addons import decimal_precision as dp
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -70,7 +70,6 @@ class PartPickingWizard(models.TransientModel):
         if list_first:
             self.first_part_ids = list_first
 
-    @api.multi
     def action_part_picking(self):
         list_1 = []
         list_2 = []
@@ -154,7 +153,6 @@ class PartPickingWizard(models.TransientModel):
                             _logger.info('Asignado picking a Movement')
             _logger.info('Picking "%s" partido' % picking.name)
 
-    @api.multi
     def create_picking(self, picking, list_q):
         val_q = 0
         if picking:
@@ -185,7 +183,6 @@ class PartPickingWizard(models.TransientModel):
             create_picking = self.env['stock.picking'].create(pick)
         return create_picking
 
-    @api.multi
     def assigned_picking(self, obj_create_picking, list_first):
         if list_first:
             for first in list_first:
@@ -200,7 +197,6 @@ class Stock(models.Model):
 
     quantity = fields.Integer("Albaran Partido")
 
-    @api.multi
     def action_part_picking(self):
         list_move = []
         for picking in self:

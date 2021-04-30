@@ -17,21 +17,50 @@ class PosVantivTriposCloudConfiguration(models.Model):
     _name = 'pos_vantiv_tripos_cloud.configuration'
     _description = 'Point of Sale Vantiv triPOS Cloud Configuration'
 
-    name = fields.Char(required=True, help='Name of the configuration Vantiv Tripos Cloud')
-    express_api_credentials_account_id = fields.Char(string='Account ID', required=True, help='Identifier of the Express API Credentials Account')
-    express_api_credentials_account_token = fields.Char(string='Account Token', required=True, help='Token of the Express API Credentials Account')
-    express_api_credentials_application_id = fields.Char(string='Application ID', required=True, help='Identifier Application of the Express API Credentials Account')
-    express_api_credentials_acceptor_id = fields.Char(string='Acceptor ID', required=True, help='Identifier Acceptor of the Express API Credentials Account')
-    express_api_credentials_application_name = fields.Char(string='Application Name', required=True, help='Name Application of the Express API Credentials Account')
-    express_api_credentials_application_version = fields.Char(string='Application Version', required=True, help='Version Application of the Express API Credentials Account')
-    is_production = fields.Boolean(string=_('Is production ?'), default=False)
-    is_vantiv = fields.Boolean(string=_('Is Vantiv?'), default=True)
+    name = fields.Char(
+        required=True, help='Name of the configuration Vantiv Tripos Cloud')
+    express_api_credentials_account_id = fields.Char(
+        string='Account ID',
+        required=True,
+        help='Identifier of the Express API Credentials Account')
+    express_api_credentials_account_token = fields.Char(
+        string='Account Token',
+        required=True,
+        help='Token of the Express API Credentials Account')
+    express_api_credentials_application_id = fields.Char(
+        string='Application ID',
+        required=True,
+        help='Identifier Application of the Express API Credentials Account')
+    express_api_credentials_acceptor_id = fields.Char(
+        string='Acceptor ID',
+        required=True,
+        help='Identifier Acceptor of the Express API Credentials Account')
+    express_api_credentials_application_name = fields.Char(
+        string='Application Name',
+        required=True,
+        help='Name Application of the Express API Credentials Account')
+    express_api_credentials_application_version = fields.Char(
+        string='Application Version',
+        required=True,
+        help='Version Application of the Express API Credentials Account')
+
+    is_production = fields.Boolean(
+        string=_('Is production ?'), default=False
+    )
+
+    is_vantiv = fields.Boolean(
+        string=_('Is Vantiv?'), default=True
+    )
+
 
 
 class AccountJournal(models.Model):
     _inherit = 'account.journal'
 
-    pos_vantiv_tripos_cloud_config_id = fields.Many2one('pos_vantiv_tripos_cloud.configuration', string='triPOS Cloud Credentials', help='The configuration of triPOS Cloud used for this journal')
+    pos_vantiv_tripos_cloud_config_id = fields.Many2one(
+        'pos_vantiv_tripos_cloud.configuration',
+        string='triPOS Cloud Credentials',
+        help='The configuration of triPOS Cloud used for this journal')
 
 
 class PosVantivTriposCloudLane(models.Model):
@@ -39,26 +68,46 @@ class PosVantivTriposCloudLane(models.Model):
     _description = 'Vantiv triPOS Cloud Lane Management'
 
     name = fields.Char(compute='_compute_get_name')
-    # configuration fields
-    configuration_id = fields.Many2one(comodel_name='pos_vantiv_tripos_cloud.configuration', string='Vantiv Configuration')
+
+    #configuration fields
+    configuration_id = fields.Many2one(
+        comodel_name='pos_vantiv_tripos_cloud.configuration',
+        string='Vantiv Configuration')
+
     # lane fields
-    lane_id = fields.Integer(string=_('Lane ID'), default=0, help="Identifier Lane Management", required=True)
-    terminal_id = fields.Char(string='Terminal ID', required=True, help='Identifier Terminal')
-    description = fields.Char(string='Description', required=True, help='Description')
-    activation_code = fields.Char(string='Activation Code', required=True, help='Pin Pads Activation Code')
-    state = fields.Selection(string=_('State'), selection=[('draft', 'Draft'), ('added', 'Added'), ('del', 'Deleted')], default='draft')
+    lane_id = fields.Integer(
+        string=_('Lane ID'),
+        default=0,
+        help="Identifier Lane Management",
+        required=True,
+    )
+
+    terminal_id = fields.Char(
+        string='Terminal ID', required=True, help='Identifier Terminal')
+    description = fields.Char(
+        string='Description', required=True, help='Description')
+    activation_code = fields.Char(
+        string='Activation Code',
+        required=True,
+        help='Pin Pads Activation Code')
+
+    state = fields.Selection(
+        string=_('State'),
+        selection=[('draft', 'Draft'), ('added', 'Added'), ('del', 'Deleted')],
+        default='draft')
+
     body = fields.Text()
 
-    @api.one
+    # @api.one
     @api.depends('lane_id', 'description')
     def _compute_get_name(self):
-        self.name = '{} - {}'.format(self.lane_id, self.description)
+        for record in self:
+            record.name = '{} - {}'.format(record.lane_id, record.description)
 
     @api.constrains('lane_id')
     def _check_lane_id(self):
         pass
 
-    @api.multi
     def add_lane_to_triposcloud(self):
         # TODO Aqui vamos a crear la lineas via API REst
         data = {}
@@ -107,7 +156,6 @@ class PosVantivTriposCloudLane(models.Model):
             else:
                 return False
 
-    @api.multi
     def del_lane_to_triposcloud(self):
         # TODO Aqui vamos a crear la lineas via API REst
         data = {}
