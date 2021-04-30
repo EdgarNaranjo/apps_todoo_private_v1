@@ -74,7 +74,6 @@
                                     </div>
                                 </div>
                             </li>
-<!---->
                             <li class="navspy list-group-item pl-0 flex-grow-1" t-ignore="true" role="complementary">
                                 <ul class="nav flex-column bs-sidenav"></ul>
                             </li>

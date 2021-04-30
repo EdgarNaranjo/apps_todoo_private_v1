@@ -22,7 +22,7 @@
     'description': """
         Extend the Odoo Virtual Office with the option to add external iFrames.
     """,
-    'version': '13.0.0.0.1',
+    'version': '14.0.0.0.1',
     'category': 'Website',
     'license': 'LGPL-3',
     'author': "ToDOO (www.todooweb.com)",
