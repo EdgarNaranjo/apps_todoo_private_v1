@@ -33,7 +33,6 @@ class ApplicantManagement(models.Model):
                 request.state_real = '5'
         return request
 
-    @api.multi
     def write(self, vals):
         if vals and 'stage_id' in vals:
             stage_id = vals.get('stage_id')

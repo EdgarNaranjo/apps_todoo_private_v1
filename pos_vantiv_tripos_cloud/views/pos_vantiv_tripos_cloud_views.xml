@@ -9,14 +9,14 @@
                 <form string="Express API Credentials">
                     <sheet>
                         <div class="oe_title">
-                            <label for="name" class="oe_edit_only" />
+                            <label for="name" class="oe_edit_only"/>
                             <h1>
-                                <field name="name" />
+                                <field name="name"/>
                             </h1>
 
                         </div>
                         <group>
-                            <field name="is_production" label="Is Production?" />
+                            <field name="is_production" label="Is Production?"/>
                         </group>
                         <div>
                             <p>
@@ -28,12 +28,12 @@
                             </p>
                         </div>
                         <group col="2">
-                            <field name="express_api_credentials_account_id" />
-                            <field name="express_api_credentials_account_token" />
-                            <field name="express_api_credentials_application_id" />
-                            <field name="express_api_credentials_acceptor_id" />
-                            <field name="express_api_credentials_application_name" />
-                            <field name="express_api_credentials_application_version" />
+                            <field name="express_api_credentials_account_id"/>
+                            <field name="express_api_credentials_account_token"/>
+                            <field name="express_api_credentials_application_id"/>
+                            <field name="express_api_credentials_acceptor_id"/>
+                            <field name="express_api_credentials_application_name"/>
+                            <field name="express_api_credentials_application_version"/>
                         </group>
                     </sheet>
                 </form>
@@ -45,11 +45,11 @@
             <field name="model">pos_vantiv_tripos_cloud.configuration</field>
             <field name="arch" type="xml">
                 <tree string="Express API Credentials">
-                    <field name="name" />
-                    <field name="express_api_credentials_account_id" />
-                    <field name="express_api_credentials_account_token" />
-                    <field name="express_api_credentials_application_id" />
-                    <field name="express_api_credentials_acceptor_id" />
+                    <field name="name"/>
+                    <field name="express_api_credentials_account_id"/>
+                    <field name="express_api_credentials_account_token"/>
+                    <field name="express_api_credentials_application_id"/>
+                    <field name="express_api_credentials_acceptor_id"/>
                 </tree>
             </field>
         </record>
@@ -58,11 +58,10 @@
             <field name="name">triPOS Cloud Configurations</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">pos_vantiv_tripos_cloud.configuration</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,kanban,form</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
-                Configure your Express API Credentials
+                    Configure your Express API Credentials
                 </p>
             </field>
         </record>
@@ -70,12 +69,10 @@
         <record id="view_account_journal_pos_user_form" model="ir.ui.view">
             <field name="name">POS Journal</field>
             <field name="model">account.journal</field>
-            <field name="inherit_id" ref="point_of_sale.view_account_journal_pos_user_form"></field>
+            <field name="inherit_id" ref="account.view_account_journal_form"></field>
             <field name="arch" type="xml">
-                <xpath expr="//group[@name='amount_authorized']" position="after">
-                    <group attrs="{'invisible': [('type', '!=', 'bank')]}">
-                        <field name="pos_vantiv_tripos_cloud_config_id" />
-                    </group>
+                <xpath expr="//field[@name='bank_statements_source']" position="after">
+                    <field name="pos_vantiv_tripos_cloud_config_id" attrs="{'invisible': [('type', '!=', 'bank')]}"/>
                 </xpath>
             </field>
         </record>

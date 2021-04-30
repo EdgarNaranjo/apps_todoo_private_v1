@@ -8,12 +8,12 @@ class HrEmployee(models.Model):
 
     check_location = fields.Boolean('Location', help='Location registered?', defaulf=False)
 
-    @api.multi
+
     def attendance_manual(self, next_action, entered_pin=False, location=None):
         res = super(HrEmployee, self.with_context(attendance_location=location)).attendance_manual(next_action, None)
         return res
     
-    @api.multi
+
     def attendance_action_change(self):
         res = super(HrEmployee, self).attendance_action_change()
         location = self.env.context.get('attendance_location', False)

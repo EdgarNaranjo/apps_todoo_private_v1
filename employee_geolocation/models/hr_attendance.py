@@ -154,7 +154,7 @@ class HrAttendance(models.Model):
 
         return request
 
-    @api.multi
+
     def write(self, vals):
         res = super(HrAttendance, self).write(vals)
         if vals and 'check_out' in vals:
@@ -227,7 +227,7 @@ class HrEmployeeLog(models.Model):
     def show_check_out(self):
         self.show_checkout = self.s_check_out is not False
 
-    @api.multi
+
     def open_map(self):
         for log in self:
             url = "http://maps.google.com/maps?oi=map&q="
@@ -270,7 +270,7 @@ class AttendanceSetting(models.Model):
     credentials = fields.Boolean('Credentials',
                                  help='Indicates that the configuration is your own and only for use with ML')
 
-    @api.multi
+
     def action_conect_ml(self):
         obj_setting_id = self.env['attendance.setting'].search([('credentials', '=', True)])
         if obj_setting_id:

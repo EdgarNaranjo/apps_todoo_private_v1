@@ -212,7 +212,6 @@
         <record id="act_hr_employee_log" model="ir.actions.act_window">
             <field name="name">Employee log</field>
             <field name="res_model">hr.employee.log</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,pivot,form</field>
             <field name="view_ids"
                    eval="[(5, 0, 0),
