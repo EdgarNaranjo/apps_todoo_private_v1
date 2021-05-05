@@ -1,43 +1,18 @@
 # MODULES APPs ToDOO
 
-# Online Job Applicants Portal (versión 13.0.0.0.1)
+# Iframe for the virtual client office (versión 10.0.0.0.1)
 
-Online Job applicants portal. The candidate(s) and applicant(s) can to apply from the portal and check the status of applications on my account portal of your website.
+Module to work iframes in the Virtual Office of a client
 
- * versión 13.0.0.0.1
-   
-   1. The person applies to a job offer.
-   2. You can access your account on the employee portal and view your applications.
-   3. Review the list of applications.
-   4. See the details of their applications.
-   5. Communicate through the chat any error about the recruitment proccess.
+# [Attendance] Employee geolocation (versión 10.0.0.0.1)
 
-# Vantiv triPOS Cloud Payment Services (versión 13.0.0.0.1)
+Employee geolocation from attendance control, every time I check in and out.
 
-Allow credit card POS payments with triPOS Cloud. This module allows customers to pay for their orders with credit cards. The transactions are processed by triPOS Cloud.
+# Customer/Supplier Statement (versión 10.0.0.1.1)
 
- * versión 13.0.0.0.1
+Module to generate a "statement" of client and suppliers.
+Customer account statement, balance, general ledger report, printed account statement, accounting reports, account statement reports, customer report, account statement, customer balance report, customer ledger report, customer balance ledger. Odoo Account Customer / Vendor Account Statement, Odoo Account Customer Account Statement, Customer Account Past Due, Customer Amount Due, Customer Payment Due, Customer Total Due, Customer Balance, Customer Balance vendor, partner ledger, vendor payment, vendor remaining balance, vendor balance, customer status, customer status, customer status, customer account statement, supplier account statement, customer bank statement.
 
-	1. Connecting a Vantiv payment terminal allows you to offer a fluid payment flow.
-	2. Fluid payment flow to your customers and ease the work of your workers.
-	3. Add your "vantiv" payment method to your odoo settings.
-	4. Use "vantiv" at the Point of Sale.
+# Stock Picking Split (versión 10.0.1.0.0)
 
-
-* versión 13.1.0.0.1
-   1. Add data 
-	
-
-# Iframe for the virtual client office (versión 13.0.0.0.1)
-
-Module to work iframes in the Virtual Office of a client.
-
-# Vantiv Refund In POS (versión 13.1.0.0.1)
- 
-Allows the return of payments processed by Vantiv.
-
-
-For more information go to the portal: https://github.com/todooweb
-
-For functional or support questions, go to: https://github.com/EdgarNaranjo/apps_todoo.git
-
+With this module you can split a "stock.picking" as many times as necessary, reducing it to a stock.move.
