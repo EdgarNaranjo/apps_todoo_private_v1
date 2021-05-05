@@ -120,7 +120,7 @@
             <field name="name">attachment.files.send.tree</field>
             <field name="model">attachment.files.send</field>
             <field name="arch" type="xml">
-                <tree string="Attachment files" decoration-info="state == 'draft'" decoration-muted = "state in ['pend']">
+                <tree string="Attachment files" decoration-info="state == 'draft'" decoration-muted = "state in ['pend']" sample="1">
                     <field name="name"/>
                     <field name="create_date"/>
                     <field name="create_uid"/>
@@ -160,10 +160,14 @@
         </record>
 
         <!-- Top menu item -->
-        <menuitem id='ftp_menu_principal' name='FTP Files' sequence="10" web_icon="ftp_todooweb,static/description/icon.png"/>
-        <menuitem name="FTP Files" id="ftp_menu_send_principal_item" parent="ftp_menu_principal" sequence="1"/>
-        <menuitem name="FTP Files" id="menu_send_principal_item_1" parent="ftp_menu_send_principal_item" action="action_attachment_files_send" sequence="1"/>
-        <menuitem name="Configuration" id="ftp_menu_principal_item"  parent="ftp_menu_principal" sequence="999"/>
-        <menuitem name="Settings" id="setting_ftp_item_list" parent="ftp_menu_principal_item" action="action_ftp_setting" sequence="999"/>
+        <menuitem id='ftp_menu_principal' name='FTP Files' sequence="10" web_icon="ftp_todooweb,static/description/icon.png">
+            <menuitem name="FTP Files" id="ftp_menu_send_principal_item" sequence="1">
+                <menuitem name="FTP Files" id="menu_send_principal_item_1" action="action_attachment_files_send" sequence="1"/>
+            </menuitem>
+            <menuitem name="Configuration" id="ftp_menu_principal_item" sequence="999">
+                <menuitem name="Settings" id="setting_ftp_item_list" action="action_ftp_setting" sequence="999"/>
+            </menuitem>
+
+        </menuitem>
     </data>
 </odoo>

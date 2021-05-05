@@ -22,7 +22,7 @@
 
 {
     'name': 'MRP BoM: Bill of materials',
-    'version': '11.0.1.0.0',
+    'version': '14.0.1.0.0',
     'summary': 'Bill of materials',
     'description': """Bill of materials: Modify the stock of parent products when the stock of the children is modified.""",
     'license': 'AGPL-3',

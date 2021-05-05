@@ -2,7 +2,7 @@
 ##############################################################################
 {
     'name': 'Stock Picking Split',
-    'version': '11.0.1.0.0',
+    'version': '14.0.1.0.0',
     'summary': 'This module allows to split a stock.picking',
     'description': """With this module you can split a "stock.picking" as many times as necessary, reducing it to a stock.move.""",
     'license': 'AGPL-3',
@@ -16,7 +16,8 @@
     'support': 'devtodoo@gmail.com',
     'depends': ['base', 'stock', 'sale', 'purchase'],
     'data': [
-         'views/stock_picking_view.xml',
+        'security/ir.model.access.csv',
+        'views/stock_picking_view.xml',
     ],
     'images': [
        'static/description/screenshot_split.png'

@@ -30,8 +30,7 @@
 							<thead>
 								<tr class="text-center">
 									<th>Date</th>
-									<th>Invoice Number</th>
-									<th>Account</th>
+									<th>Invoice</th>
 									<th>Ref</th>
 									<th>Invoices/Debit</th>
 									<th>Payments/Credit</th>
@@ -42,7 +41,7 @@
 								<tr>
                                     <td></td>
                                     <td>
-                                    	<b>Initial Balance</b>
+                                    	<strong>Initial Balance</strong>
                                     </td>
                                     <td>
                                     </td>
@@ -50,9 +49,8 @@
                                     <td></td>
                                     <td></td>
                                     <td class="text-right">
-                                        <b><span t-esc="0.0" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></b>
+                                        <stong><span t-esc="0.0" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></stong>
                                     </td>
-
                                 </tr>
                                 <t t-set="grand_total" t-value="0.0" />
                               	<t t-set="bal" t-value="0.0" />
@@ -60,16 +58,13 @@
 								<tr t-foreach="doc.invoice_filters_ids" t-as="line">
 									<t t-set="bal" t-value="bal +sub_total "/>
 										<td>
-											<span t-esc="line.date_invoice" />
-										</td>
-										<td>
-											<span t-esc="line.number" />
-										</td>
-										<td>
-											<span t-esc="line.account_id.code" />
+											<span t-esc="line.invoice_date" />
 										</td>
 										<td>
 											<span t-esc="line.name" />
+										</td>
+										<td>
+											<span t-esc="line.ref" />
 										</td>
 										<td class="text-right">
 											<span t-esc="line.amount_total_signed"
@@ -85,12 +80,12 @@
 											<span t-esc="sub_total + bal"
 												t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
 										</td>
-									<!--</t>-->
+<!--									</t>-->
 								</tr>
 								<tr>
                                     <td></td>
                                     <td>
-                                    	<b>Ending Balance</b>
+                                    	<strong>Ending Balance</strong>
                                     </td>
                                     <td>
                                     </td>
@@ -98,9 +93,8 @@
                                     <td></td>
                                     <td></td>
                                     <td class="text-right">
-                                        <b><span t-esc="grand_total" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></b>
+                                        <strong><span t-esc="grand_total" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></strong>
                                     </td>
-
                                 </tr>
 								<tr>
 									<td class="text-right">
@@ -123,6 +117,7 @@
 								</tr>
 							</tbody>
 						</table>
+						<br/>
 						<div class="row" name="total">
 							<div class="col-xs-4 pull-right">
 								<table class="table table-condensed">
@@ -152,27 +147,25 @@
 							</div>
 						</div>
 						<br/>
-						<div class="row" name="days">
+						<div class="row" name="days" style="margin-top: 10em;">
 							<table class="table table-condensed" border="1">
 								<thead>
-								<tr >
-									<th></th>
-									<th>0-30</th>
-									<th>30-60</th>
-									<th>60-90</th>
-									<th>90+</th>
-									<th>Total</th>
-
-								</tr>
-
-							</thead>
-							<tr>
-								<td></td>
-							<td><span t-esc="doc.first_thirty_day" /></td>
-								<td><span t-esc="doc.thirty_sixty_days" /></td>
-								<td><span t-esc="doc.sixty_ninty_days" /></td>
-								<td><span t-esc="doc.ninty_plus_days" /></td>
-								<td><span t-esc="doc.total" /></td>
+									<tr >
+										<th></th>
+										<th>0-30</th>
+										<th>30-60</th>
+										<th>60-90</th>
+										<th>90+</th>
+										<th>Total</th>
+									</tr>
+								</thead>
+								<tr>
+									<td></td>
+									<td><span t-esc="doc.first_thirty_day" /></td>
+									<td><span t-esc="doc.thirty_sixty_days" /></td>
+									<td><span t-esc="doc.sixty_ninty_days" /></td>
+									<td><span t-esc="doc.ninty_plus_days" /></td>
+									<td><span t-esc="doc.total" /></td>
 								</tr>
 							</table>
 						</div>

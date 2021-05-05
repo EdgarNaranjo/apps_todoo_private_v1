@@ -7,7 +7,6 @@ _logger = logging.getLogger(__name__)
 class StockQuant(models.Model):
     _inherit = 'stock.quant'
 
-    @api.multi
     def do_create_parent(self, obj_bom_line):
         val_ok = False
         list_quant = []
@@ -85,7 +84,6 @@ class StockQuant(models.Model):
                 self.do_create_parent(obj_bom_line)
         return res
 
-    @api.multi
     def write(self, vals):
         request = super(StockQuant, self).write(vals)
         if self.product_id and self.quantity > 0:

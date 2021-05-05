@@ -15,7 +15,7 @@
 ###############################################################################
 {
     'name': 'FTP Transfer File',
-    'version': '11.0.1.0.0',
+    'version': '14.0.1.0.0',
     'summary': 'FTP Transfer File',
     'description': """Transfer File via FTP to a server from odoo""",
     'license': 'AGPL-3',

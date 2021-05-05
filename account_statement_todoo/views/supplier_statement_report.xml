@@ -30,11 +30,10 @@
 							<thead>
 								<tr class="text-center">
 									<th>Date</th>
-									<th>Invoice Number</th>
-									<th>Account</th>
+									<th>Invoice</th>
 									<th>Ref</th>
-									<th>Invoices/Credit</th>
-									<th>Payments/Debit</th>
+									<th>Invoices/Debit</th>
+									<th>Payments/Credit</th>
 									<th>Balance</th>
 								</tr>
 							</thead>
@@ -60,16 +59,13 @@
 								<tr t-foreach="doc.supplier_filters_ids" t-as="line">
 									<t t-set="bal" t-value="bal +sub_total "/>
 										<td>
-											<span t-esc="line.date_invoice" />
-										</td>
-										<td>
-											<span t-esc="line.number" />
-										</td>
-										<td>
-											<span t-esc="line.account_id.code" />
+											<span t-esc="line.invoice_date" />
 										</td>
 										<td>
 											<span t-esc="line.name" />
+										</td>
+										<td>
+											<span t-esc="line.ref" />
 										</td>
 										<td class="text-right">
 											<span t-esc="line.amount_total_signed"
