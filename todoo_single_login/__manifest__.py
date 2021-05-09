@@ -20,7 +20,7 @@
 
 {
     'name': 'Restrict Multiple Sign in for Same User',
-    'version': '12.0.0.1',
+    'version': '14.0.0.1',
     'category': 'Tools',
     'description': """Restrict Multiple Sign in for Same User""",
     'author': "ToDOO Web (www.todooweb.com)",
