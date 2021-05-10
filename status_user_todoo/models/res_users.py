@@ -27,10 +27,10 @@ class ResUsers(models.Model):
                     obj_user.status = 'online'
                 else:
                     obj_user.status = 'offline'
-                    obj_activity = self._status_activity(obj_user)
-                    if obj_activity:
-                        obj_user.time_inactive = obj_activity[0]
-                        obj_user.status_inactive = obj_activity[1]
+                obj_activity = self._status_activity(obj_user)
+                if obj_activity:
+                    obj_user.time_inactive = obj_activity[0]
+                    obj_user.status_inactive = obj_activity[1]
         return False
 
     def _check_status_user(self, user):
