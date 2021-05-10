@@ -1,6 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_distribution_lead,access_distribution_lead,model_distribution_lead,base.group_user,1,1,1,1
-access_relation_employee,access_relation_employee,model_relation_employee,base.group_user,1,1,1,1
-access_setting_employee,access_setting_employee,model_setting_employee,base.group_user,1,1,1,1
-access_session_users,access_session_users,model_session_users,base.group_user,1,1,1,1
-access_setting_users_gm,access_setting_users_gm,model_setting_users_gm,base.group_user,1,1,1,1
