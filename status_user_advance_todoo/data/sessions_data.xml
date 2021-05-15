@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="mail_act_sessions_user_advance" model="mail.activity.type">
+            <field name="name">User Inactivity</field>
+            <field name="icon">fa-users</field>
+            <field name="res_model_id" ref="status_user_advance_todoo.model_session_users_log"/>
+        </record>
+    </data>
+</odoo>
