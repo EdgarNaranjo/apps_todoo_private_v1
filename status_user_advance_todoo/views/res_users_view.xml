@@ -1,0 +1,70 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="base_view_users_advance_form_inherit_view">
+            <field name="name">base.view.users.advance.form.inherit.view</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button type="object" class="oe_stat_button" icon="fa-bars" name="action_view_sessions">
+                        <field name="sessions_count" widget="statinfo" string="Sessions"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- View Form session.users.log -->
+        <record model="ir.ui.view" id="session_users_log_form">
+            <field name="name">session.users.log.form</field>
+            <field name="model">session.users.log</field>
+            <field name="arch" type="xml">
+                <form string="Session Users">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="user_id" options='{"no_create": True, "no_open": True}'/>
+                            </group>
+                            <group>
+                                <field name="status_inactive" readonly="True"/>
+                                <field name="time_inactive" readonly="True"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- View Tree session.users.log -->
+        <record model="ir.ui.view" id="session_users_log_tree">
+            <field name="name">session.users.log.tree</field>
+            <field name="model">session.users.log</field>
+            <field name="arch" type="xml">
+                <tree string="Session Users" decoration-muted="status_inactive in ['inactive']" decoration-primary="status_inactive not in ['inactive', 'active']">
+                    <field name="user_id"/>
+                    <field name="time_inactive"/>
+                    <field name="status_inactive"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_session_users_log" model="ir.actions.act_window">
+            <field name="name">Session Users</field>
+            <field name="res_model">session.users.log</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('session_users_log_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('session_users_log_form')})]"/>
+        </record>
+
+        <menuitem id="menu_sesions_users" name="Sessions" action="action_session_users_log" parent="base.menu_users" sequence="2"/>
+
+    </data>
+</odoo>
