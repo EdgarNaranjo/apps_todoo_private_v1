@@ -47,7 +47,7 @@
     'images': [
        'static/description/screenshot_commision.png'
     ],
-    # 'live_test_url': 'https://cutt.ly/bcTOKcl',
+    'live_test_url': 'https://youtu.be/k0xzRVnY0cQ',
     'installable': True,
     'application': False,
     'auto_install': False,
