@@ -10,6 +10,7 @@
                 <field name="confirmation_date" position="after">
                     <field name="dont_calculate"/>
                     <field name="net_margin"/>
+                    <field name="net_margin_por"/>
                     <field name="gross_margin"/>
                 </field>
             </field>
