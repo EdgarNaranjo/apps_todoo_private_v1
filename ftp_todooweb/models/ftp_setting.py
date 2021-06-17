@@ -17,6 +17,11 @@ try:
 except ImportError:
     raise ImportError("This module needs urllib2. (sudo pip install urllib2)")
 
+try:
+    import ssl
+except ImportError:
+    ssl = None
+
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -37,11 +42,11 @@ class FtpSetting(models.Model):
     ], string='Status server', index=True, default='no_connect', required=True)
     type_connection = fields.Selection([
         ('ftp', 'FTP'),
-        ('other', 'Other')
+        # ('other', 'Other')
     ], string='Type conection', index=True, default='ftp', required=True)
     type_encrypt = fields.Selection([
         ('tls', 'TLS'),
-        ('other', 'Other')
+        # ('other', 'Other')
     ], string='Type Encrypt', index=True, default='tls')
     active = fields.Boolean('Active')
 
@@ -52,19 +57,18 @@ class FtpSetting(models.Model):
             secret = obj_connect.secret
             url = obj_connect.url
             # coger valores
-            # coger valores
             if obj_connect.type_encrypt == 'tls':
-                ftp = ftplib.FTP_TLS(url)
+                context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+                ftp = ftplib.FTP_TLS(host=url, user=user, passwd=secret, context=context)
+                ftp.prot_p()
             else:
                 ftp = ftplib.FTP(url)  # Abre la sesión
             if ftp:
                 try:
-                    content = ftp.login(user, secret)
-                    if content:
-                        if content.count('230') > 0:
-                            _logger.info("Connection sucessful at TEST!!")
-                            obj_connect.write({'state': 'connect', 'active': True})
-                            status_code = True
+                    if ftp.welcome.count('220') > 0:
+                        _logger.info("Connection sucessful at TEST!!")
+                        obj_connect.write({'state': 'connect', 'active': True})
+                        status_code = True
                 except Exception as e:
                     _logger.error(e)
                     raise UserError(
@@ -80,17 +84,17 @@ class FtpSetting(models.Model):
             url = obj_con.url
             # coger valores
             if obj_con.type_encrypt == 'tls':
-                ftp = ftplib.FTP_TLS(url)
+                context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+                ftp = ftplib.FTP_TLS(host=url, user=user, passwd=secret, context=context)
+                ftp.prot_p()
             else:
                 ftp = ftplib.FTP(url)  # Abre la sesión
             if ftp:
                 try:
-                    content = ftp.login(user, secret)
-                    if content:
-                        if content.count('230') > 0:
-                            _logger.info("Connection sucessful at TEST!!")
-                            obj_con.write({'state': 'connect', 'active': True})
-                            status_code = True
+                    if ftp.welcome.count('220') > 0:
+                        _logger.info("Connection sucessful at TEST!!")
+                        obj_con.write({'state': 'connect', 'active': True})
+                        status_code = True
                 except Exception as e:
                     _logger.error(e)
                     raise UserError(
