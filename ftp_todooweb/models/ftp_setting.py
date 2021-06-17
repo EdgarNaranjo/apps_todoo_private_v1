@@ -45,9 +45,9 @@ class FtpSetting(models.Model):
         # ('other', 'Other')
     ], string='Type conection', index=True, default='ftp', required=True)
     type_encrypt = fields.Selection([
-        ('tls', 'TLS'),
-        # ('other', 'Other')
-    ], string='Type Encrypt', index=True, default='tls')
+        # ('tls', 'TLS'),
+        ('other', 'SSL')
+    ], string='Type Encrypt', index=True, default='other')
     active = fields.Boolean('Active')
 
     def test_connection(self):
