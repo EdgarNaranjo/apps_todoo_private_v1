@@ -56,8 +56,6 @@ class ToolTranslationHelper(models.TransientModel):
             description = request.description
             if len(request.attachment_ids) > 1:
                 raise UserError(_("Only one attachment is required."))
-            elif request.attachment_ids and request.attachment_ids[0].name[-3:] != 'txt':
-                raise UserError(_("A file of the type '.txt' is required."))
             else:
                 attach = request.attachment_ids
                 corp_message = self.read_file_source(attach, request)

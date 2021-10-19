@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    This module copyright (C) 2021 Todooweb
+#    This module copyright (C) 2020 Todooweb
 #    (<http://www.todooweb.com>).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,30 +21,29 @@
 ##############################################################################
 
 {
-    'name': 'Bill of materials (Parents & childrens)',
-    'version': '14.0.1.0.0',
-    'summary': 'MRP BoM: Bill of materials (Parents & childrens)',
-    'description': """Bill of materials: Modify the stock of parent products when the stock of the children is modified.""",
+    'name': '[Advanced] Tool Translation: File ".po"',
+    'version': '14.1.1.0.0',
+    'category': 'Extra Tools',
+    'summary': """Translate base odoo file '.po' with the help of Google Translate.""",
+    'description': """Translate the base odoo file '.po' with the help of Google Translate, in all necessary languages.""",
     'license': 'AGPL-3',
-    'author': "ToDOO Web (www.todooweb.com)",
-    'category': 'Manufacturing',
+    'author': "Todooweb (www.todooweb.com)",
     'website': "https://todooweb.com/",
     'contributors': [
         "Equipo Dev <devtodoo@gmail.com>",
         "Edgar Naranjo <edgarnaranjof@gmail.com>",
     ],
-    'support': 'devtodoo@gmail.com',    
-    'depends': ['base', 'stock', 'mrp'],
+    'support': 'devtodoo@gmail.com',
+    'depends': ['base', 'mail', 'todoo_translation_helper'],
+    'external_dependencies': {'python': ['googletrans']},
     'data': [
-        'views/mrp_bom_views.xml'
+        'views/advance_todoo_translation_helper.xml',
     ],
-    'images': [
-       'static/description/screenshot_bom.png'
-    ],
-    'live_test_url': 'https://cutt.ly/bcTOKcl',
+    'images': ['static/description/translate_screenshot.png'],
+    'live_test_url': 'https://cutt.ly/iRkZanw',
     'installable': True,
-    'application': False,
     'auto_install': False,
-    'price': 10.99,
+    'application': True,
+    'price': 8.99,
     'currency': 'EUR',
 }
