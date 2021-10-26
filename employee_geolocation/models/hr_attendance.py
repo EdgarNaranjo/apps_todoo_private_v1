@@ -67,30 +67,16 @@ class HrAttendance(models.Model):
             return country
 
     def get_geocoder_osm_location(self, attendance= False):
-        ip = request.httprequest.environ['REMOTE_ADDR'] if request else 'n/a'
+        if "HTTP_X_FORWARDED_FOR" in request.httprequest.environ:
+            ip = request.httprequest.environ["HTTP_X_FORWARDED_FOR"]
+        elif "HTTP_HOST" in request.httprequest.environ:
+            ip = request.httprequest.environ["REMOTE_ADDR"]
         city = ''
         code_country = False
-        url = 'http://ipinfo.io/json/'
-        url1 = 'http://icanhazip.com/'
-        url2 = 'https://api.ipify.org/'
-
-        context = requests.get(url, timeout=8)
-        if context.status_code == 200:
-            content = context.json()
-            if content:
-                ip = content['ip']
-                city = content['city']
-                code_country = content['country']
-        elif context.status_code != 200:
-            context1 = requests.get(url2, timeout=5)
-            if context1.status_code == 200:
-                ip = context1.text
-            elif context1.status_code != 200:
-                context2 = requests.get(url1, timeout=5)
-                if context2.status_code == 200:
-                    ip = context1.text
 
         conexion = geocoder.ipinfo(ip)
+        code_country = conexion.country
+        city = conexion.city
         _osm = geocoder.osm(conexion)
         agent = request.httprequest.environ.get('HTTP_USER_AGENT')
         device = DeviceDetector(agent).parse()
@@ -98,7 +84,7 @@ class HrAttendance(models.Model):
         if self.env.context.get('check_in'):
             if attendance:
                 attendance.location_ip_check_in = conexion.ip
-                attendance.city_check_in = _osm.city
+                attendance.city_check_in = city
                 attendance.latitude_check_in = _osm.lat
                 attendance.longitude_check_in = _osm.lng
                 attendance.location_check_in = _osm.latlng
@@ -111,7 +97,7 @@ class HrAttendance(models.Model):
         if self.env.context.get('check_out'):
             if attendance:
                 attendance.location_ip_check_out = conexion.ip
-                attendance.city_check_out = _osm.city
+                attendance.city_check_out = city
                 attendance.latitude_check_out = _osm.lat
                 attendance.longitude_check_out = _osm.lng
                 attendance.location_check_out = _osm.latlng
