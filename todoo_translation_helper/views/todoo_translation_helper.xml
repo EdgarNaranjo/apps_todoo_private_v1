@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!-- Wizard View Form translation.load -->
+        <record model="ir.ui.view" id="translation_load_form">
+            <field name="name">translation.load</field>
+            <field name="model">translation.load</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="translation_ids" nolabel="True">
+                        <tree editable="bottom">
+                            <field name="src"/>
+                            <field name="value"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button type="object" name="action_update_translate" string="Update" class="oe_highlight"/>
+                        <button special="cancel" string="Cancelar"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="action_translation_load">
+            <field name="name">Translation Load</field>
+            <field name="res_model">translation.load</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!-- Wizard View Form tool.translation.helper -->
+        <record model="ir.ui.view" id="tool_translation_helper_form">
+            <field name="name">tool.translation.helper</field>
+            <field name="model">tool.translation.helper</field>
+            <field name="arch" type="xml">
+                <form>
+                    <h4><em>You can translate one text at a time, for each selected language.</em>.</h4>
+                    <group>
+                        <group>
+                            <field name="name" readonly='True' invisible="True"/>
+                            <field name="type_text" required='True'/>
+                            <field name="lang_id" required='True' options='{"no_create": True, "no_open": True}'/>
+                        </group>
+                        <group>
+                        </group>
+                        <group>
+                             <field name="attachment_ids" attrs="{'invisible':[('type_text','!=','file')]}" widget="many2many_binary"/>
+                        </group>
+                        <group>
+                        </group>
+                         <group>
+                             <field name="origin" readonly="True"/>
+                             <field name="description" placeholder="Text to translate" attrs="{'required':[('type_text','!=','file')]}"/>
+                        </group>
+                         <group>
+                             <field name="destiny" readonly="True"/>
+                             <field name="translate" readonly="True"/>
+                        </group>
+                        <group>
+                            <field name="translation" readonly="True" attrs="{'invisible':[('type_text','!=','word')]}"/>
+                            <field name="synonyms" readonly="True" attrs="{'invisible':[('type_text','!=','word')]}"/>
+                            <field name="definitions" readonly="True" attrs="{'invisible':[('type_text','!=','word')]}"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_tool_translation_helper" model="ir.actions.act_window">
+            <field name="name">Tool Translation Helper</field>
+            <field name="res_model">tool.translation.helper</field>
+            <field name="view_mode">form</field>
+        </record>
+
+        <!-- View Form languages.list -->
+        <record model="ir.ui.view" id="languages_list_form">
+            <field name="name">languages.list.form</field>
+            <field name="model">languages.list</field>
+            <field name="arch" type="xml">
+                <form string="Languages List">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="Language Name" required="True"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- View Tree languages.list -->
+        <record model="ir.ui.view" id="languages_list_tree">
+            <field name="name">languages.list.tree</field>
+            <field name="model">languages.list</field>
+            <field name="arch" type="xml">
+                <tree string="Languages List">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_languages_list" model="ir.actions.act_window">
+            <field name="name">Languages List</field>
+            <field name="res_model">languages.list</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('languages_list_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('languages_list_form')})]"/>
+        </record>
+
+        <!-- View Form text.translations.helper -->
+        <record model="ir.ui.view" id="text_translations_helper_view_form">
+            <field name="name">text.translations.helper.form</field>
+            <field name="model">text.translations.helper</field>
+            <field name="arch" type="xml">
+                <form string="Translation">
+                    <header>
+                        <button name="load_translate" string="Load" type="object" class="btn-primary"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="Name" readonly="True" required="True"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code_tool" readonly="True"/>
+                            </group>
+                            <group>
+                                <field name="create_date" readonly="True"/>
+                                <field name="create_uid" readonly="True"/>
+                            </group>
+                            <group>
+                                 <field name="origin" readonly="True"/>
+                                 <field name="description" readonly="True"/>
+                            </group>
+                             <group>
+                                 <field name="destiny" readonly="True"/>
+                                 <field name="translate" readonly="True"/>
+                            </group>
+                            <group>
+                                <field name="translation" readonly="True"/>
+                                <field name="synonyms" readonly="True"/>
+                                <field name="definitions" readonly="True"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- View Tree text.translations.helper -->
+        <record model="ir.ui.view" id="text_translations_helper_view_tree">
+            <field name="name">text.translations.helper.tree</field>
+            <field name="model">text.translations.helper</field>
+            <field name="arch" type="xml">
+                <tree string="Translation" sample="1" create="0">
+                    <field name="name"/>
+                    <field name="code_tool"/>
+                    <field name="origin"/>
+                    <field name="destiny"/>
+                    <field name="create_date" widget="remaining_days"/>
+                    <field name="create_uid" widget="many2one_avatar_user"/>
+                    <field name="write_uid" widget="many2one_avatar_user"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- View Search text.translations.helper -->
+        <record id="text_translations_helper_view_search" model="ir.ui.view">
+          <field name="name">text.translations.helper.search</field>
+          <field name="model">text.translations.helper</field>
+          <field name="arch" type="xml">
+            <search string="Translation">
+                <field name="name"/>
+                <field name="code_tool"/>
+                <field name="create_uid"/>
+                <field name="write_uid"/>
+                <field name="origin"/>
+                <field name="destiny"/>
+            </search>
+          </field>
+        </record>
+
+        <record id="action_text_translations_helper" model="ir.actions.act_window">
+            <field name="name">Translation</field>
+            <field name="res_model">text.translations.helper</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('text_translations_helper_view_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('text_translations_helper_view_form')})]"/>
+            <field name="search_view_id" ref="text_translations_helper_view_search"/>
+        </record>
+
+        <!-- Top menu item -->
+        <menuitem id='todoo_translation_helper_menu_principal' name='Tool Translation' web_icon="todoo_translation_helper,static/description/icon.png">
+            <menuitem name="Tool Translation" id="principal_tool_translation_menu_item" sequence="1">
+                <menuitem name="Tool Translation" id="principal_tool_translation_menu_item_1" action="action_tool_translation_helper" sequence="1"/>
+            </menuitem>
+            <menuitem name="Translations" id="translations_text_translations_menu_item" sequence="999">
+                <menuitem name="Translations" id="translations_text_translations_menu_item_1" action="action_text_translations_helper" sequence="1"/>
+                <menuitem name="Language" id="translations_text_translations_menu_item_999" action="action_languages_list" sequence="999"/>
+            </menuitem>
+        </menuitem>
+    </data>
+</odoo>

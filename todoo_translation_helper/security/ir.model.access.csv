@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tool_translation_helper,access_tool_translation_helper,model_tool_translation_helper,base.group_user,1,1,1,1
+access_text_translations_helper,access_text_translations_helper,model_text_translations_helper,base.group_user,1,1,1,1
+access_languages_list,access_languages_list,model_languages_list,base.group_user,1,1,1,1
+access_translation_load,access_translation_load,model_translation_load,base.group_user,1,1,1,1
