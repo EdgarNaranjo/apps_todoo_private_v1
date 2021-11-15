@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_first_picking_wizard,access_first_picking_wizard,model_first_picking_wizard,base.group_user,1,1,1,1
+access_part_picking_wizard,access_part_picking_wizard,model_part_picking_wizard,base.group_user,1,1,1,1
