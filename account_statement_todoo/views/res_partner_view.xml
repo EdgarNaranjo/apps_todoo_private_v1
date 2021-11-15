@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- Wizard View Form Update Picking -->
+        <record model="ir.ui.view" id="customer_model_wizard_form">
+            <field name="name">Print Statement</field>
+            <field name="model">customer.model.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+					<h4>If the client handles a large volume of billing, it is advisable to launch a "search" at the same time.</h4>
+                    <group>
+						<group>
+                            <field name="start_date" required='True'/>
+                            <field name="state_invoice"/>
+                        </group>
+						<group>
+                            <field name="end_date" required='True'/>
+                        </group>
+						<group>
+<!--							<field name="amount_total" readonly="1"/>-->
+							<field name="partner_id" invisible="1"/>
+							<field name="type" invisible="1"/>
+						</group>
+					</group>
+					<notebook>
+						<page name="second" string="Invoices">
+							<field name="invoice_filters_ids" attrs="{'invisible':[('type','=','supplier')]}">
+								<tree string="Invoice line" editable="bottom" create="false" delete="false" colors="red:(not invoice_date_due or invoice_date_due&lt;=current_date) and result&gt;0">
+									<field name="invoice_date" readonly="True" />
+									<field name="state" readonly="True" invisible="1"/>
+									<field name="name" readonly="True" />
+									<field name="company_id" readonly="True" groups="base.group_multi_company" />
+									<field name="invoice_date_due" readonly="True" />
+									<field name="amount_total_signed" readonly="True" string = "Invoices/Debits"/>
+									<field name="credit_amount" readonly="True"  string = "Payments/Credits"/>
+									<field name="result" readonly="True" string = "Balance"/>
+								</tree>
+							</field>
+							<field name="supplier_filters_ids" attrs="{'invisible':[('type','=', 'consu')]}" readonly="1">
+								<tree string="Invoice line" editable="bottom" create="false" delete="false" colors="red:(not invoice_date_due or invoice_date_due&lt;=current_date) and result&gt;0">
+									<field name="invoice_date" readonly="True" />
+									<field name="state" readonly="True" invisible="1"/>
+									<field name="name" readonly="True" />
+									<field name="company_id" readonly="True" groups="base.group_multi_company" />
+									<field name="invoice_date_due" readonly="True" />
+									<field name="amount_total_signed" readonly="True" string = "Invoices/Debits"/>
+									<field name="credit_amount" readonly="True"  string = "Payments/Credits"/>
+									<field name="result" readonly="True" string = "Balance"/>
+								</tree>
+							</field>
+							<group class="oe_subtotal_footer oe_right" attrs="{'invisible': [('type', '=', 'consu')]}">
+								<field name="payment_amount_due_amt_supplier" />
+							</group>
+							<group class="oe_subtotal_footer oe_right" attrs="{'invisible': [('type', '=', 'consu')]}">
+								<field name="payment_amount_overdue_amt_supplier" />
+							</group>
+							<group class="oe_subtotal_footer oe_right" attrs="{'invisible': [('type', '=', 'supplier')]}">
+								<field name="payment_amount_due_amt" />
+							</group>
+							<group class="oe_subtotal_footer oe_right" attrs="{'invisible': [('type', '=', 'supplier')]}">
+								<field name="payment_amount_overdue_amt" />
+							</group>
+						</page>
+					</notebook>
+                    <footer>
+                        <button type="object" name="action_print_customer_pdf" string="Download" class="oe_highlight"/>
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+		<record id="account_invoice_extend_form" model="ir.ui.view">
+			<field name="name">account.invoice.extend.form</field>
+			<field name="model">account.move</field>
+			<field name="inherit_id" ref="account.view_move_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='amount_residual']" position="after">
+					<field name="credit_amount" invisible="1" />
+					<field name="result" invisible="1" />
+				</xpath>
+			</field>
+		</record>
+
+		<record id="view_partner_inherit_followup_form" model="ir.ui.view">
+			<field name="name">res.partner</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form" />
+			<field name="arch" type="xml">
+				<page name="sales_purchases" position='after'>
+					<page string="Statements" name="followup_tab">
+						<div class="oe_right" name="statement_button">
+							<button name="do_button_print_statement" type="object" string="Print Customer Statement" help="Print Customer Statement" />
+							<button name="do_button_print_statement_vendor" type="object" string="Print Supplier Statement" help="Print Supplier Statement"/>
+						</div>
+						<group></group>
+						<field name="balance_invoice_ids">
+							<tree string="Invoice line" editable="bottom" create="false" delete="false" colors="red:(not invoice_date_due or invoice_date_due&lt;=current_date) and result&gt;0">
+								<field name="invoice_date" readonly="True" />
+								<field name="state" readonly="True" invisible="1"/>
+								<field name="name" readonly="True" />
+								<field name="company_id" readonly="True" groups="base.group_multi_company" />
+								<field name="invoice_date_due" readonly="True" />
+								<field name="amount_total_signed" readonly="True" string = "Invoices/Debits"/>
+								<field name="credit_amount" readonly="True"  string = "Payments/Credits"/>
+								<field name="result" readonly="True" string = "Balance"/>
+							</tree>
+						</field>
+						<field name="supplier_invoice_ids">
+							<tree string="Supplier Invoice line" editable="bottom" create="false" delete="false" colors="red:(not invoice_date_due or invoice_date_due&lt;=current_date) and result&gt;0">
+								<field name="invoice_date" readonly="True" />
+								<field name="state" readonly="True" invisible="1" />
+								<field name="name" readonly="True" />
+								<field name="company_id" readonly="True" groups="base.group_multi_company" />
+								<field name="invoice_date_due" readonly="True" />
+								<field name="amount_total_signed" readonly="True" string="Invoices/Debits" />
+								<field name="credit_amount" readonly="True" string="Payments/Credits" />
+								<field name="result" readonly="True" string="Balance" />
+							</tree>
+						</field>
+					</page>
+				</page>
+			</field>
+		</record>
+<!--		<act_window id="action_customer_wizard" name="Print Customer Statement" src_model="res.partner" res_model="customer.model.wizard" view_mode="form" target="new" multi="True"/>-->
+	</data>
+</odoo>
