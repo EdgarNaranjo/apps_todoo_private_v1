@@ -42,6 +42,8 @@ class WebsiteAccount(CustomerPortal):
             'date': {'label': _('Create Date'), 'order': 'create_date desc'},
             'name': {'label': _('Reference'), 'order': 'name'},
             'stage': {'label': _('Stage'), 'order': 'stage_id'},
+            'department': {'label': _('Department'), 'order': 'department_id'},
+            'user': {'label': _('User'), 'order': 'user_id'},
         }
 
         # default sortby order

@@ -25,7 +25,7 @@
     'description': """
         Online Job applicants portal. The candidate(s) and applicant(s) can to apply from the portal and check the status of applications on my account portal of your website.
     """,
-    'version': '15.0.0.0.1',
+    'version': '15.0.0.0.2',
     'category': 'Website',
     'license': 'LGPL-3',
     'author': "ToDOO (www.todooweb.com)",

@@ -29,6 +29,7 @@
                         <th>Name</th>
                         <th class="text-right">Create Date</th>
                         <th class="text-right">Job Position</th>
+                        <th class="text-right">Department</th>
                         <th class="text-right">Tags</th>
                         <th class="text-center"/>
                     </tr>
@@ -39,6 +40,7 @@
                         <td class="text-left"><span t-esc="application.name"/></td>
                         <td class="text-right"><span t-field="application.create_date"/></td>
                         <td class="text-right"><span t-field="application.job_id"/></td>
+                        <td class="text-right"><span t-field="application.department_id"/></td>
                         <td class="text-right"><span t-field="application.categ_ids"/></td>
                         <td class="text-center">
                             <span t-if="application.state_real == '1'" class="badge badge-pill badge-info"><i class="fa fa-fw fa-remove"/> Initial Qualification</span>
