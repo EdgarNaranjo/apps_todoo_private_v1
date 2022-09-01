@@ -12,7 +12,7 @@
                     <button name="assign_ticket_waiting" string="Waiting" type="object" class="oe_highlight" attrs="{'invisible': [('check_waiting', '=', True)]}"/>
                     <button name="assign_ticket_resolved" string="Resolved" type="object" class="oe_highlight" attrs="{'invisible': [('check_resolved', '=', True)]}"/>
                     <button name="assign_ticket_cancel" string="Cancel" type="object" attrs="{'invisible': [('check_cancel', '=', True)]}"/>
-                    <button name="assign_ticket_draft" string="Set Draft" type="object" attrs="{'invisible': [('check_cancel', '!=', True)]}"/>
+                    <button name="assign_ticket_draft" string="Set to New" type="object" attrs="{'invisible': [('check_cancel', '!=', True)]}"/>
                     <field name="check_working" invisible="1"/>
                     <field name="check_waiting" invisible="1"/>
                     <field name="check_resolved" invisible="1"/>
@@ -49,7 +49,7 @@
                             <field name="type_urgency" required="True" options="{'no_create': True, 'no_open': True}"/>
                             <field name="type_impact" required="True"/>
                             <field name="priority" widget="priority" readonly="True"/>
-                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" attrs="{'required': [('check_waiting', '=', True)]}"/>
                             <field name="resource_calendar_id" required="1"/>
                             <field name="check_tm"/>
                             <field name="project_id" invisible="1" options="{'no_create': True, 'no_open': True}" domain="[('partner_id', '=', client_id)]" attrs="{'invisible': [('check_tm', '=', True)]}"/>
@@ -96,8 +96,8 @@
                         <page string="Information" name="description">
                             <h6>Description</h6>
                             <field name="description" class="field_description" placeholder="Description of the ticket..."/>
-                            <h6>Solution details</h6>
-                            <field name="solution" class="field_description" placeholder="Description of the solution..."/>
+                            <h6>Solution details / Notes</h6>
+                            <field name="solution" class="field_description" placeholder="Description of the solution..." attrs="{'required': [('check_waiting', '=', True)]}"/>
                         </page>
                         <page string="Other Information" name="other_info">
                             <group>
@@ -130,7 +130,8 @@
                 <field name="user_id"/>
                 <field name="modules_id"/>
                 <field name="priority" widget="priority" readonly="True"/>
-                <field name="activity_ids" widget="list_activity" optional="show"/>
+                <field name="tag_ids" widget="many2many_tags"/>
+                <field name="activity_ids" widget="list_activity" optional="hide"/>
                 <field name="entry_date" widget="date"/>
                 <field name="count_day"/>
                 <field name="count_real_day" invisible="True"/>
@@ -168,8 +169,9 @@
                 <filter string="Today Activities" name="activities_today" domain="[('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
                 <filter string="Future Activities" name="activities_upcoming_all" domain="[('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))]"/>
                 <group expand="0" string="Group By">
-                    <filter string="Partner" name="group_partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                    <filter string="Client" name="group_partner" domain="[]" context="{'group_by':'partner_id'}"/>
                     <filter string="Team" name="group_team" domain="[]" context="{'group_by':'team_id'}"/>
+                    <filter string="Category" name="group_module" domain="[]" context="{'group_by':'modules_id'}"/>
                     <filter string="User" name="group_user" domain="[]" context="{'group_by':'user_id'}"/>
                     <filter string="Stage" name="group_stage" domain="[]" context="{'group_by':'stage_id'}"/>
                 </group>
