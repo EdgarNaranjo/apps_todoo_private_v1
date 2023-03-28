@@ -1,0 +1,98 @@
+<odoo>
+    <data>
+        <!--View inherit Form sale.order-->
+        <record id="sale_order_form_inherit_elogia_base" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit.elogia.base</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="type_journal_id" options="{'no_create_edit': True, 'no_create': True}"
+                           domain="[('type', '=', 'sale')]"/>
+                </xpath>
+            </field>
+        </record>
+
+         <!-- View Form setting.type.journal -->
+        <record model="ir.ui.view" id="setting_type_journal_form">
+            <field name="name">setting.type.journal.form</field>
+            <field name="model">setting.type.journal</field>
+            <field name="arch" type="xml">
+                <form string="Type journal">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group name="first_group">
+                                <field name="type_journal"/>
+                                <field name="check_default"/>
+                            </group>
+                            <group name="second_group">
+                                <field name="journal_id"
+                                       options="{'no_create': True, 'no_create_edit': True}"/>
+                                <field name="type"/>
+                                <field name="company_id"
+                                       options="{'no_create': True, 'no_create_edit': True}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- View Tree setting.type.journal -->
+        <record model="ir.ui.view" id="setting_type_journal_tree">
+            <field name="name">setting.type.journal.tree</field>
+            <field name="model">setting.type.journal</field>
+            <field name="arch" type="xml">
+                <tree string="Type journal" editable="bottom" sample="1">
+                    <field name="name"/>
+                    <field name="type_journal"/>
+                    <field name="check_default" required="True"/>
+                    <field name="journal_id"/>
+                    <field name="type"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- View search setting.type.journal -->
+        <record model="ir.ui.view" id="period_campaign_search">
+            <field name="name">setting.type.journal.search</field>
+            <field name="model">setting.type.journal</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="type_journal"/>
+                    <field name="journal_id"/>
+                    <field name="type"/>
+                    <field name="company_id"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Type journal" name="group_type_journal" domain="[]" context="{'group_by':'type_journal'}"/>
+                        <filter string="Journal" name="group_journal_id" domain="[]" context="{'group_by':'journal_id'}"/>
+                        <filter string="Type" name="group_type" domain="[]" context="{'group_by':'type'}"/>
+                        <filter string="Company" name="group_company_id" domain="[]" context="{'group_by':'company_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_setting_type_journal" model="ir.actions.act_window">
+            <field name="name">Type journal</field>
+            <field name="res_model">setting.type.journal</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a type journal!
+                </p>
+            </field>
+            <field name="domain">[('type','=','sale')]</field>
+        </record>
+
+
+        <menuitem id="sale_order_type_journal_elogia_menu" name="Type journal" action="action_setting_type_journal"
+                  parent="sale.menu_sales_config" sequence="2"/>
+    </data>
+</odoo>

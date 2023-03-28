@@ -1,0 +1,142 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* todooweb_intercompany_journal
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e-20221210\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-28 14:35+0000\n"
+"PO-Revision-Date: 2023-03-28 14:35+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: todooweb_intercompany_journal
+#: model:ir.model.fields,field_description:todooweb_intercompany_journal.field_setting_type_journal__company_id
+#: model_terms:ir.ui.view,arch_db:todooweb_intercompany_journal.period_campaign_search
+msgid "Company"
+msgstr "Compañía"
+
+#. module: todooweb_intercompany_journal
+#: model:ir.model.fields.selection,name:todooweb_intercompany_journal.selection__setting_type_journal__type_journal__convencional
+msgid "Convencional"
+msgstr "Convencional"
+
+#. module: todooweb_intercompany_journal
+#: model_terms:ir.actions.act_window,help:todooweb_intercompany_journal.action_setting_type_journal
+msgid "Create a type journal!"
+msgstr "Crea un tipo de diario"
+
+#. module: todooweb_intercompany_journal
+#: model:ir.model.fields,field_description:todooweb_intercompany_journal.field_setting_type_journal__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: todooweb_intercompany_journal
+#: model:ir.model.fields,field_description:todooweb_intercompany_journal.field_setting_type_journal__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: todooweb_intercompany_journal
+#: model:ir.model.fields,field_description:todooweb_intercompany_journal.field_setting_type_journal__check_default
+msgid "Default"
+msgstr "Por defecto"
+
+#. module: todooweb_intercompany_journal
+#: model:ir.model.fields,field_description:todooweb_intercompany_journal.field_setting_type_journal__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: todooweb_intercompany_journal
+#: model_terms:ir.ui.view,arch_db:todooweb_intercompany_journal.period_campaign_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: todooweb_intercompany_journal
+#: model:ir.model.fields,field_description:todooweb_intercompany_journal.field_setting_type_journal__id
+msgid "ID"
+msgstr "ID"
+
+#. module: todooweb_intercompany_journal
+#: model:ir.model.fields.selection,name:todooweb_intercompany_journal.selection__setting_type_journal__type_journal__intercompany
+msgid "Intercompany"
+msgstr "Intercompany"
+
+#. module: todooweb_intercompany_journal
+#: model:ir.model.fields,field_description:todooweb_intercompany_journal.field_setting_type_journal__journal_id
+#: model_terms:ir.ui.view,arch_db:todooweb_intercompany_journal.period_campaign_search
+msgid "Journal"
+msgstr "Diario"
+
+#. module: todooweb_intercompany_journal
+#: model:ir.model.fields,field_description:todooweb_intercompany_journal.field_setting_type_journal__type_journal
+msgid "Journal type"
+msgstr "Tipo diario"
+
+#. module: todooweb_intercompany_journal
+#: model:ir.model.fields,field_description:todooweb_intercompany_journal.field_setting_type_journal____last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: todooweb_intercompany_journal
+#: model:ir.model.fields,field_description:todooweb_intercompany_journal.field_setting_type_journal__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: todooweb_intercompany_journal
+#: model:ir.model.fields,field_description:todooweb_intercompany_journal.field_setting_type_journal__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: todooweb_intercompany_journal
+#: model:ir.model.fields,field_description:todooweb_intercompany_journal.field_setting_type_journal__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: todooweb_intercompany_journal
+#: model:ir.model,name:todooweb_intercompany_journal.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: todooweb_intercompany_journal
+#: model:ir.model.fields,help:todooweb_intercompany_journal.field_setting_type_journal__type
+msgid ""
+"Select 'Sale' for customer invoices journals.\n"
+"Select 'Purchase' for vendor bills journals.\n"
+"Select 'Cash' or 'Bank' for journals that are used in customer or vendor payments.\n"
+"Select 'General' for miscellaneous operations journals."
+msgstr ""
+"Seleccione 'Venta' para diarios de facturas de clientes.\n"
+"Seleccione 'Compra' para diarios de facturas de proveedores.\n"
+"Seleccione 'Efectivo' o 'Banco' para diarios que se utilizan en pagos de clientes o proveedores.\n"
+"Seleccione 'General' para diarios de operaciones misceláneas."
+
+#. module: todooweb_intercompany_journal
+#: model:ir.model,name:todooweb_intercompany_journal.model_setting_type_journal
+msgid "Setting Type Journal"
+msgstr "Setting Type Journal"
+
+#. module: todooweb_intercompany_journal
+#: model:ir.model.constraint,message:todooweb_intercompany_journal.constraint_setting_type_journal_journal_type_unique
+msgid "This journal already has a related type journal!"
+msgstr "Esta configuración ya tiene un diario de este tipo relacionado."
+
+#. module: todooweb_intercompany_journal
+#: model:ir.model.fields,field_description:todooweb_intercompany_journal.field_setting_type_journal__type
+#: model_terms:ir.ui.view,arch_db:todooweb_intercompany_journal.period_campaign_search
+msgid "Type"
+msgstr "Tipo"
+
+#. module: todooweb_intercompany_journal
+#: model:ir.actions.act_window,name:todooweb_intercompany_journal.action_setting_type_journal
+#: model:ir.model.fields,field_description:todooweb_intercompany_journal.field_sale_order__type_journal_id
+#: model:ir.ui.menu,name:todooweb_intercompany_journal.sale_order_type_journal_elogia_menu
+#: model_terms:ir.ui.view,arch_db:todooweb_intercompany_journal.period_campaign_search
+#: model_terms:ir.ui.view,arch_db:todooweb_intercompany_journal.setting_type_journal_form
+#: model_terms:ir.ui.view,arch_db:todooweb_intercompany_journal.setting_type_journal_tree
+msgid "Type journal"
+msgstr "Tipo diario"
