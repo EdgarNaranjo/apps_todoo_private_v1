@@ -3,7 +3,7 @@
 
 {
     'name': "Sale: Intercompany journal",
-    'version': '16.0.0.0.0',
+    'version': '16.0.0.0.1',
     'category': 'Extra Tools',
     'summary': """Sale: Journal configurator in intercompany sales""",
     'description': """Sale Journal configurator in intercompany sales. Journals: Convencials or Intercompany.""",
