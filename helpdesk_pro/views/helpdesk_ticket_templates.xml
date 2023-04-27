@@ -56,12 +56,10 @@
                 <thead>
                     <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
                         <th>#</th>
-                        <th class="w-80">Name</th>
+                        <th style="width: 80%;">Name</th>
                         <th>By</th>
                         <th>Type</th>
                         <th>Category</th>
-                        <th>Create Date</th>
-                        <th>Last Stage Update</th>
                         <th t-if="groupby != 'stage'" class="text-center">Stage</th>
                     </tr>
                 </thead>
@@ -72,8 +70,6 @@
                         <td><t t-esc="ticket.partner_id.name"/></td>
                         <td><t t-esc="ticket.category_id.name"/></td>
                         <td><t t-esc="ticket.modules_id.name"/></td>
-                        <td><span t-field="ticket.create_date"/></td>
-                        <td><span t-field="ticket.last_stage_update"/></td>
                         <td t-if="groupby != 'stage'" class="text-center"><span class="badge badge-pill badge-info" t-field="ticket.stage_id.name"/></td>
                     </tr>
                 </t>
@@ -115,6 +111,8 @@
                         <span class="col-lg-4" t-field="ticket.create_date" t-options='{"widget": "date"}'/>
                         <strong class="col-lg-2">Type:</strong>
                         <span class="col-lg-4" t-field="ticket.category_id.name"/>
+                        <strong class="col-lg-2">Last Update:</strong>
+                        <span class="col-lg-4" t-field="ticket.last_stage_update" t-options='{"widget": "date"}'/>
                     </div>
                     <br/>
                     <div class="row" t-if="ticket.team_id">

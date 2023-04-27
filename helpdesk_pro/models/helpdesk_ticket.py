@@ -128,6 +128,9 @@ class HelpdeskTicket(models.Model):
                 res.set_project_id()
             if res.team_id and not res.user_id:
                 res.set_user_id()
+            if res.project_id and res.project_id.user_id:
+                manager_id = res.project_id.user_id.partner_id
+                res.message_subscribe(partner_ids=manager_id.ids)
             mail_template = self.env['ir.model.data']._xmlid_to_res_id('helpdesk_pro.new_ticket_request_email_template')
             self._create_mail_begin(mail_template, res)
         return res
@@ -357,7 +360,7 @@ class HelpdeskTicket(models.Model):
 
     def check_project_related(self):
         for record in self:
-            if record.check_tm and not record.project_id:
+            if not record.check_tm and not record.project_id:
                 raise UserError(_("Project is required to work on this ticket.\nCreate a project "
                                   "or contact an Administrator."))
             else:
@@ -365,7 +368,7 @@ class HelpdeskTicket(models.Model):
 
     def check_task_related(self):
         for record in self:
-            if record.check_tm and not record.task_id:
+            if not record.check_tm and not record.task_id:
                 raise UserError(_("Task is required to resolve or close work on this ticket.\nCreate a task "
                                   "or contact an Administrator."))
             else:
@@ -416,7 +419,8 @@ class HelpdeskTicket(models.Model):
 
     def assign_ticket_waiting(self):
         ok_project = self.check_project_related()
-        if ok_project:
+        ok_task = self.check_task_related()
+        if ok_project and ok_task:
             ctx = {
                 'default_model': 'helpdesk.ticket',
                 'default_res_id': self.ids[0],
@@ -734,3 +738,7 @@ class Task(models.Model):
             raise ValidationError(_('Sorry only can be 1 task related with each ticket'))
         return request
 
+    @api.onchange('timesheet_ids')
+    def onchange_timesheet_ids(self):
+        if self.timesheet_ids and self.project_id:
+            self.planned_hours = self.project_id.diff_hours
