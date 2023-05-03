@@ -11,7 +11,8 @@ class SaleOrder(models.Model):
         env_setting = self.env['setting.type.journal']
         return env_setting.search([('company_id', '=', self.env.company.id),
                                    ('check_default', '=', True),
-                                   ('type', '=', 'sale')], limit=1)
+                                   ('type', '=', 'sale'),
+                                   ('type_journal', '=', 'Convencional')], limit=1)
 
     type_journal_id = fields.Many2one('setting.type.journal', 'Type journal', check_company=True,
                                       default=_get_default_type)
