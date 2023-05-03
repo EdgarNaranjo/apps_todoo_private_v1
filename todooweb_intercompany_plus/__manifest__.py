@@ -7,7 +7,7 @@
     'category': 'Extra Tools',
     'summary': """Accounting: Journal configurator in intercompany sales""",
     'description': """Journal configurator in intercompany sales and purchase. Journals: Intercompany.""",
-    'license': 'AGPL-3',
+    'license': 'GPL-3',
     'author': "Todooweb (www.todooweb.com)",
     'website': "https://todooweb.com/",
     'contributors': [
