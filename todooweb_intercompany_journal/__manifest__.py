@@ -1,4 +1,4 @@
-# Copyright 2022-TODAY Rapsodoo Iberia S.r.L. (www.rapsodoo.com)
+# Copyright 2022-TODAY Rapsodoo Iberia S.r.L. (www.todooweb.com)
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
 {
@@ -7,7 +7,7 @@
     'category': 'Extra Tools',
     'summary': """Sale: Journal configurator in intercompany sales""",
     'description': """Sale Journal configurator in intercompany sales. Journals: Convencials or Intercompany.""",
-    'license': 'AGPL-3',
+    'license': 'LGPL-3',
     'author': "Todooweb (www.todooweb.com)",
     'website': "https://todooweb.com/",
     'contributors': [
