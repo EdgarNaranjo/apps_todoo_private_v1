@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="helpdesk_ticket_team_view_kanban" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.team.dashboard</field>
+        <field name="model">helpdesk.ticket.team</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_helpdesk_kanban p-0" create="0">
+                <field name="name"/>
+                <field name="color"/>
+                <field name="alias_name"/>
+                <field name="alias_id"/>
+                <field name="user_id"/>
+                <field name="create_date"/>
+                <field name="todo_ticket_count"/>
+                <field name="todo_ticket_count_unassigned"/>
+                <field name="todo_ticket_count_unattended"/>
+                <field name="todo_ticket_count_high_priority"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''}" style="width: 25%">
+                            <span class="oe_kanban_color_help" t-attf-title="In #{kanban_getcolorname(record.color.raw_value)}" role="img" t-attf-aria-label="In #{kanban_getcolorname(record.color.raw_value)}"/>
+                            <div t-attf-class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary"><field name="name"/></div>
+                                    <small t-if="record.alias_name.value"><i class="fa fa-envelope-o" title="Domain alias" role="img" aria-label="Domain alias"></i>&amp;nbsp; <t t-esc="record.alias_id.value"/></small>
+                                </div>
+                                <div class="o_kanban_manage_button_section">
+                                    <a class="o_kanban_manage_toggle_button" href="#" title="Toggle dropdown"><i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/></a>
+                                </div>
+                            </div>
+                            <div class="container o_kanban_card_content">
+                                <div class="row">
+                                    <div class="col-6 o_kanban_primary_left">
+                                        <button class="btn btn-primary" name="action_view_ticket" type="object" context="{'search_default_open': 1}">
+                                            <t t-esc="record.todo_ticket_count.value" /> To Do
+                                        </button>
+                                    </div>
+                                    <div class="col-6 o_kanban_primary_right">
+                                        <div class="row">
+                                            <div class="col-9">
+                                                <a name="action_view_ticket" type="object" context="{'search_default_unassigned': 1}"> Unassigned</a>
+                                            </div>
+                                            <div class="col-3">
+                                                <t t-esc="record.todo_ticket_count_unassigned.value"/>
+                                            </div>
+                                            <div class="col-9">
+                                                <a name="action_view_ticket" type="object" context="{'search_default_unattended': 1}"> Unattended</a>
+                                            </div>
+                                            <div class="col-3">
+                                                <t t-esc="record.todo_ticket_count_unattended.value"/>
+                                            </div>
+                                            <div class="col-9">
+                                                <a name="action_view_ticket" type="object" context="{'search_default_high_priority': 1}"> High Priority</a>
+                                            </div>
+                                            <div class="col-3">
+                                                <t t-esc="record.todo_ticket_count_high_priority.value"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="min-height: 25px;margin-top: 20px;">
+                                    <div class="col-10">
+                                    </div>
+                                    <div class="col-2 text-right">
+                                        <img t-att-src="kanban_image('res.users', 'avatar_128', record.user_id.raw_value)" t-att-title="record.user_id.value" t-att-alt="record.user_id.value" class="oe_kanban_avatar o_image_24_cover"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container o_kanban_card_manage_pane dropdown-menu" role="menu">
+                                <div class="row">
+                                    <div class="col-4 o_kanban_card_manage_section o_kanban_manage_view">
+                                        <div class="o_kanban_card_manage_title">
+                                            <span>View</span>
+                                        </div>
+                                        <div>
+                                            <a role="menuitem" name="%(helpdesk_ticket_action)d" context="{'search_default_open': 1}" type="action">Tickets open</a>
+                                        </div>
+                                        <div>
+                                            <a role="menuitem" name="%(helpdesk_ticket_action)d" context="{'search_default_open': 0}" type="action">Tickets closed</a>
+                                        </div>
+                                        <div>
+                                            <a role="menuitem" name="%(helpdesk_ticket_action)d" type="action">All</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 o_kanban_card_manage_section o_kanban_manage_view">
+                                        <div class="o_kanban_card_manage_title">
+                                            <span>Reporting</span>
+                                        </div>
+                                        <div>
+                                            <a role="menuitem" name="%(helpdesk_ticket_reporting_action)d" type="action" context="{'search_default_open': 1}">Only open</a>
+                                        </div>
+                                        <div>
+                                            <a role="menuitem" name="%(helpdesk_ticket_reporting_action)d" type="action" context="{'search_default_open': 0}">Closed</a>
+                                        </div>
+                                        <div>
+                                            <a role="menuitem" name="%(helpdesk_ticket_reporting_action)d" type="action">All</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div t-if="widget.editable" class="o_kanban_card_manage_settings row">
+                                    <div class="col-8"><ul class="oe_kanban_colorpicker" data-field="color"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_team_dashboard_action_main" model="ir.actions.act_window">
+        <field name="name">Helpdesk Overview</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">helpdesk.ticket.team</field>
+        <field name="view_mode">kanban</field>
+    </record>
+
+    <menuitem name="Dashboard" id="support_menu_item_dashboard" action="helpdesk_ticket_team_dashboard_action_main" sequence="1" parent="helpdesk_pro.support_menu_principal"/>
+</odoo>
