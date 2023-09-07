@@ -1,0 +1,188 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* timeoff_attendance_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e-20221210\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-09-07 12:41+0000\n"
+"PO-Revision-Date: 2023-09-07 12:41+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report__actual_day
+msgid "Actual Day"
+msgstr "Día en curso"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report__actual_month
+msgid "Actual Month"
+msgstr "Mes en curso"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report__actual_year
+msgid "Actual Year"
+msgstr "Año en curso"
+
+#. module: timeoff_attendance_report
+#: model:res.groups,name:timeoff_attendance_report.timeoff_attendance_admin_group
+msgid "Admin Calendar Holidays"
+msgstr "Admin Presencia/Ausencia"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report_calendar__color
+msgid "Color"
+msgstr "Color"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report_calendar__company_id
+#: model_terms:ir.ui.view,arch_db:timeoff_attendance_report.hr_leave_attendance_report_calendar_view_search
+msgid "Company"
+msgstr "Compañía"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report_calendar__department_id
+msgid "Department"
+msgstr "Departamento"
+
+#. module: timeoff_attendance_report
+#: model:ir.model,name:timeoff_attendance_report.model_hr_departure_wizard
+msgid "Departure Wizard"
+msgstr "Asistente de salida"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report__display_name
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report_calendar__display_name
+msgid "Display Name"
+msgstr "Nombre"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report__employee_id
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report_calendar__employee_id
+msgid "Employee"
+msgstr "Empleado"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report__start_datetime
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report_calendar__start_datetime
+msgid "From"
+msgstr "Desde"
+
+#. module: timeoff_attendance_report
+#: model_terms:ir.ui.view,arch_db:timeoff_attendance_report.hr_leave_attendance_report_calendar_view_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: timeoff_attendance_report
+#: model:ir.actions.server,name:timeoff_attendance_report.ir_cron_data_update_calendar_by_year_ir_actions_server
+#: model:ir.cron,cron_name:timeoff_attendance_report.ir_cron_data_update_calendar_by_year
+msgid "HR Holidays: update calendar"
+msgstr "HR Vacaciones: actualizar calendario"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report__id
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report_calendar__id
+msgid "ID"
+msgstr "ID"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report_calendar__job_id
+msgid "Job"
+msgstr "Puesto de trabajo"
+
+#. module: timeoff_attendance_report
+#: model_terms:ir.ui.view,arch_db:timeoff_attendance_report.hr_leave_attendance_report_calendar_view_search
+msgid "Job Position"
+msgstr "Puesto de trabajo"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report____last_update
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report_calendar____last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: timeoff_attendance_report
+#: model_terms:ir.ui.view,arch_db:timeoff_attendance_report.hr_leave_attendance_report_calendar_view_search
+msgid "My Department"
+msgstr "Mi Departamento"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report__name
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report_calendar__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report__on_attendance
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report_calendar__on_attendance
+#: model_terms:ir.ui.view,arch_db:timeoff_attendance_report.hr_leave_attendance_report_calendar_view_search
+msgid "On attendance"
+msgstr "Presencia"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report__on_holiday
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report_calendar__on_holiday
+#: model_terms:ir.ui.view,arch_db:timeoff_attendance_report.hr_leave_attendance_report_calendar_view_search
+msgid "On holiday"
+msgstr "Ausencia"
+
+#. module: timeoff_attendance_report
+#: model:ir.model,name:timeoff_attendance_report.model_hr_leave
+msgid "Time Off"
+msgstr "Ausencias"
+
+#. module: timeoff_attendance_report
+#: model:ir.model,name:timeoff_attendance_report.model_hr_leave_attendance_report_calendar
+msgid "Time Off Attendance Calendar"
+msgstr "Presencia/Ausencia"
+
+#. module: timeoff_attendance_report
+#: model:ir.model,name:timeoff_attendance_report.model_hr_leave_attendance_report
+msgid "Time Off Attendance Report"
+msgstr "Reporte Presencia/Ausencia"
+
+#. module: timeoff_attendance_report
+#: model:ir.actions.act_window,name:timeoff_attendance_report.action_hr_holidays_attendance_dashboard
+#: model:ir.ui.menu,name:timeoff_attendance_report.menu_hr_holidays_attendance_report_calendar_root
+#: model_terms:ir.ui.view,arch_db:timeoff_attendance_report.hr_leave_attendance_report_calendar_form_view
+#: model_terms:ir.ui.view,arch_db:timeoff_attendance_report.hr_leave_attendance_report_calendar_view
+#: model_terms:ir.ui.view,arch_db:timeoff_attendance_report.hr_leave_attendance_report_calendar_view_search
+msgid "Time Off/Attendance"
+msgstr "Presencia/Ausencia"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report_calendar__tz
+msgid "Timezone"
+msgstr "Zona horario"
+
+#. module: timeoff_attendance_report
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report__stop_datetime
+#: model:ir.model.fields,field_description:timeoff_attendance_report.field_hr_leave_attendance_report_calendar__stop_datetime
+msgid "To"
+msgstr "Hasta"
