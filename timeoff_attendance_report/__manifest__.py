@@ -26,7 +26,7 @@
     'category': 'Project/Project',
     'summary': 'Time off and Attendance',
     'description': """Time off and Attendance by employee. View gantt and calendar""",
-    'license': 'AGPL-3',
+    'license': 'GPL-3',
     'author': "Todooweb (www.todooweb.com)",
     'website': "https://todooweb.com/",
     'contributors': [
