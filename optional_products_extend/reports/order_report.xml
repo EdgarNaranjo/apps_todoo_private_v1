@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="my_report_saleorder_document_inherit_sale_management" inherit_id="sale_management.report_saleorder_document_inherit_sale_management">
+            <xpath expr="//table[@name='table_optional_products']" position="replace">
+                <table name="table_optional_products" class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th name="th_option_name" class="text-start">Description</th>
+                            <th name="th_option_quantity" class="text-end">Uds.</th>
+                            <th name="th_option_priceunit" class="text-end">Price</th>
+                            <th name="th_option_discount" class="text-end">Disc.</th>
+                            <th name="th_option_price_subtotal" class="text-end">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody class="sale_tbody">
+                        <tr t-foreach="doc.sale_order_option_ids" t-as="option">
+                            <td name="td_option_name">
+                                <span t-field="option.name"/>
+                            </td>
+                            <td name="td_option_quantity" class="text-end">
+                                <span t-field="option.quantity"/>
+                            </td>
+                            <td name="td_option_price_unit" class="text-end">
+                                <span t-field="option.price_unit" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                            </td>
+                            <td name="td_option_discount" class="text-end">
+                                <span t-field="option.discount"/>
+                            </td>
+                            <td name="td_option_price_subtotal" class="text-end">
+                                <span t-field="option.price_subtotal" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </xpath>
+        </template>
+    </data>
+</odoo>
