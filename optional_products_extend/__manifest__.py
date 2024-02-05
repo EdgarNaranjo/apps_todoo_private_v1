@@ -25,7 +25,7 @@
         'reports/order_report.xml'
     ],
     'images': [
-       'static/description/screenshot_ftp.png'
+       'static/description/screenshot_product.png'
     ],
     'installable': True,
     'application': False,
