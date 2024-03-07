@@ -9,9 +9,7 @@
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='price_unit']" position="after">
                     <field name="purchase_price" optional="show"/>
                     <field name="margin" optional="show"/>
-                    <field name="margin_percent"
-                    attrs="{'invisible': [('price_subtotal', '=', 0)]}"
-                    optional="hide" widget="percentage"/>
+                    <field name="margin_percent" invisible="price_subtotal == 0" optional="hide" widget="percentage"/>
                 </xpath>
                 <xpath expr="//field[@name='sale_order_option_ids']/tree/field[@name='discount']" position="after">
                     <field name="price_subtotal" optional="show"/>
