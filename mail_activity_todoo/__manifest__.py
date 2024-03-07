@@ -1,5 +1,5 @@
 # Copyright 2024-TODAY Todooweb (<http://www.todooweb.com>).
-# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
 {
     'name': 'Management Mass Activities',
@@ -7,7 +7,7 @@
     'category': 'CRM',
     'summary': """Management Mass Activities: Activities by user and channels.""",
     'description': """Management Mass Activities: Activities by users and channels. Activities related to each other.""",
-    'license': 'LGPL-3',
+    'license': 'AGPL-3',
     'author': "Todooweb (www.todooweb.com)",
     'website': "https://todooweb.com/",
     'contributors': [
