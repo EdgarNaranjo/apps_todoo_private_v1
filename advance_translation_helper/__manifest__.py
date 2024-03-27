@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    This module copyright (C) 2020 Todooweb
+#    This module copyright (C) 2024 Todooweb
 #    (<http://www.todooweb.com>).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,11 +21,11 @@
 ##############################################################################
 
 {
-    'name': 'Tool Translation',
+    'name': '[Advanced] Tool Translation: File ".po"',
     'version': '17.0.1.0.0',
     'category': 'Extra Tools',
-    'summary': """Translate texts with the help of Google Translate.""",
-    'description': """Translate texts and overwrite existing terms with the help of Google Translate.""",
+    'summary': """Translate base odoo file '.po' with the help of Google Translate.""",
+    'description': """Translate the base odoo file '.po' with the help of Google Translate, in all necessary languages.""",
     'license': 'AGPL-3',
     'author': "Todooweb (www.todooweb.com)",
     'website': "https://todooweb.com/",
@@ -34,18 +34,16 @@
         "Edgar Naranjo <edgarnaranjof@gmail.com>",
     ],
     'support': 'devtodoo@gmail.com',
-    'depends': ['base', 'mail'],
-    'external_dependencies': {'python': ['googletrans']},
+    'depends': ['base', 'mail', 'todoo_translation_helper'],
+    'external_dependencies': {'python': ['googletrans', 'unidecode']},
     'data': [
-        'security/ir.model.access.csv',
-        'views/todoo_translation_helper.xml',
-        'data/lang_data.xml',
+        'views/advance_todoo_translation_helper.xml',
     ],
     'images': ['static/description/translate_screenshot.png'],
-    'live_test_url': 'https://cutt.ly/GRuk6Qu',
+    'live_test_url': 'https://cutt.ly/iRkZanw',
     'installable': True,
     'auto_install': False,
     'application': True,
-    'price': 12.99,
+    'price': 8.99,
     'currency': 'EUR',
 }

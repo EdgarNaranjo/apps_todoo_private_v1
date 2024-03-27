@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!-- Wizard View Form inherit tool.translation.helper -->
+        <record model="ir.ui.view" id="tool_translation_helper_inherit_form">
+            <field name="name">tool.translation.inherit.helper</field>
+            <field name="model">tool.translation.helper</field>
+            <field name="inherit_id" ref="todoo_translation_helper.tool_translation_helper_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//h4" position="before">
+                    <div class="alert alert-warning" role="alert" invisible="ok_translate != True">
+                        The translation has been <span><span class="o_vat_label">generated, </span></span> Ej: (<field name="helper_id" readonly="True"/>). Also access the generated file from the "Tool Translation/Translations" menu.
+                    </div>
+                    <field name="ok_translate" invisible="True"/>
+                </xpath>
+                <xpath expr="//field[@name='attachment_ids']" position="attributes">
+					<attribute name="invisible">type_text not in ['file', 'po']</attribute>
+				</xpath>
+                <xpath expr="//field[@name='description']" position="attributes">
+					<attribute name="readonly">type_text in ['file', 'po']</attribute>
+				</xpath>
+            </field>
+        </record>
+
+        <!-- View Form inherit text.translations.helper -->
+        <record model="ir.ui.view" id="text_translations_helper_view_inherit_form">
+            <field name="name">text.translations.helper.inherit.form</field>
+            <field name="model">text.translations.helper</field>
+            <field name="inherit_id" ref="todoo_translation_helper.text_translations_helper_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='oe_title']" position="before">
+					<div class="oe_button_box" name="button_box">
+                        <button type="object" class="oe_stat_button" icon="fa-file" name="action_view_attachments">
+                            <field name="attachment_count" widget="statinfo" string="Attachments"/>
+                        </button>
+                    </div>
+				</xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
