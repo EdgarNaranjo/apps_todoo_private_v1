@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="purchase_order_form" model="ir.ui.view">
+            <field name="name">purchase.order.form</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='button_cancel']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//button[@name='button_cancel']" position="before">
+                    <button name="%(action_purchase_order_cancel)d" invisible="state == 'cancel'" string="Cancel"
+                            type="action" groups="base.group_user"/>
+                </xpath>
+                <xpath expr="/form/sheet/div/h1" position="after">
+                    <h2 invisible="state != 'cancel'">
+                        <label for="cancel_reason_id" string="Cancellation reason:"/>
+                        <field name="cancel_reason_id" class="oe_inline" options='{"no_open": True}'/>
+                    </h2>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_purchase_order_cancel_reason_form" model="ir.ui.view">
+            <field name="name">Purchase Order Cancel Reason</field>
+            <field name="model">purchase.order.cancel.reason</field>
+            <field name="arch" type="xml">
+                <form string="Purchase Order Cancel Reasons">
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_purchase_order_cancel_reason_tree" model="ir.ui.view">
+            <field name="name">Purchase Order Cancel Reason</field>
+            <field name="model">purchase.order.cancel.reason</field>
+            <field name="arch" type="xml">
+                <tree string="Purchase Order Cancel Reasons">
+                    <field name="name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_purchase_order_cancel_reason_search">
+            <field name="name">Purchase Order Cancel Reason search</field>
+            <field name="model">purchase.order.cancel.reason</field>
+            <field name="arch" type="xml">
+                <search string="Purchase Order Cancel Reasons">
+                    <field name="name"/>
+                    <filter string="Include archived" name="archived" domain="['|', ('active', '=', True), ('active', '=', False)]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_purchase_order_cancel_reason" model="ir.actions.act_window">
+            <field name="name">Purchase Order Cancel Reason</field>
+            <field name="res_model">purchase.order.cancel.reason</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_purchase_order_cancel_reason"
+          parent="purchase.menu_purchase_config"
+          name="Purchase Order Cancel Reasons"
+          action="action_purchase_order_cancel_reason"
+          sequence="150" groups="purchase.group_purchase_manager"/>
+    </data>
+</odoo>
