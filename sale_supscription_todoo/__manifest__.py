@@ -3,7 +3,7 @@
 
 {
     'name': '[Extended] Sale Subscription',
-    'version': '16.0.1.0.0',
+    'version': '17.0.1.0.0',
     'summary': 'Improvements in subscriptions.',
     'description': """Improvements in subscriptions: Invoice automation. Recurring invoices in draft status.""",
     'license': 'LGPL-3',
