@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_project_task_type_form_inherit" model="ir.ui.view">
+            <field name="name">view.project.task.type.form.inherit</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_edit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='fold']" position="after">
+                    <field name="default_stage" string="Default Stage"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_project_task_type_tree_inherit" model="ir.ui.view">
+            <field name="name">view.project.task.type.tree.inherit</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='fold']" position="before">
+                    <field name="default_stage" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
