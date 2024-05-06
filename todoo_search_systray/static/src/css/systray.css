@@ -1,0 +1,115 @@
+.toggle-icon{
+padding: 10px;
+margin-bottom: 18px;
+}
+
+.o_main_navbar > ul > li.o_search_systray {
+    display: flex;
+    position: relative;
+    color: #333;
+}
+
+li.o_search_systray {
+    list-style-type: none;
+}
+
+.systray_input {
+    width: 0;
+    border: none;
+    border-radius: 1rem;
+    padding-left: 15px;
+    background-color: transparent;
+    transition: width 0.5s, background-color 0.3s, border-radius 0.3s;
+}
+
+.o_main_navbar > ul > li.o_search_systray.o_search_open {
+    border-radius: 1rem;
+    height: 3rem;
+    background-color: white;
+    margin: 5px 0;
+    transition: background-color 0.5s, border-radius 0.5s;
+}
+
+.o_main_navbar > ul > li.o_search_systray.o_search_open > a {
+    color: #555;
+    height: 3rem;
+    width: 33px;
+    line-height: 3rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.o_main_navbar > ul > li.o_search_systray.o_search_open > a:hover {
+    background-color: transparent;
+}
+
+.o_main_navbar > ul > li.o_search_systray.o_search_open > a:hover i::before {
+    content: "\f00d";
+    transition: 2s;
+}
+
+.systray_input {
+    width: 250px;
+    background-color: white;
+    transition: width 0.3s, background-color 0.3s;
+}
+
+ul.o_search_results {
+    position: relative;
+    right: 0;
+    width: 280px;
+    color: #333;
+    z-index: 9999;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+a.list_link:hover {
+    color: #FF7E26 !important;
+}
+
+ul.o_search_results > li {
+    display: flex;
+}
+
+ul.o_search_results > li > p:first-child {
+    font-weight: bold;
+    margin-bottom: 0;
+    flex: 0 0 50%;
+}
+
+ul.o_search_results > li > p:last-child {
+    margin-left: 0.5rem;
+    margin-bottom: 0;
+    flex: 1 1 70%;
+    width: 100px;
+}
+
+ul.o_search_results > li > p:last-child a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+}
+
+.input-container {
+  position: relative;
+}
+
+.input-container input[type="text"] {
+  padding-left: 30px;
+}
+
+.input-container .search-icon {
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: auto;
+}
+
+@media (max-width: 1199px) {
+    .o_main_navbar > ul > li.o_search_systray {
+        display: none;
+    }
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="SearchWidget">
+        <div class="toggle-icon">
+             <div class="input-container">
+                 <a href="#" title="Search" role="button">
+                    <i class="fa fa-search search-icon" role="img" aria-label="Search"/>
+                 </a>
+                 <input type="text" class="systray_input" placeholder="Enter your search term, ex: SO0111"/>
+             </div>
+            <li class="o_search_systray">
+                <ul class="o_search_results list-group"/>
+            </li>
+        </div>
+    </t>
+</templates>
