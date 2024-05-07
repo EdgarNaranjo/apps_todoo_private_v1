@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <template id="portal_applicant_home_menu" name="Portal layout: applications menu entry" inherit_id="portal.portal_breadcrumbs" priority="45">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li class="col-lg-2" t-attf-class="breadcrumb-item #{'active ' if not applications else ''}">
+                <a t-if="applications" t-attf-href="/my/application">My Applications</a>
+                <t t-else="">My Applications</t>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home" name="Show Applications" customize_show="True" inherit_id="portal.portal_my_home" priority="45">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-set="portal_service_category_enable" t-value="True"/>
+        </xpath>
+        <div id="portal_service_category" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/project/static/src/img/folder.svg'"/>
+                <t t-set="title">My Applications</t>
+                <t t-set="url" t-value="'/my/application'"/>
+                <t t-set="text">Follow the evolution of your applications</t>
+                <t t-set="placeholder_count" t-value="'applicant_count'"/>
+            </t>
+        </div>
+    </template>
+
+    <template id="portal_my_applications" name="My Applications">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">>My Applications</t>
+            </t>
+            <t t-if="not applications">
+                <div class="alert alert-warning" role="alert">
+                    There are currently no applications for your account.
+                </div>
+            </t>
+            <t t-if="applications" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>Application #</th>
+                        <th>Name</th>
+                        <th class="text-right">Create Date</th>
+                        <th class="text-right">Job Position</th>
+                        <th class="text-right">Department</th>
+                        <th class="text-right">Tags</th>
+                        <th class="text-center"/>
+                    </tr>
+                </thead>
+                <t t-foreach="applications" t-as="application">
+                    <tr>
+                        <td class="text-left"><a t-att-href="'/my/application/'+str(application.id)"> PR - 00<span t-esc="application.id"/></a></td>
+                        <td class="text-left"><span t-esc="application.name"/></td>
+                        <td class="text-right"><span t-field="application.create_date"/></td>
+                        <td class="text-right"><span t-field="application.job_id"/></td>
+                        <td class="text-right"><span t-field="application.department_id"/></td>
+                        <td class="text-right"><span t-field="application.categ_ids"/></td>
+                        <td class="text-center">
+                            <span t-if="application.state_real == '1'" class="badge badge-pill badge-info"><i class="fa fa-fw fa-remove"/> Initial Qualification</span>
+                            <span t-if="application.state_real == '2'" class="badge badge-pill badge-secondary"><i class="fa fa-fw fa-clock-o"/> First Interview</span>
+                            <span t-if="application.state_real == '3'" class="badge badge-pill badge-secondary"><i class="fa fa-fw fa-clock-o"/> Second Interview</span>
+                            <span t-if="application.state_real == '4'" class="badge badge-pill badge-secondary"><i class="fa fa-fw fa-clock-o"/> Contract Proposal</span>
+                            <span t-if="application.state_real == '5'" class="badge badge-pill badge-success"><i class="fa fa-fw fa-check"/> Contract Signed</span>
+                        </td>
+                    </tr>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="portal_my_application_details" name="Details Applications" inherit_id="portal.portal_sidebar" primary="True">
+        <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+            <div class="row mt16 o_portal_sale_sidebar">
+                <!-- Sidebar -->
+                <t t-call="portal.portal_record_sidebar">
+                    <t t-set="classes" t-value="'col-lg-auto d-print-none'"/>
+                    <t t-set="title">
+                        <h2 class="mb-0"><b t-field="application.salary_proposed" data-id="salary_proposed"/> €</h2>
+                    </t>
+                    <t t-set="entries">
+                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                            <li class="list-group-item flex-grow-1">
+                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
+                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                                        <a class="btn btn-secondary btn-block o_download_btn" title="Download"><i class="fa fa-download"/> Download</a>
+                                    </div>
+                                    <div class="btn-group flex-grow-1 mb-1">
+                                        <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print" title="Print" target="_blank"><i class="fa fa-print"/> Print</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="navspy list-group-item pl-0 flex-grow-1" t-ignore="true" role="complementary">
+                                <ul class="nav flex-column bs-sidenav"></ul>
+                            </li>
+                            <t t-if="application.state_real !='0'">
+                                <li t-if="application.salary_expected - application.salary_proposed &gt; 0.01" class="list-group-item flex-grow-1">
+                                    <small><b class="text-muted">Your advantage</b></small>
+                                    <small>
+                                        <b t-field="application.salary_expected"
+                                            style="text-decoration: line-through"
+                                            class="d-block mt-1"
+                                            data-id="salary_expected" />
+                                    </small>
+                                    <t t-if="application.salary_expected == application.salary_proposed">
+                                        <h4 t-field="application.salary_expected" class="text-success" data-id="salary_expected"/>
+                                    </t>
+                                    <t t-else="">
+                                        <h4 t-field="application.salary_proposed" class="text-success mb-0" data-id="total_untaxed"/>
+                                        <small>(<span t-field="application.salary_expected" data-id="salary_expected"/> Incl. IRPF)</small>
+                                    </t>
+                                </li>
+                            </t>
+                            <li t-if="application.user_id" class="list-group-item flex-grow-1">
+                                <div class="small mb-1"><strong class="text-muted">Your Contact</strong></div>
+                                <div class="row flex-nowrap">
+                                    <div class="col pl-0" style="min-width: 150px">
+                                        <span t-field="application.user_id" t-options='{"widget": "contact", "fields": ["name", "phone"], "no_marker": True}'/>
+                                        <a href="#discussion" class="small"><i class="fa fa-comment"></i> Send message</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </t>
+                </t>
+                <!-- Page content -->
+                <div id="quote_content" class="col-12 col-lg justify-content-end">
+                    <!-- main content -->
+                    <div t-attf-class="card #{'pb-5' if report_type == 'html' else ''}">
+                       <!-- Intro -->
+                        <div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}" style="margin-left: 20px;margin-right:20px;">
+                            <h2 class="my-0">
+                                <span t-esc="application.name"/>
+                            </h2>
+                        </div>
+                        <div t-attf-class="#{'card-body' if report_type == 'html' else ''}" style="margin-left: 20px;margin-right:20px;">
+                            <div id="informations">
+                                <div class="mb-3">
+                                    <h5>Create date: <span t-field="application.create_date" t-options='{"widget": "date"}'/></h5>
+                                </div>
+                                <div class="mb-3" t-if="application.availability">
+                                    <h5>Availability: <span t-field="application.availability" t-options='{"widget": "date"}'/></h5>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12"></div>
+                                    <div class="col-lg-6">
+                                        <h4 class="d-block mb-1"><strong>Contact Details</strong></h4>
+                                        <hr></hr>
+                                        <span><strong>Email: </strong><span t-field="application.email_from"/></span>
+                                        <br/>
+                                        <span><strong>Phone: </strong><span t-field="application.partner_phone"/></span>
+                                        <br/>
+                                        <span><strong>Mobile: </strong><span t-field="application.partner_mobile"/></span>
+                                        <br/>
+                                        <span><strong>Medium: </strong><span t-field="application.medium_id"/></span>
+                                        <br/>
+                                        <!--<span><strong>Referred by: </strong><span t-field="application.reference"/></span>-->
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h4 class="d-block mb-1"><strong>Other Info</strong></h4>
+                                        <hr></hr>
+                                        <span><strong>Degree: </strong><span t-field="application.type_id"/></span>
+                                        <br/>
+                                        <span><strong>Create Date: </strong><span t-field="application.create_date"/></span>
+                                        <br/>
+                                        <span><strong>Stage: </strong><span t-field="application.state_real"/></span>
+                                        <br/>
+                                        <span><strong>Source: </strong><span t-field="application.source_id"/></span>
+                                        <br/>
+                                        <span><strong>Responsible: </strong><span t-field="application.department_id.manager_id"/></span>
+                                    </div>
+                                    <div class="col-lg-12"></div>
+                                    <div class="col-lg-6">
+                                        <h4 class="d-block mb-1"><strong>Jobs</strong></h4>
+                                        <hr></hr>
+                                        <span><strong>Applied Job: </strong><span t-field="application.job_id"/></span>
+                                        <br/>
+                                        <span><strong>Department: </strong><span t-field="application.department_id"/></span>
+                                        <br/>
+                                        <span><strong>Company: </strong><span t-field="application.client_id"/></span>
+                                        <br/>
+                                        <span><strong>Availability: </strong><span t-field="application.availability"/></span>
+                                    </div>
+                                    <div class="col-lg-6"></div>
+                                    <div class="col-lg-12"></div>
+                                    <div class="col-lg-12">
+                                        <h4 class="d-block mb-1"><strong>Employment Details</strong></h4>
+                                        <br/>
+                                        <table class="table table-sm" id="applicant_table">
+                                            <thead class="bg-100">
+                                                <tr>
+                                                    <t t-set="colspan" t-value="6"/>
+                                                    <th class="text-left">Organization</th>
+                                                    <th class="text-right">Start Date</th>
+                                                    <th class="text-right">End Date</th>
+                                                    <th class="text-right">Responsibilities</th>
+                                                    <th class="text-right">Supervisor</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="sale_tbody">
+                                                <t t-set="colspan" t-value="6"/>
+                                                <t t-foreach="application.employment_ids" t-as="line">
+                                                    <tr>
+                                                        <td class="text-left"><span t-field="line.name"/></td>
+                                                        <td class="text-right"><span t-field="line.start_date"/></td>
+                                                        <td class="text-right"><span t-field="line.end_date"/></td>
+                                                        <td class="text-right"><span t-field="line.responsibilities"/></td>
+                                                        <td class="text-right"><span t-field="line.supervisor"/></td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-lg-12"></div>
+                                    <div class="col-lg-12">
+                                        <h4 class="d-block mb-1"><strong>Educational Details</strong></h4>
+                                        <br/>
+                                         <table class="table table-sm" id="applicant_table_educ">
+                                            <thead class="bg-100">
+                                                <tr>
+                                                    <t t-set="colspan" t-value="6"/>
+                                                    <th class="text-left">Degree</th>
+                                                    <th class="text-right">Institute</th>
+                                                    <th class="text-right">Passing Year</th>
+                                                    <th class="text-right">Grade/Class</th>
+                                                    <th class="text-right">Major Subjects</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="sale_tbody">
+                                                <t t-set="colspan" t-value="6"/>
+                                                <t t-foreach="application.emp_id" t-as="empl">
+                                                    <tr>
+                                                        <td class="text-left"><span t-field="empl.certificate"/></td>
+                                                        <td class="text-right"><span t-field="empl.study_school"/></td>
+                                                        <td class="text-right"><span t-field="empl.study_field"/></td>
+                                                        <td class="text-right"><span t-field="empl.grade_school"/></td>
+                                                        <td class="text-right"><span t-field="empl.major_subject"/></td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-lg-12"></div>
+                                </div>
+                            </div>
+                            <section id="terms" class="mt-5" t-if="application.description">
+                                <h4 class="mt-0 mb-1">Application Summary</h4>
+                                <hr class="mt-0 mb-1"/>
+                                <em t-field="application.description"/>
+                            </section>
+                            <br/>
+                        </div>
+                    </div>
+                    <div id="application_communication" class="mt-4">
+                        <h2>Communication</h2>
+                        <t t-call="portal.message_thread">
+                        <t t-set="object" t-value="application"/>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+     <!-- View Form Inherit HR_APPLICANT-->
+    <record model="ir.ui.view" id="hr_applicant_form_inherit">
+        <field name="name">hr.applicant.inherit</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='salary_expected']" position="attributes">
+                <attribute name="required">True</attribute>
+            </xpath>
+            <xpath expr="//field[@name='salary_proposed']" position="attributes">
+                <attribute name="required">True</attribute>
+            </xpath>
+            <xpath expr="//field[@name='email_from']" position="attributes">
+                <attribute name="required">True</attribute>
+            </xpath>
+            <xpath expr="//field[@name='availability']" position="attributes">
+                <attribute name="required">True</attribute>
+            </xpath>
+            <xpath expr="//field[@name='job_id']" position="before">
+                <field name="client_id" required="True" options='{"no_create": True}' domain="[('is_company', '=', True)]"/>
+            </xpath>
+            <xpath expr="//field[@name='description']" position="before">
+                <field name="employment_ids">
+                    <tree string="Employment" editable="bottom">
+                        <field name="name"/>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <field name="responsibilities"/>
+                        <field name="supervisor"/>
+                    </tree>
+                </field>
+            </xpath>
+         </field>
+    </record>
+
+    <!-- View Form Inherit HR_EMPLOYEE-->
+    <record model="ir.ui.view" id="hr_employee_applicant_form_inherit">
+        <field name="name">hr.employee.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='study_school']" position="after">
+                <field name="grade_school"/>
+                <field name="major_subject"/>
+            </xpath>
+         </field>
+    </record>
+</odoo>
