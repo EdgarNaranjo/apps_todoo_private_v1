@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="systray_icon" owl="1">
+        <div class="toggle-icon" role="button">
+            <div class="input-container">
+                 <a href="#" title="Search" role="button">
+                    <i  t-if="!state.iconSearch" class="fa fa-search search-icon" role="img" aria-label="Search"/>
+                     <i t-if="state.iconSearch" class="fa fa-times search-icon" role="img" aria-label="Cancel" t-on-click="clear"/>
+                 </a>
+                 <input type="text" id="search-input"
+                        t-on-input="_updateInputValue"
+                        t-model="state.inputSearch"
+                        t-on-focus="inputFocus"
+                        t-ref="inputSearch"
+                        class="systray_input" placeholder="Enter your search term, ex: SO0111"/>
+            </div>
+             <li class="o_search_systray">
+                 <ul class="o_search_results list-group">
+                     <t t-foreach="state.results" t-as="i" t-key="i.id">
+                         <li class="list-group-item">
+                             <p><t t-esc="i.modelNameDisplay"/>:</p>
+                             <p>
+                                 <t t-foreach="i.records" t-as="record" t-key="record.id">
+                                     <a t-on-click="_hideModal" t-attf-href="#model=#{i.model}&amp;id=#{record.id}" class="list_link" t-att-title="record.title"><t t-esc="record.title"/></a>
+                                 </t>
+                             </p>
+                         </li>
+                     </t>
+                 </ul>
+             </li>
+        </div>
+    </t>
+</templates>
