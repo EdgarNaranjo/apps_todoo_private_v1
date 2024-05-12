@@ -2,7 +2,7 @@
 
 {
     'name': 'Flow Payment Provider',
-    'version': "16.0.1.0.1",
+    'version': "16.0.1.0.2",
     'summary': 'Chilean Flow Payment Provider',
     'description': """Payment Provider: Chilean Flow Payment Provider""",
     'license': 'AGPL-3',
@@ -18,8 +18,7 @@
     'depends': [
         'website',
         'account',
-        'base',
-        'payment_currency',
+        'base'
     ],
     'external_dependencies': {
         'python': [
