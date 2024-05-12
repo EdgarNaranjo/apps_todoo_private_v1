@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="transaction_form_flow" model="ir.ui.view">
+        <field name="name">transaction.form.flow</field>
+        <field name="model">payment.transaction</field>
+        <field name="inherit_id" ref="payment.payment_transaction_form"/>
+        <field name="arch" type="xml">
+            <header>
+                <button invisible="provider_code != 'flow' or state not in ['draft']"
+                        name="flow_getTransactionfromCommerceId"
+                        string="Obtener Datos usando CommerceID"
+                        type="object"/>
+            </header>
+            <xpath expr="//field[@name='provider_reference']" position="after">
+                <field invisible="provider_code != 'flow'" name="flow_token"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
