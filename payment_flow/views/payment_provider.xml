@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="payment_flow_provider_form" model="ir.ui.view">
+        <field name="name">payment.flow.provider.form</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form"/>
+        <field name="arch" type="xml">
+            <group name="provider_credentials" position='inside'>
+                <group attrs="{'invisible': [('code', '!=', 'flow')]}">
+                    <field name="flow_api_key"/>
+                    <field name="flow_private_key" password="True"/>
+                    <field name="flow_payment_method"/>
+                    <a colspan="2" href="https://www.flow.cl/docs/api.html" target="_blank">
+                        How to configure your Flow account?
+                    </a>
+                </group>
+            </group>
+
+            <xpath expr="//page[@name='configuration']" position="before">
+                <field name="support_fees" invisible="1"/>
+                <page string="Fees" name="fees">
+                    <group name="payment_fees">
+                        <field name="fees_active"/>
+                        <field name="fees_dom_fixed" attrs="{'invisible': [('fees_active', '=', False)]}"/>
+                        <field name="fees_dom_var" attrs="{'invisible': [('fees_active', '=', False)]}"/>
+                        <field name="fees_int_fixed" attrs="{'invisible': [('fees_active', '=',  False)]}"/>
+                        <field name="fees_int_var" attrs="{'invisible': [('fees_active', '=', False)]}"/>
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
