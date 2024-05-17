@@ -10,7 +10,7 @@ class ResUsers(models.Model):
     @api.model
     def search_terms(self, term):
         res = []
-        model_ids = self.env['ir.model'].search([('allow_search', '=', True)])
+        model_ids = self.env.user.groups_id.mapped('model_access').mapped('model_id').filtered(lambda l: l.allow_search)
         for rec in model_ids:
             model = rec.model
             records = self.env[model].name_search(term)

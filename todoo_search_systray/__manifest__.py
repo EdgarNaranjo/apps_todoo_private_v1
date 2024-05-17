@@ -3,7 +3,7 @@
 
 {
     'name': 'Global Advanced Search',
-    'version': '16.0.1.0.1',
+    'version': '16.0.1.0.2',
     'category': 'Extra Tools',
     'summary': """Advanced Search: Activate search in all odoo models.""",
     'description': """Global Advanced Search: Activate search in all odoo models.""",
