@@ -24,7 +24,7 @@
     'name': 'Power BI Connector',
     'version': '16.0.1.0.1',
     'category': 'Tools/Tools',
-    'summary': """Power BI: RRHH, Proyect, Sales, Purchase, Accounting.""",
+    'summary': """Odoo Power BI Connector""",
     'description': """Connected odoo in Power BI: RRHH, Proyect, Sales, Purchase, Accounting""",
     'license': 'LGPL-3',
     'author': "Todooweb (www.todooweb.com)",
