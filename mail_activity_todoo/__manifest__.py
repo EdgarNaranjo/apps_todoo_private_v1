@@ -3,7 +3,7 @@
 
 {
     'name': 'Management Mass Activities',
-    'version': '16.0.1.0.0',
+    'version': '16.0.1.0.2',
     'category': 'CRM',
     'summary': """Management Mass Activities: Activities by user and channels.""",
     'description': """Management Mass Activities: Activities by users and channels. Activities related to each other.""",

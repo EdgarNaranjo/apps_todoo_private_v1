@@ -1,0 +1,421 @@
+<?xml version="1.0"?>
+<odoo>
+     Wizard View Form update.file.csv.wizard
+    <record model="ir.ui.view" id="update_file_csv_wizard_form">
+            <field name="name">Update File Csv Wizard</field>
+            <field name="model">update.file.csv.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <div name="msg_opr_main">
+                        <div>
+                            <p colspan="2" class="alert alert-info info_icon" role="alert">
+                                <b>
+                                    <u>
+                                        <h3 style="font-weight:bold;color:#7d5a29">Do you want these changes to be effective right now?
+                                        </h3>
+                                    </u>
+                                    <ul>
+                                        <li>
+                                            You only need to update the necessary records.
+                                        </li>
+                                        <li>
+                                            To update the records, please write the related file.
+                                        </li>
+                                        <li>
+                                            The records contain orders based on the number of related data.
+                                        </li>
+                                    </ul>
+                                </b>
+                            </p>
+                        </div>
+                    </div>
+                    <br/>
+                    <group>
+						<group>
+                            <field name="setting_id" invisible="True"/>
+                            <field name="check_process" widget="toggle_boolean"/>
+                        </group>
+					</group>
+                    <br/>
+                    <field name="line_ids">
+                        <tree editable="bottom" decoration-info="state == 'draft'"
+                              decoration-success="state == 'done'" decoration-danger="size_data &gt;= size_parent">
+                            <field name="setting_id" invisible="True"/>
+                            <field name="power_bi_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="description"/>
+                            <field name="type_query"/>
+                            <field name="document_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="size_data" invisible="1"/>
+                            <field name="size_parent" invisible="1"/>
+                            <field name="last_date_update"/>
+                            <field name="ok_process" optional="show"/>
+                            <field name="state" widget="badge"
+                                   decoration-info="state == 'draft'" decoration-success="state == 'done'"
+                                   decoration-danger="size_data &gt;= size_parent"/>
+                        </tree>
+                        <form>
+                            <group>
+                                <group>
+                                    <field name="setting_id" invisible="True"/>
+                                    <field name="power_bi_id" options="{'no_create': True}"/>
+                                    <field name="description"/>
+                                    <field name="type_query"/>
+                                </group>
+                                <group>
+                                    <field name="document_id" options="{'no_create': True}"/>
+                                    <field name="last_date_update"/>
+                                </group>
+                            </group>
+                        </form>
+                    </field>
+                    <footer>
+                        <button type="object" name="action_update_records" string="Update" class="oe_highlight"/>
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    <!-- View Form constructor.power.bi.data -->
+    <record id="constructor_power_bi_data_view_form" model="ir.ui.view">
+        <field name="name">constructor.power.bi.data.form</field>
+        <field name="model">constructor.power.bi.data</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="execute_query" string="Execute" type="object" class="oe_highlight"
+                            attrs="{'invisible': ['|', ('state', '=', 'done'), ('active', '=', False)]}"/>
+                    <button name="set_to_draft" string="Set to draft" type="object"
+                            attrs="{'invisible': ['|', ('state', '!=', 'done'), ('active', '=', False)]}"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <field name="data_many" invisible="1"/>
+                <field name="check_many" invisible="1"/>
+                <div attrs="{'invisible': [('check_many', '=', False)]}" class="alert alert-warning info_icon" role="alert">
+                    <b>
+                        <u>
+                            <h3 style="font-weight:bold;color:#7d5a29">Power Bi query has around <field name="data_many"/> records:
+                            </h3>
+                        </u>
+                        <ul>
+                            <li>
+                                Delimit the current query to a finite set of records.
+                            </li>
+                            <li>
+                                Create a new query with the rest of the records.
+                            </li>
+                            <li>
+                                Cross both queries in the PowerBI tool.
+                            </li>
+                        </ul>
+                    </b>
+                </div>
+                <sheet>
+                    <div name='button_box'>
+                        <button name="action_open_doc" class="oe_stat_button" icon="fa-archive" type="object">
+                            <field name="doc_count" widget="statinfo" string="Document"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                            attrs="{'invisible': [('active', '=', True)]}"/>
+                     <widget name="web_ribbon" title="Blocked"
+                                bg_color="bg-danger"
+                                attrs="{'invisible': [('state', '!=', 'done')]}"/>
+                         <widget name="web_ribbon" text="Can be modified"
+                                attrs="{'invisible': [('state', '!=', 'process')]}"/>
+                    <div class="oe_title">
+                        <h1 class="o_row"><field name="name" readonly="1" required="True" class="field_name"/></h1>
+                        <h2 class="o_row"><field name="description" required="True" class="field_name"
+                                                 placeholder="Description..."/>
+                        </h2>
+                        <h3 class="o_row"><field name="category_id" widget="many2many_tags" required="True"
+                                                 options="{'color_field': 'color'}"
+                                                 placeholder='e.g. "VIP", "Consulting", ...'/></h3>
+                    </div>
+                    <group name="main">
+                        <group name="first" string="Data">
+                            <field name="active" invisible="1"/>
+                            <field name="type_query" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                            <field name="model_id" options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"
+                                   attrs="{'readonly': [('state', '=', 'done')],
+                                   'invisible': [('type_query', '!=', 'simple')],
+                                   'required': [('type_query', '=', 'simple')]}"/>
+                            <field name="model_name" invisible="True"/>
+                        </group>
+                        <group name="second" string="Other info.">
+                            <field name="domain" widget="domain" options="{'model': 'model_name', 'in_dialog': True}"
+                                   attrs="{'readonly': [('state', '=', 'done')]}"/>
+                            <field name="create_uid" readonly="True"/>
+                            <field name="create_date" readonly="True"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Fields" name="fields">
+                            <field name="field_ids" nolabel="1" context="{'default_model': model_name}"
+                                   attrs="{'readonly': [('state', '=', 'done')]}">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="constructor_id" invisible="True"/>
+                                    <field name="model" invisible="True"/>
+                                    <field name="field_id" options="{'no_create': True,
+                                    'no_create_edit':True, 'no_open': True}"/>
+                                    <field name="name"/>
+                                    <field name="field_name"/>
+                                    <field name="export_type"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="constructor_id" invisible="True"/>
+                                        <field name="model" invisible="True"/>
+                                        <field name="field_id" options="{'no_create': True,
+                                        'no_create_edit':True, 'no_open': True}"/>
+                                        <field name="name"/>
+                                        <field name="field_name"/>
+                                        <field name="export_type"/>
+                                    </group>
+                                </form>
+                            </field>
+                            <hr></hr>
+                            <group name="update_data">
+                                <field name="write_uid" readonly="True"/>
+                                <field name="write_date" readonly="True"/>
+                            </group>
+                        </page>
+                        <page string="Other fields" name="other_fields">
+                            <field name="other_field_ids" nolabel="1"
+                                   attrs="{'readonly': [('state', '=', 'done')],
+                                   'invisible': [('type_query', '!=', 'simple')]}">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="constructor_id" invisible="True"/>
+                                    <field name="model" invisible="True"/>
+                                    <field name="field_id" options="{'no_create': True,
+                                    'no_create_edit':True, 'no_open': True}"/>
+                                    <field name="relation_model" invisible="True"/>
+                                    <field name="relation_field_id" options="{'no_create': True,
+                                    'no_create_edit':True, 'no_open': True}"/>
+                                    <field name="name"/>
+                                    <field name="field_name"/>
+                                    <field name="export_type"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="constructor_id" invisible="True"/>
+                                        <field name="model" invisible="True"/>
+                                        <field name="field_id" options="{'no_create': True,
+                                        'no_create_edit':True, 'no_open': True}"/>
+                                        <field name="relation_model" invisible="True"/>
+                                        <field name="relation_field_id" options="{'no_create': True,
+                                        'no_create_edit':True, 'no_open': True}"/>
+                                        <field name="name"/>
+                                        <field name="field_name"/>
+                                        <field name="export_type"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- View Tree constructor.power.bi.data -->
+    <record id="constructor_power_bi_data_view_tree" model="ir.ui.view">
+        <field name="name">constructor.power.bi.data.view.tree</field>
+        <field name="model">constructor.power.bi.data</field>
+        <field name="arch" type="xml">
+            <tree sample="1" decoration-info="state == 'draft'"
+                  decoration-success="state == 'done' and active == True"
+                  decoration-muted="state == 'done' and active == False" decoration-danger="check_many">
+                <field name="name"/>
+                <field name="description"/>
+                <field name="active" invisible="True"/>
+                <field name="type_query"/>
+                <field name="category_id" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                <field name="create_uid"/>
+                <field name="create_date"/>
+                <field name="write_date"/>
+                <field name="check_many" invisible="1"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'"
+                       decoration-success="state == 'done' and active == True"
+                       decoration-muted="state == 'done' and active == False"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- View search Constructor Power Bi Data-->
+    <record id="constructor_power_bi_data_view_search" model="ir.ui.view">
+        <field name="name">constructor.power.bi.data.view.search</field>
+        <field name="model">constructor.power.bi.data</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="type_query"/>
+                <field name="category_id"/>
+                <field name="create_uid"/>
+                <field name="write_uid"/>
+                <field name="model_id"/>
+                <field name="state"/>
+                <filter string="My queries" name="myquery" domain="[('create_uid','=',uid)]"/>
+                <separator/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Done" name="done" domain="[('state','=','done')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Type query" name="group_type_query" domain="[]" context="{'group_by':'type_query'}"/>
+                    <filter string="Category" name="group_category_id" domain="[]" context="{'group_by':'category_id'}"/>
+                    <filter string="Model" name="group_model_id" domain="[]" context="{'group_by':'model_id'}"/>
+                    <filter string="Status" name="group_state" domain="[]" context="{'group_by':'state'}"/>
+                    <filter string="User" name="group_create_uid" domain="[]" context="{'group_by':'create_uid'}"/>
+                    <filter string="Date" name="group_create_date" domain="[]" context="{'group_by':'create_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="constructor_power_bi_data_action" model="ir.actions.act_window">
+        <field name="name">Models BI</field>
+        <field name="res_model">constructor.power.bi.data</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">['|', ('active', '=', True), ('active', '=', False)]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No model data found. Let's create one!
+            </p>
+        </field>
+    </record>
+
+    <!-- View Form power.bi.setting -->
+    <record model="ir.ui.view" id="power_bi_setting_form">
+        <field name="name">power.bi.setting.form</field>
+        <field name="model">power.bi.setting</field>
+        <field name="arch" type="xml">
+            <form string="Settings">
+                <header>
+                    <button name="action_open_wizard" string="Update now" type="object" class="btn-primary" attrs="{'invisible':[('state','=','no_active')]}"/>
+                    <button name="set_not_active" string="Set Not active" type="object"  attrs="{'invisible':[('state','=','no_active')]}"/>
+                    <button name="set_active" string="Set active" type="object" class="btn-primary" attrs="{'invisible':[('state','=','active')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="no_active,active" required="True"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1" required="True"/></h1>
+                    </div>
+                    <group>
+                        <group name="firs_group">
+                            <field name="create_uid" readonly="True"/>
+                            <label for="qty_partition"/>
+                            <div name="qty_partition">
+                                <field name="qty_partition" required="True" attrs="{'readonly':[('state','=','active')]}"
+                                       class="oe_inline" id="qty_partition"/>  <span class="ml8">file(s)</span>
+                            </div>
+                            <label for="time_execution"/>
+                            <div name="time_execution">
+                                <field name="time_execution" required="True" attrs="{'readonly':[('state','=','active')]}"
+                                       class="oe_inline" id="time_execution"/> <span class="ml8">minutes</span>
+                            </div>
+                            <label for="limit_store"/>
+                            <div name="limit_store">
+                                <field name="limit_store" required="True" attrs="{'readonly':[('state','=','active')]}"
+                                       class="oe_inline" id="limit_store"/> <span class="ml8">document(s)</span>
+                            </div>
+                            <label for="size_query"/>
+                            <div name="size_query">
+                                <field name="size_query" required="True" attrs="{'readonly':[('state','=','active')]}"
+                                       class="oe_inline" id="size_query"/> <span class="ml8">record(s)</span>
+                            </div>
+                        </group>
+                        <group name="second_group">
+                            <field name="create_date" readonly="True"/>
+                            <field name="write_date" readonly="True"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="files" string="Files">
+                            <field name="line_ids" readonly="True">
+                                <tree editable="bottom" decoration-info="state == 'draft'"
+                                      decoration-success="state == 'done'" decoration-danger="size_data &gt;= size_parent">
+                                    <field name="setting_id" invisible="True"/>
+                                    <field name="power_bi_id" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="description"/>
+                                    <field name="type_query"/>
+                                    <field name="document_id" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="last_date_update"/>
+                                    <field name="ok_process" optional="show"/>
+                                    <field name="size_data" invisible="1"/>
+                                    <field name="size_parent" invisible="1"/>
+                                    <field name="state" widget="badge"
+                                           decoration-info="state == 'draft'" decoration-success="state == 'done'"
+                                           decoration-danger="size_data &gt;= size_parent"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="setting_id" invisible="True"/>
+                                            <field name="power_bi_id" options="{'no_create': True}"/>
+                                            <field name="description"/>
+                                            <field name="type_query"/>
+                                        </group>
+                                        <group>
+                                            <field name="document_id" options="{'no_create': True}"/>
+                                            <field name="last_date_update"/>
+                                            <field name="ok_process"/>
+                                            <field name="size_data" invisible="1"/>
+                                            <field name="size_parent" invisible="1"/>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- View Tree power.bi.setting -->
+    <record model="ir.ui.view" id="power_bi_setting_tree">
+        <field name="name">power.bi.setting.tree</field>
+        <field name="model">power.bi.setting</field>
+        <field name="arch" type="xml">
+            <tree string="Settings" decoration-info="state == 'active'" decoration-muted = "state == 'no_active'" sample="1">
+                <field name="name"/>
+                <field name="qty_partition"/>
+                <field name="time_execution"/>
+                <field name="limit_store"/>
+                <field name="size_query"/>
+                <field name="create_uid"/>
+                <field name="create_date"/>
+                <field name="write_date"/>
+                <field name="state" decoration-info="state == 'active'" decoration-muted="state == 'no_active'" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_power_bi_setting_action" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">power.bi.setting</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No setting found. Let's create one!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id='constructor_power_bi_menu_principal' name='Power BI' web_icon="powerbi_todoo,static/description/icon.png" groups="group_power_bi_user_admin">
+        <menuitem name="Models BI" id="constructor_power_bi_menu00" sequence="1" groups="group_power_bi_user_admin">
+            <menuitem name="Models BI" id="constructor_power_bi_menu_item00" action="constructor_power_bi_data_action" sequence="1" groups="group_power_bi_user_admin"/>
+        </menuitem>
+        <menuitem name="Configuration" id="constructor_power_bi_menu999" sequence="2" groups="group_power_bi_user_admin">
+            <menuitem name="Workspaces" id="constructor_power_bi_menu_other_item00" action="documents.folder_action" sequence="1" groups="group_power_bi_user_admin"/>
+            <menuitem name="Settings" id="constructor_power_bi_menu_other_setting" action="action_power_bi_setting_action" sequence="2" groups="group_power_bi_user_admin"/>
+        </menuitem>
+    </menuitem>
+</odoo>
