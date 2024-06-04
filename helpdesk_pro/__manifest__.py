@@ -21,8 +21,8 @@
 ##############################################################################
 
 {
-    'name': 'Helpdesk Pro',
-    'version': '16.0.1.0.0',
+    'name': 'Helpdesk',
+    'version': '16.0.1.0.1',
     'category': 'Helpdesk',
     'summary': """Helpdesk Pro: Support, tickets, issues, bugs.""",
     'description': """Improvement to the Helpdesk Tool: support, tickets, issues, bugs.""",
@@ -53,6 +53,6 @@
     'installable': True,
     'auto_install': False,
     'application': True,
-    'price': 35.99,
+    'price': 29.99,
     'currency': 'EUR',
 }
