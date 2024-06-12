@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="md_view_employee_form_inherit" model="ir.ui.view">
+        <field name="name">md.employee.form.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='hr_settings']//group[@name='active_group']//field[@name='user_id']" position="attributes">
+                <attribute name="domain">[]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <template id="create_timesheet" inherit_id="hr_timesheet.portal_my_timesheets" name="Create Timesheet">
+        <xpath expr="//t[@t-set='title']/.." position="after">
+            <a data-bs-toggle="modal" class="btn btn-primary btn_cta mb16" data-bs-target="#timesheet_form">Report time</a>
+            <div class="modal fade " id="timesheet_form" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content mt-5">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">New report time</h5>
+                            <a type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                        <div class="modal-body ">
+                            <form id="timesheet_form" action="/timesheet/form" method="post" class="sheet_select">
+                                <h6 class="text-muted" style="font-size: 14px;">
+                                    <i>Allocate the hours related to your projects, and wait for them to be validated.</i>
+                                </h6>
+                                <section class="s_text_block pt20 pb40 o_colored_level" data-snippet="s_text_block">
+                                    <div class="new_timesheet ">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                        <input type="hidden" name="timesheetdata" t-att-value="timesheet" />
+                                        <input type="hidden" name="submitted" value="1" />
+                                        <input type="hidden" name="task_id" value="" />
+                                        <t t-set="employee" t-value="request.env['hr.employee'].sudo().search([('user_id', '=', request.env.user.id)], limit=1)"/>
+                                        <div t-if="not employee" class="alert alert-danger" role="alert">
+                                            <small class="form-text text-muted">
+                                                <i>To make an allocation of hours, it is required that the authenticated user exists as an employee of the system.</i>
+                                            </small>
+                                        </div>
+                                        <div t-if="employee" class="row" style="font-size:14px;">
+                                            <span class="text-truncate"><i><strong>Employee:</strong> <span t-field="employee.name"></span></i></span>
+                                            <span class="text-truncate"><i><strong>Working Hours:</strong> <span t-field="employee.resource_calendar_id.name"></span></i></span>
+                                            <span class="text-truncate"><i><strong>Hours per day:</strong> <span t-field="employee.resource_calendar_id.hours_per_day"></span></i></span>
+                                        </div>
+                                        <hr/>
+                                        <div class="row m-2">
+                                            <div class="col-lg-3 col-md-3 s_website_form_field s_website_form_custom s_website_form_required">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" for="project">
+                                                    <span class="s_website_form_label_content">Project</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8">
+                                                <t t-set="project_types" t-value="request.env['project.project'].search([])" />
+                                                <select name="project" id="project" required="1" class="form-select s_website_form_input">
+                                                    <option value="">Select a project...</option>
+                                                    <t t-foreach="project_types" t-as="project">
+                                                        <option t-att-value="project.id"><span t-esc='project.name' /></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row m-2" id="task_div">
+                                            <div class="col-lg-3 col-md-3 s_website_form_field s_website_form_custom">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" for="tasks">
+                                                    <span class="s_website_form_label_content">Task</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8">
+                                                <t t-set="all_tasks" t-value="request.env['project.task'].sudo().search([])" />
+                                                <select name="tasks" id="tasks" class="form-select s_website_form_input">
+                                                    <option value="">Select a task...</option>
+                                                    <t t-if="tasks">
+                                                        <t t-foreach="tasks" t-as="task">
+                                                            <option t-att-value="task.id">
+                                                                <t t-esc="task.name" />
+                                                            </option>
+                                                        </t>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <t t-foreach="all_tasks" t-as="task">
+                                                        <!-- Show task if current user is a follower -->
+                                                        <t t-if="task.message_is_follower">
+                                                            <option t-att-value="task.id">
+                                                                <t t-esc="task.name" />
+                                                            </option>
+                                                        </t>
+                                                    </t>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row m-2">
+                                            <div class="col-lg-3 col-md-3 s_website_form_field s_website_form_custom s_website_form_required">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" for="datetoday">
+                                                    <span class="s_website_form_label_content">Date</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <div class="s_website_form_date input-group date" id="datepicker2799371601112408" data-target-input="nearest">
+                                                    <input id="contact" type="text" class="form-control datetimepicker-input s_website_form_input" name="date" required="" data-fill-with="date" data-toggle="datetimepicker" data-target="#datepicker2799371601112408" data-widget="datetime-picker" data-widget-type="date" />
+                                                    <div class="input-group-text" id="date_id" style="height: 38px;" data-target="#datepicker10857370512021913">
+                                                        <i class="fa fa-calendar" contenteditable="false"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row m-2">
+                                            <div class="col-lg-3 col-md-3 s_website_form_field s_website_form_custom s_website_form_required">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" for="duration">
+                                                    <span class="s_website_form_label_content">Time</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8">
+                                                <input type="time" id="duration" name="duration" class="form-time form-control s_website_form_input" required="1" value="00:00"/>
+                                            </div>
+                                        </div>
+                                        <div class="row m-2">
+                                            <div class="col-lg-3 col-md-3 s_website_form_field s_website_form_custom s_website_form_required">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" for="description">
+                                                    <span class="s_website_form_label_content">Description</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8">
+                                                <textarea id="description" name="description" placeholder='Enter description...' class="form-text form-control s_website_form_input" maxlength='1000' required="1"/>
+                                            </div>
+                                    </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" name="save"  id="savetimesheet" class="btn btn-primary">Save</button>
+                                            <button name="delete" type="button"  class="btn btn-danger" data-bs-dismiss="modal" id="close">Close</button>
+                                        </div>
+                                    </div>
+                                </section>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+    <template id="md_portal_task" name="task">
+        <div class="row m-2" id="task_div">
+            <div class="col-lg-3 col-md-3 s_website_form_field s_website_form_custom">
+                <label class="col-form-label col-sm-auto s_website_form_label" for="tasks">
+                    <span class="s_website_form_label_content">Task</span>
+                </label>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <select id="tasks" name="tasks" class="form-select s_website_form_input">
+                    <option value="">Select a task...</option>
+                    <t t-foreach="tasks" t-as="task">
+                        <option t-att-value="task.id">
+                            <t t-esc="task.name" />
+                        </option>
+                    </t>
+                </select>
+            </div>
+        </div>
+    </template>
+    <template id="md_portal_task_inline" name="task1">
+        <td t-if="not groupby == 'task'" class="edit-task-td">
+            <div class="col-lg-8 col-md-8">
+                <t t-set="all_tasks" t-value="request.env['project.task'].sudo().search([])" />
+                <select name="tasks" id="tasks" class="form-control">
+                    <option label=" "></option>
+                    <t t-if="tasks">
+                        <t t-foreach="tasks" t-as="task">
+                            <option t-att-value="task.id">
+                                <t t-esc="task.name" />
+                            </option>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <t t-foreach="all_tasks" t-as="task">
+                        <!-- Show task if current user is a follower -->
+                        <t t-if="task.message_is_follower">
+                            <option t-att-value="task.id">
+                                <t t-esc="task.name" />
+                            </option>
+                        </t>
+                    </t>
+                    </t>
+                </select>
+            </div>
+        </td>
+    </template>
+    <template id="md_portal_my_timesheets_inh" inherit_id="hr_timesheet.portal_my_timesheets" name="Timesheet">
+        <xpath expr="//span[@t-field='timesheet.project_id']/.." position="replace">
+            <td t-if="not groupby == 'project'">
+                <div class="col-lg-8 col-md-8">
+                    <select name="project" id="project" class="form-control edit_project d-none" required="true">
+                        <option label=" "></option>
+                        <t t-foreach="request.env['project.project'].search([])" t-as="project">
+                            <option t-att-value="project.id" t-att-selected="timesheet.project_id.id == project.id">
+                                <span t-esc="project.name" />
+                            </option>
+                        </t>
+                    </select>
+                    <span class="default_display_project" t-field="timesheet.project_id" t-att-title="timesheet.project_id.display_name" />
+                </div>
+            </td>
+        </xpath>
+        <xpath expr="//span[@t-field='timesheet.task_id']/.." position="replace">
+            <td t-if="not groupby == 'task'" class="edit-task-td">
+                <div class="col-lg-8 col-md-8">
+                    <select name="tasks" id="tasks task_div" class="form-control edit_task d-none">
+                        <option label=" "></option>
+                        <t t-foreach="tasks" t-as="task">
+                            <option t-att-value="task.id">
+                                <t t-esc="task.name" />
+                            </option>
+                        </t>
+                    </select>
+                    <span class="default_display_task" t-field="timesheet.task_id" t-att-title="timesheet.task_id.display_name" t-att-value="timesheet.task_id" t-att-data-project_task_id="timesheet.task_id.id" />
+                </div>
+            </td>
+        </xpath>
+        <xpath expr="//tbody[2]//td[hasclass('text-end')]" position="after">
+            <td class="text-end status">
+                <span t-if="timesheet.validated_status == 'draft'"> Draft</span>
+                <span t-if="timesheet.validated_status == 'validated'">Validated</span>
+            </td>
+            <td class="py-0 text-center timesheet_size">
+                <a t-if="timesheet.validated_status == 'draft'" class="btn btn-sm" style="color: #276e72;" id="edit_timesheet"><i class="fa fa-pencil"/> Edit</a>
+                <a t-if="timesheet.validated_status == 'draft'" role="button" class="btn btn-sm" style="color: #276e72;" id="delete_timesheet"><i class="fa fa-trash"/></a>
+            </td>
+        </xpath>
+        <xpath expr="//thead//th[last()]" position="after">
+            <th class="text-end">Status</th>
+        </xpath>
+        <xpath expr="//tbody[2]" position="attributes">
+            <attribute name="style"></attribute>
+            <attribute name="class">tmk_timesheet_table</attribute>
+        </xpath>
+       <xpath expr="//tbody[2]//td[1]" position="before">
+            <input type="hidden" name="timesheet_id" t-att-value="timesheet.id"/>
+            <input type="hidden" name="timesheet_project_id" t-att-value="timesheet.project_id.name"/>
+            <input type="hidden" name="timesheet_task_id" t-att-value="timesheet.task_id.name"/>
+            <input type="hidden" name="timesheet_date" t-att-value="timesheet.date"/>
+            <input type="hidden" name="timesheet_unit_amount" t-att-value="timesheet.unit_amount"/>
+            <input type="hidden" name="timesheet_name" t-att-value="timesheet.name"/>
+            <input type="hidden" name="timesheet_format" t-att-value="request.lang.url_code"/>
+        </xpath>
+        <xpath expr="//tbody" position="inside">
+            <t t-call="timesheet_portal_todoo.portal_edit_timesheet"/>
+        </xpath>
+    </template>
+
+    <template id="hr_timesheet.portal_my_home_timesheet" name="Show Timesheets" customize_show="True"  inherit_id="portal.portal_my_home" priority="45">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-set="portal_service_category_enable" t-value="True"/>
+        </xpath>
+        <div id="portal_service_category" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/hr_timesheet/static/img/timesheet.svg'"/>
+                <t t-set="title">Timesheets</t>
+                <t t-set="url" t-value="'/my/timesheets'"/>
+                <t t-set="text">Review all timesheets related to your projects</t>
+                <t t-set="placeholder_count" t-value="'timesheet_count'"/>
+                <t t-set="config_card" t-value="True"/>
+            </t>
+        </div>
+    </template>
+
+    <template id="portal_edit_timesheet" name="Invoice Payment">
+        <div class="row">
+            <div class="modal fade" id="ModalEditTimesheet" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content mt-5">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ModalEditTimesheetTitle">Edit report time</h5>
+                            <a type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                        <div class="modal-body">
+                            <form id="timesheet_form" action="/my/edit_timesheet" method="post" class="sheet_select">
+                                <h6 class="text-muted" style="font-size: 14px;">
+                                    <i>Modify the hours related to the selected project or task before being validated.</i>
+                                </h6>
+                                <section class="s_text_block pt20 pb40 o_colored_level" data-snippet="s_text_block">
+                                    <div class="new_timesheet">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                        <input type="hidden" name="timesheetdata" t-att-value="timesheet" />
+                                        <input type="hidden" name="submitted" value="1" />
+                                        <input type="hidden" id="timesheet_edit" name="timesheet_edit"/>
+                                        <t t-set="employee" t-value="request.env['hr.employee'].sudo().search([('user_id', '=', request.env.user.id)], limit=1)"/>
+                                        <div t-if="not employee" class="alert alert-danger" role="alert">
+                                            <small class="form-text text-muted">
+                                                <i>To make an allocation of hours, it is required that the authenticated user exists as an employee of the system.</i>
+                                            </small>
+                                        </div>
+                                        <br/>
+                                        <div t-if="employee" class="row" style="font-size:14px;">
+                                            <span class="text-truncate"><i><strong>Employee:</strong> <span t-field="employee.name"></span></i></span>
+                                            <span class="text-truncate"><i><strong>Working Hours:</strong> <span t-field="employee.resource_calendar_id.name"></span></i></span>
+                                            <span class="text-truncate"><i><strong>Hours per day:</strong> <span t-field="employee.resource_calendar_id.hours_per_day"></span></i></span>
+                                        </div>
+                                        <hr/>
+                                        <div class="row m-2">
+                                            <div class="col-lg-3 col-md-3 s_website_form_field s_website_form_custom s_website_form_required">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" for="project_input">
+                                                    <span class="s_website_form_label_content">Project</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8">
+                                                <input name="project_input" id="project_input" required="1" readonly="1" class="form-control s_website_form_input">
+                                                </input>
+                                            </div>
+                                        </div>
+                                        <div class="row m-2" id="task_div">
+                                            <div class="col-lg-3 col-md-3 s_website_form_field s_website_form_custom">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" for="task_input">
+                                                    <span class="s_website_form_label_content">Task</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8">
+                                                <input name="task_input" id="task_input" required="1" readonly="1" class="form-control s_website_form_input">
+                                                </input>
+                                            </div>
+                                        </div>
+                                        <div class="row m-2">
+                                            <div class="col-lg-3 col-md-3 s_website_form_field s_website_form_custom s_website_form_required">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" for="datetoday">
+                                                    <span class="s_website_form_label_content">Date</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <div class="s_website_form_date input-group date" id="datepicker2799371601112408" data-target-input="nearest">
+                                                    <input id="timesheet_date_elem" type="text" class="form-control datetimepicker-input s_website_form_input" name="date" required="" data-fill-with="date" data-toggle="datetimepicker" data-target="#datepicker2799371601112408" data-widget="datetime-picker" data-widget-type="date" />
+                                                    <div class="input-group-text" id="date_id" style="height: 38px;" data-target="#datepicker10857370512021913">
+                                                        <i class="fa fa-calendar" contenteditable="false"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row m-2">
+                                            <div class="col-lg-3 col-md-3 s_website_form_field s_website_form_custom s_website_form_required">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" for="time">
+                                                    <span class="s_website_form_label_content">Time</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8">
+                                                <input type="time" id="time" name="duration" class="form-time form-control s_website_form_input" required="1"/>
+                                            </div>
+                                        </div>
+                                        <div class="row m-2">
+                                            <div class="col-lg-3 col-md-3 s_website_form_field s_website_form_custom s_website_form_required">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" for="note">
+                                                    <span class="s_website_form_label_content">Description</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8">
+                                                <textarea id="note" name="description" placeholder='Enter description...' class="form-text form-control s_website_form_input" maxlength='1000' required="1"/>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" name="save"  id="savetimesheet" class="btn btn-primary">Save</button>
+                                            <button name="delete" type="button"  class="btn btn-danger" data-bs-dismiss="modal" id="close">Close</button>
+                                        </div>
+                                    </div>
+                                </section>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>
