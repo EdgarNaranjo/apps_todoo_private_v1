@@ -201,10 +201,13 @@ class WebsiteTimesheet(http.Controller):
             })
         return values
 
-    @http.route(['/my/delete_timesheet'], type='json', auth="user", website=True)
-    def ts_delete(self, **kw):
-        request.env['account.analytic.line'].sudo().search([('id', '=', kw.get('timesheet_id'))]).unlink()
-        return True
+    @http.route(['/my/delete_timesheet'], type='http', auth="user", website=True)
+    def timesheet_delete(self, **kw):
+        try:
+            request.env['account.analytic.line'].sudo().search([('id', '=', kw.get('timesheet_delete'))]).unlink()
+            return request.redirect('/my/timesheets?groupby=none')
+        except:
+            raise ValidationError(_('Timesheet is not deleted.'))
 
     @http.route(['/my/edit_timesheet'], type='http', auth="user", website=True)
     def timesheet_edit(self, **kw):

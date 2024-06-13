@@ -47,44 +47,9 @@ $('.sheet_select').on('click', '#date_id', function(event) {
 });
 
 $('.tmk_timesheet_table').on("click", "#delete_timesheet", function(event) {
-    var timesheet_id = $(this).parents("tr").find('input[name="timesheet_id"]').val();
-    var dialog = new Dialog(this, {
-        size: 'medium',
-        classes: 'text-center',
-        title: _t('Delete Timesheet '),
-        $content: _t("<div><p>Do you really want to remove this timesheet?</p></div>"),
-        technical: false,
-        buttons: [{
-                text: "No",
-                classes: 'btn-danger',
-                click: function() {},
-                close: true
-            },
-            {
-                text: "Yes",
-                classes: 'btn-primary',
-                click: function() {
-                    $(this).parents("tr").remove();
-                    $.ajax({
-                        type: "POST",
-                        dataType: 'json',
-                        url: '/my/delete_timesheet',
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify({
-                            'jsonrpc': "2.0",
-                            'method': "call",
-                            "params": { 'timesheet_id': timesheet_id }
-                        }),
-                        success: function(data) {
-                            window.location.href = "/my/timesheets?groupby=none";
-
-                        },
-                    });
-                },
-                close: true
-            }
-        ],
-    }).open();
+    var timesheet_id = $(this).parents("tr").find('input[name="timesheet_id"]').val()
+    $('#timesheet_delete').val(timesheet_id);
+    $('#ModalDeleteTimesheet').modal('show');
 });
 
 

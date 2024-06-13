@@ -249,6 +249,7 @@
         </xpath>
         <xpath expr="//tbody" position="inside">
             <t t-call="timesheet_portal_todoo.portal_edit_timesheet"/>
+            <t t-call="timesheet_portal_todoo.portal_delete_timesheet"/>
         </xpath>
     </template>
 
@@ -268,7 +269,7 @@
         </div>
     </template>
 
-    <template id="portal_edit_timesheet" name="Invoice Payment">
+    <template id="portal_edit_timesheet" name="Edit Timesheet">
         <div class="row">
             <div class="modal fade" id="ModalEditTimesheet" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -369,6 +370,40 @@
                                         </div>
                                     </div>
                                 </section>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="portal_delete_timesheet" name="Delete Timesheet">
+        <div class="row">
+            <div class="modal fade" id="ModalDeleteTimesheet" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content mt-5">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ModalEditTimesheetTitle">Delete report time</h5>
+                            <a type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                        <div class="modal-body">
+                            <form id="timesheet_form" action="/my/delete_timesheet" method="post" class="sheet_select">
+                                <h5 class="text-muted">
+                                    <i>Do you really want to remove this timesheet?</i>
+                                </h5>
+                                <div class="new_timesheet">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                    <input type="hidden" name="timesheetdata" t-att-value="timesheet" />
+                                    <input type="hidden" name="submitted" value="1" />
+                                    <input type="hidden" id="timesheet_delete" name="timesheet_delete"/>
+                                    <div class="modal-footer">
+                                        <button type="submit" name="save"  id="savetimesheet" class="btn btn-primary">Yes</button>
+                                        <button name="delete" type="button"  class="btn btn-danger" data-bs-dismiss="modal" id="close">No</button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
