@@ -11,6 +11,31 @@
         </field>
     </record>
 
+    <record id="view_project_invoice_form_inherit" model="ir.ui.view">
+        <field name="name">view.project.invoice.form.inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="hr_timesheet.project_invoice_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='group_time_managment']" position="after">
+                <group name="group_timesheet_portal" string="Portal &amp; Timesheet" col="1" class="row mt16 o_settings_container col-lg-6">
+                    <div>
+                        <div class="o_setting_box" id="allow_timesheets_container">
+                            <div class="o_setting_left_pane">
+                                <field name="allow_timesheets"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="allow_timesheets"/>
+                                <div class="text-muted" id="allow_timesheets_setting">
+                                    Enable the allocation of hours in the portal
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
     <template id="create_timesheet" inherit_id="hr_timesheet.portal_my_timesheets" name="Create Timesheet">
         <xpath expr="//t[@t-set='title']/.." position="after">
             <a data-bs-toggle="modal" class="btn btn-primary btn_cta mb16" data-bs-target="#timesheet_form">Report time</a>
