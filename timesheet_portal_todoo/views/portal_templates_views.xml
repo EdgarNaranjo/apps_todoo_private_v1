@@ -28,6 +28,17 @@
         </field>
     </record>
 
+    <record id="project_project_stage_view_tree_inherit" model="ir.ui.view">
+        <field name="name">project.project.stage.view.tree.inherit</field>
+        <field name="model">project.project.stage</field>
+        <field name="inherit_id" ref="project.project_project_stage_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='fold']" position="after">
+                 <field name="check_final_stage"/>
+            </xpath>
+        </field>
+    </record>
+
     <template id="create_timesheet" inherit_id="hr_timesheet.portal_my_timesheets" name="Create Timesheet">
         <xpath expr="//t[@t-set='title']/.." position="after">
             <a data-bs-toggle="modal" class="btn btn-primary btn_cta mb16" data-bs-target="#timesheet_form"><i class="fa fa-clock-o me-2"/> Report time</a>
