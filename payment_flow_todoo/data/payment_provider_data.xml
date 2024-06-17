@@ -4,7 +4,7 @@
         <field name="name">Flow</field>
         <field name="image_128" type="base64" file="payment_flow_todoo/static/description/icon.png"/>
         <field name="code">flow</field>
-        <field name="module_id" ref="base.module_payment_flow"/>
+        <field name="module_id" ref="base.module_payment_flow_todoo"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="redirect_form_view_id" ref="redirect_form"/>
         <field name="state">test</field>
