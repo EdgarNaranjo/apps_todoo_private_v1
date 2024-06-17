@@ -2,7 +2,7 @@
 
 {
     'name': 'Flow Payment Provider',
-    'version': "17.0.1.0.0",
+    'version': "17.0.1.0.1",
     'summary': 'Chilean Flow Payment Provider',
     'description': """Payment Provider: Chilean Flow Payment Provider""",
     'license': 'AGPL-3',
