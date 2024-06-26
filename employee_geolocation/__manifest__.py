@@ -22,7 +22,7 @@
 
 {
     'name': '[Attendance] Employee geolocation',
-    'version': '16.0.1.0.0',
+    'version': '16.0.1.0.1',
     'category': 'Human Resources',
     'summary': """Employee geolocation from attendance control.""",
     'description': """Employee geolocation from attendance control, every time I check in and out.""",
@@ -43,7 +43,7 @@
         'security/employee_geolocation_security.xml',
         'views/hr_attendance_view.xml'
     ],
-    # 'images': ['static/description/screenshot_lang.png'],
+    'images': ['static/description/screenshot_locatization.png'],
     'installable': True,
     'auto_install': False,
     'application': False,
