@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Rules -->
+    <record id="user_log_rule_all_user" model="ir.rule">
+        <field name="name">User log all user</field>
+        <field name="model_id" ref="model_hr_employee_log"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+    <record id="management_log_rule_all_user" model="ir.rule">
+        <field name="name">Management log all user</field>
+        <field name="model_id" ref="model_hr_employee_log"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('hr_attendance.group_hr_attendance_manager'))]"/>
+    </record>
+</odoo>
