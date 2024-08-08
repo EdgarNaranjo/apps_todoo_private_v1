@@ -1,0 +1,138 @@
+<odoo>
+    <data>
+        <!-- View form inherit hr.employee-->
+        <record model="ir.ui.view" id="hr_employee_view_employee_form_inherited">
+            <field name="name">hr.employee.view.employee.form.inherited</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <field name="history_analytic_ids" invisible="True"/>
+                    <field name="count_affected" invisible="True"/>
+                    <div class="alert alert-warning" role="alert" attrs="{'invisible': [('count_affected', '=', 0)]}">
+                        There are <strong><field name="count_affected" readonly="True"/></strong> records affected by the employee cost update: <button class="oe_link" type="object" name="action_view_analytic_line" role="button" string="View"/>
+                        <br/><button class="oe_link" icon="fa-refresh o_refresh_count" type="object" name="action_update_analytic_line" role="button" string="UPDATE LINES"/>
+                    </div>
+                </xpath>
+                <xpath expr="//group[@name='application_group']" position="after">
+                    <group string="History Cost" colspan="4">
+                        <field name="cost_history_ids" colspan="2" nolabel="1" context="{'employee_id': id}">
+                            <tree limit="10" decoration-success="last_register == True"
+                      decoration-muted="last_register == False">
+                                <field name="employee_id"/>
+                                <field name="previous_cost"/>
+                                <field name="current_cost"/>
+                                <field name="rate_start"/>
+                                <field name="create_uid" string="User"/>
+                                <field name="last_register" invisible="True"/>
+                            </tree>
+                        </field>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_employee_history_cost_view_inherited">
+            <field name="name">hr.employee.history.cost.inherited</field>
+            <field name="inherit_id" ref="hr_timesheet.hr_employee_view_form_inherit_timesheet"/>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='timesheet_cost']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_account_analytic_line_view_inherited">
+            <field name="name">hr.account.analytic.line.view.inherited</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="hr_timesheet.timesheet_view_tree_user"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='unit_amount']" position="after">
+                    <field name="amount" sum="Total"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- View Form employee.cost.history -->
+        <record model="ir.ui.view" id="employee_cost_history_form">
+            <field name="name">employee.cost.history.form</field>
+            <field name="model">employee.cost.history</field>
+            <field name="arch" type="xml">
+                <form string="History">
+                    <sheet>
+                        <group>
+                            <group name="first_group">
+                                <field name="employee_id"/>
+                                <field name="previous_cost" readonly="1"/>
+                                <field name="current_cost"/>
+                            </group>
+                            <group name="second_group">
+                                <field name="rate_start"/>
+                                <field name="last_register" invisible="True"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- View Tree employee.cost.history -->
+        <record model="ir.ui.view" id="employee_cost_history_tree">
+            <field name="name">employee.cost.history.tree</field>
+            <field name="model">employee.cost.history</field>
+            <field name="arch" type="xml">
+                <tree string="Cost History" decoration-success="last_register == True"
+                      decoration-muted="last_register == False">
+                    <field name="employee_id"/>
+                    <field name="previous_cost"/>
+                    <field name="current_cost"/>
+                    <field name="rate_start"/>
+                    <field name="last_register" invisible="True"/>
+                    <field name="create_uid" string="User"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_employee_cost_history" model="ir.actions.act_window">
+            <field name="name">Employee Cost History</field>
+            <field name="res_model">employee.cost.history</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Employee Cost History!
+                </p>
+            </field>
+        </record>
+
+        <!--Action server to update employee's analytic line-->
+        <record id="action_update_analytic_line" model="ir.actions.server">
+            <field name="name">Update Analytic Line</field>
+            <field name="model_id" ref="model_hr_employee"/>
+            <field name="binding_model_id" ref="hr.model_hr_employee"/>
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                    records.update_analytic_line_tree()
+            </field>
+        </record>
+
+        <!--Filter employees with analytic lines to update-->
+        <record id="new_hr_employee_view_search" model="ir.ui.view">
+            <field name="name">new.hr.employee.view.search</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//filter[@name='message_needaction']" position="after">
+                        <separator/>
+                        <filter string="Update Analytic Lines" name="with_count_affected" domain="[('count_affected', '>', 0)]"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <menuitem id="menu_employee_cost_history_item05" name="Employee Cost History"
+                  parent="hr.menu_hr_employee_payroll" sequence="4" action="action_employee_cost_history" />
+    </data>
+</odoo>
