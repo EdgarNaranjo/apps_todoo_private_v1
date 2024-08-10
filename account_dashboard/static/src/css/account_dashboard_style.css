@@ -1,0 +1,95 @@
+.ad_dashboard{
+    background: #F7F7F7;
+    overflow-y: scroll;
+    height: 100%;
+}
+
+.ad_header_box{
+    background-color: #fff;
+    padding: 1.5rem;
+    border: 1px solid rgba(0,0,0,.06);
+    min-height: 120px;
+    border-radius: 12px;
+}
+
+.ad_header_box_left{
+    display: block;
+    width: 85%;
+    float: left;
+}
+
+.ad_header_box_right{
+   width: 15%;
+   float: right;
+}
+
+.ad_chart_container{
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 1.5rem;
+}
+
+.ad_chart_container-padding{
+    padding-top: 1.5rem;
+}
+
+.ad_chart_box{
+    background-color: #fff;
+    padding: 1.5rem;
+    border: 1px solid rgba(0,0,0,.06);
+    min-height: 210px;
+    border-radius: 12px;
+}
+
+.ad_chart_box_left{
+    border-radius: 12px 0px 0px 12px!important;
+}
+
+.ad_chart_box_right{
+    border-radius: 0px 12px 12px 0px!important;
+}
+
+.ad_font_info {
+    color: #1E9FF2!important;
+}
+
+.ad_font_warning {
+    color: #FF9149!important;
+}
+
+.ad_font_success {
+    color: #28D094!important;
+}
+
+.ad_font_danger {
+    color: #FF4961!important;
+}
+
+.ad_font_gray {
+    color: #adabab!important;
+}
+
+.ad_update_dashboard {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    z-index: 99;
+    opacity: 0.5;
+}
+
+.dashboard_list_name {
+    background-color: #FFF;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.dashboard_heading_list {
+    background-color: #f2f0f0;
+    padding: 8px;
+    margin: -11px -11px 0px -11px;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.dashboard_last_box {
+    margin-bottom: 30px;
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_backend" name="Account Dashboard assets backend" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script src="/account_dashboard/static/src/lib/highcharts.js"></script>
+        </xpath>
+    </template>
+
+</odoo>

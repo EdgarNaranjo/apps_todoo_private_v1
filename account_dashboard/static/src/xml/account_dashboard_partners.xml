@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+    <t t-name="account_dashboard_clients_month_template">
+        <div class="panel panel-default dashboard_list_name">
+            <div class="panel-heading dashboard_heading_list">
+                <h3 class="panel-title ad_font_info">Top clients of the month</h3>
+            </div>
+            <div class="panel-body" t-if="partners.length == 0">
+                <p>There are no clients for this month.</p>
+            </div>
+            <table class="table table-condensed" t-if="partners.length != 0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Client</th>
+                        <th class="text-right">Amount invoiced</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="partners" t-as="p">
+                        <td><span t-esc="p.i"/></td>
+                        <td>
+                            <t t-if="p.name">
+                                <span t-esc="p.name"/>
+                            </t>
+                            <t t-else="">
+                                <span t-esc="p.parent_name"/>
+                            </t>
+                        </td>
+                        <td class="text-right"><span t-raw="formater(p.amount)"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </t>
+    <t t-name="account_dashboard_clients_year_template">
+        <div class="panel panel-default dashboard_list_name">
+            <div class="panel-heading dashboard_heading_list">
+                <h3 class="panel-title ad_font_warning">Top clients of the year</h3>
+            </div>
+            <div class="panel-body" t-if="partners.length == 0">
+                <p>There are no clients for this year.</p>
+            </div>
+            <table class="table table-condensed" t-if="partners.length != 0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Client</th>
+                        <th class="text-right">Amount invoiced</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="partners" t-as="p">
+                        <td><span t-esc="p.i"/></td>
+                        <td>
+                            <t t-if="p.name">
+                                <span t-esc="p.name"/>
+                            </t>
+                            <t t-else="">
+                                <span t-esc="p.parent_name"/>
+                            </t>
+                        </td>
+                        <td class="text-right"><span t-raw="formater(p.amount)"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </t>
+    <t t-name="account_dashboard_providers_month_template">
+        <div class="panel panel-default dashboard_list_name">
+            <div class="panel-heading dashboard_heading_list">
+                <h3 class="panel-title ad_font_success">Top Suppliers of the Month</h3>
+            </div>
+            <div class="panel-body" t-if="partners.length == 0">
+                <p>There are no suppliers for this month.</p>
+            </div>
+            <table class="table table-condensed" t-if="partners.length != 0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Supplier</th>
+                        <th class="text-right">Amount Invoiced</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="partners" t-as="p">
+                        <td><span t-esc="p.i"/></td>
+                        <td>
+                            <t t-if="p.name">
+                                <span t-esc="p.name"/>
+                            </t>
+                            <t t-else="">
+                                <span t-esc="p.parent_name"/>
+                            </t>
+                        </td>
+                        <td class="text-right"><span t-raw="formater(p.amount)"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </t>
+    <t t-name="account_dashboard_providers_year_template">
+        <div class="panel panel-default dashboard_list_name">
+            <div class="panel-heading dashboard_heading_list">
+                <h3 class="panel-title ad_font_danger">Top Suppliers of the year</h3>
+            </div>
+            <div class="panel-body" t-if="partners.length == 0">
+                <p>There are no suppliers for this year.</p>
+            </div>
+            <table class="table table-condensed" t-if="partners.length != 0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Supplier</th>
+                        <th class="text-right">Amount Invoiced</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="partners" t-as="p">
+                        <td><span t-esc="p.i"/></td>
+                        <td>
+                            <t t-if="p.name">
+                                <span t-esc="p.name"/>
+                            </t>
+                            <t t-else="">
+                                <span t-esc="p.parent_name"/>
+                            </t>
+                        </td>
+                        <td class="text-right"><span t-raw="formater(p.amount)"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </t>
+</templates>

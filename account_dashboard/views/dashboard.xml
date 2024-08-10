@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="account_dashboard_action" model="ir.actions.client">
+        <field name="name">BI</field>
+        <field name="tag">account_dashboard.dashboard</field>
+    </record>
+
+    <menuitem id="account_dashboard_menu" name="BI" sequence="-1"
+        parent="account_accountant.menu_accounting" action="account_dashboard_action"
+        groups="account_dashboard.group_manager"/>
+</odoo>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="include_taxes_parameter" model="ir.config_parameter">
+        <field name="key">Include taxes on Account Dashboard (1 = True, 0 = False)</field>
+        <field name="value">1</field>
+    </record>
+    <record id="amount_divider_parameter" model="ir.config_parameter">
+        <field name="key">Divisor for Account Dashboard</field>
+        <field name="value">1</field>
+    </record>
+</odoo>

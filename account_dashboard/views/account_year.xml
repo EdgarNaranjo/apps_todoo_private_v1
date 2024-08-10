@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- account.year form view -->
+    <record id="account_year_form_view" model="ir.ui.view">
+        <field name="name">account.year.form.view</field>
+        <field name="model">account.year</field>
+        <field name="arch" type="xml">
+            <form string="BI">
+                <field name="currency_id" invisible="1"/>
+                <header>
+                    <button name="update_data" type="object" string="Update data" icon='fa-download' class="btn-primary" />
+                </header>
+                <sheet>
+                    <div class="oe_button_box pull-right" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options="{'terminology': 'archive'}"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_read_only"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                             <field name="budget_amount"/>
+                         </group>
+                    </group>
+                    <group name="main" col="3">
+                        <group name="sales" string="Sales">
+                            <field name="q1_sales" string="Quarter 1"/>
+                            <field name="q2_sales" string="Quarter 2"/>
+                            <field name="q3_sales" string="Quarter 3"/>
+                            <field name="q4_sales" string="Quarter 4"/>
+                            <field name="total_sales"/>
+                        </group>
+                        <group name="purchases" string="Purchase">
+                            <field name="q1_purchases" string="Quarter 1"/>
+                            <field name="q3_purchases" string="Quarter 3"/>
+                            <field name="q2_purchases" string="Quarter 2"/>
+                            <field name="q4_purchases" string="Quarter 4"/>
+                            <field name="total_purchases"/>
+                        </group>
+                        <group name="budgets" string="Budget">
+                            <field name="q1_budgets" string="Quarter 1"/>
+                            <field name="q2_budgets" string="Quarter 2"/>
+                            <field name="q3_budgets" string="Quarter 3"/>
+                            <field name="q4_budgets" string="Quarter 4"/>
+                            <field name="total_budgets"/>
+                        </group>
+                    </group>
+                    <group name="months" string="Monthly Data">
+                        <field name="month_ids" nolabel="1" colspan="2">
+                            <tree editable="bottom" create="0" delete="0">
+                                <field name="currency_id" invisible="1"/>
+                                <field name="sequence" invisible="1"/>
+                                <field name="quarter" invisible="1"/>
+                                <field name="name"/>
+                                <field name="no_update"/>
+                                <field name="sale_amount" sum="Total Sales"/>
+                                <field name="purchase_amount" sum="Total Purchase"/>
+                                <field name="budget_amount" sum="Total Budgets"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- account.year tree view -->
+    <record id="account_year_tree_view" model="ir.ui.view">
+        <field name="name">account.year.tree.view</field>
+        <field name="model">account.year</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="currency_id" invisible="1"/>
+                <field name="name"/>
+                <field name="q1_sales" string="Q1" sum="Sales Q1"/>
+                <field name="q2_sales" string="Q2" sum="Sales Q2"/>
+                <field name="q3_sales" string="Q3" sum="Sales Q3"/>
+                <field name="q4_sales" string="Q4" sum="Sales Q4"/>
+                <field name="total_sales" sum="Total Sales"/>
+                <field name="q1_purchases" string="Q1" sum="Purchases Q1"/>
+                <field name="q2_purchases" string="Q2" sum="Purchases Q2"/>
+                <field name="q3_purchases" string="Q3" sum="Purchases Q3"/>
+                <field name="q4_purchases" string="Q4" sum="Purchases Q4"/>
+                <field name="total_purchases" sum="Total Purchases"/>
+                <field name="total_budgets" sum="Total Budgets"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="account_year_action" model="ir.actions.act_window">
+        <field name="name">Accounting Year</field>
+        <field name="res_model">account.year</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <menuitem id="account_year_menu" name="BI Configuration" sequence="99"
+        parent="account.menu_finance_configuration" action="account_year_action"/>
+</odoo>

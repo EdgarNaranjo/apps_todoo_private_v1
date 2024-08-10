@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+    <t t-name="account_dashboard_day_sales_template">
+        <div class="ad_header_box">
+            <div class="ad_header_box_left">
+                <h1 class="ad_font_info"><span t-raw="actual_amount"/></h1>
+                <p>Sales of the day | <span class="ad_font_gray">Previous: <span t-raw="past_amount"/></span></p>
+            </div>
+            <div class="ad_header_box_right" t-if="diff_amount != 0">
+                <h1 t-att-class="diff_amount > 0 ? 'ad_font_success' : 'ad_font_danger'">
+                    <i t-att-class="diff_amount > 0 ? 'fa fa-arrow-up' : 'fa fa-arrow-down'" aria-hidden="true"/>
+                </h1>
+                <p><span t-esc="diff_amount"/>%</p>
+            </div>
+        </div>
+    </t>
+    <t t-name="account_dashboard_month_sales_template">
+        <div class="ad_header_box">
+            <div class="ad_header_box_left">
+                <h1 class="ad_font_warning"><span t-raw="actual_amount"/></h1>
+                <p>Sales of the month | <span class="ad_font_gray">Previous: <span t-raw="past_amount"/></span></p>
+            </div>
+            <div class="ad_header_box_right" t-if="diff_amount != 0">
+                <h1 t-att-class="diff_amount > 0 ? 'ad_font_success' : 'ad_font_danger'">
+                    <i t-att-class="diff_amount > 0 ? 'fa fa-arrow-up' : 'fa fa-arrow-down'" aria-hidden="true"/>
+                </h1>
+                <p><span t-esc="diff_amount"/>%</p>
+            </div>
+        </div>
+    </t>
+    <t t-name="account_dashboard_day_purchases_template">
+        <div class="ad_header_box">
+            <div class="ad_header_box_left">
+                <h1 class="ad_font_success"><span t-raw="actual_amount"/></h1>
+                <p>Purchase of the day | <span class="ad_font_gray">Previous: <span t-raw="past_amount"/></span></p>
+            </div>
+            <div class="ad_header_box_right" t-if="diff_amount != 0">
+                <h1 t-att-class="diff_amount > 0 ? 'ad_font_success' : 'ad_font_danger'">
+                    <i t-att-class="diff_amount > 0 ? 'fa fa-arrow-up' : 'fa fa-arrow-down'" aria-hidden="true"/>
+                </h1>
+                <p><span t-esc="diff_amount"/>%</p>
+            </div>
+        </div>
+    </t>
+    <t t-name="account_dashboard_month_purchases_template">
+        <div class="ad_header_box">
+            <div class="ad_header_box_left">
+                <h1 class="ad_font_danger"><span t-raw="actual_amount"/></h1>
+                <p>Purchase of the month | <span class="ad_font_gray">Previous: <span t-raw="past_amount"/></span></p>
+            </div>
+            <div class="ad_header_box_right" t-if="diff_amount != 0">
+                <h1 t-att-class="diff_amount > 0 ? 'ad_font_success' : 'ad_font_danger'">
+                    <i t-att-class="diff_amount > 0 ? 'fa fa-arrow-up' : 'fa fa-arrow-down'" aria-hidden="true"/>
+                </h1>
+                <p><span t-esc="diff_amount"/>%</p>
+            </div>
+        </div>
+    </t>
+</templates>

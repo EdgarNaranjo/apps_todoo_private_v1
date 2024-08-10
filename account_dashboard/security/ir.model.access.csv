@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_year_month,access.account.year.month,model_account_year_month,account_dashboard.group_manager,1,1,1,1
+access_account_year_product,access.account.year.product,model_account_year_product,account_dashboard.group_manager,1,1,1,1
+access_account_year_partner,access.account.year.partner,model_account_year_partner,account_dashboard.group_manager,1,1,1,1
+access_account_year,access.account.year,model_account_year,account_dashboard.group_manager,1,1,1,1

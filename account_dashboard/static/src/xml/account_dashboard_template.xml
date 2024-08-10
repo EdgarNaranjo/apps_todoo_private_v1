@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+    <t t-name="account_dashboard.dashboard">
+        <div class="container-fluid ad_dashboard">
+            <button class="btn btn-primary ad_update_dashboard">Update Dashboard</button>
+            <div class="row">
+                <div id="day_sales" class="col-lg-3 col-md-6 col-sm-6 col-12 mt16"/>
+                <div id="month_sales" class="col-lg-3 col-md-6 col-sm-6 col-12 mt16"/>
+                <div id="day_purchases" class="col-lg-3 col-md-6 col-sm-6 col-12 mt16"/>
+                <div id="month_purchases" class="col-lg-3 col-md-6 col-sm-6 col-12 mt16"/>
+            </div>
+            <div class="row ad_chart_container">
+                <div class="ad_chart_box ad_chart_box_left col-lg-6 col-sm-6 col-12 ad_chart_container-padding">
+                    <div id="year_sales_chart"/>
+                </div>
+                <div class="ad_chart_box ad_chart_box_right col-lg-6 col-sm-6 col-12 ad_chart_container-padding">
+                    <div id="year_purchases_chart"/>
+                </div>
+            </div>
+            <div class="row ad_chart_container">
+                <div class="ad_chart_box col-12">
+                    <div id="year_budgets_chart"/>
+                </div>
+            </div>
+            <div class="row">
+                <div id="total_sales" class="col-lg-3 col-md-6 col-sm-6 col-12 mt16"/>
+                <div id="total_purchases" class="col-lg-3 col-md-6 col-sm-6 col-12 mt16"/>
+                <div id="pending_sales" class="col-lg-3 col-md-6 col-sm-6 col-12 mt16"/>
+                <div id="pending_purchases" class="col-lg-3 col-md-6 col-sm-6 col-12 mt16"/>
+            </div>
+            <div class="row">
+                <div id="top_clients_month" class="col-lg-3 col-md-6 col-12 mt16"/>
+                <div id="top_clients_year" class="col-lg-3 col-md-6 col-12 mt16"/>
+                <div id="top_providers_month" class="col-lg-3 col-md-6 col-12 mt16"/>
+                <div id="top_providers_year" class="col-lg-3 col-md-6 col-12 mt16"/>
+            </div>
+            <div class="row">
+                <div id="top_products_sales_month" class="col-lg-3 col-md-6 col-12 mt16"/>
+                <div id="top_products_sales_year" class="col-lg-3 col-md-6 col-12 mt16"/>
+                <div id="top_products_purchases_month" class="col-lg-3 col-md-6 col-12 mt16"/>
+                <div id="top_products_purchases_year" class="col-lg-3 col-md-6 col-12 mt16"/>
+            </div>
+        </div>
+    </t>
+</templates>
