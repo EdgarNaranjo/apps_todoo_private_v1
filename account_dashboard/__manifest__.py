@@ -3,11 +3,11 @@
 
 {
     'name': 'Account Dashboard',
-    'version': '16.0.1.0.5',
+    'version': '16.0.1.0.6',
     'category': 'Accounting',
     'summary': 'Accounting Dashboard: Improved Accounting View.',
     'description': 'Accounting Dashboard: Enhanced accounting view to aid decision making.',
-    'license': 'AGPL-3',
+    'license': 'LGPL-3',
     'author': "Todooweb (www.todooweb.com)",
     'website': "https://todooweb.com/",
     'contributors': [
