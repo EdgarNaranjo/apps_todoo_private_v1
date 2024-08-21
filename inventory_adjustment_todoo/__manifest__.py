@@ -3,7 +3,7 @@
 
 {
     'name': "Inventory Adjustment on Past Date",
-    'version': '16.0.1.0.0',
+    'version': '17.0.1.0.0',
     'category': 'Inventory/Inventory',
     'summary': """Module to set an inventory adjustment to a past date.""",
     'description': """This module allows you to create an inventory adjustment to a past date.""",
