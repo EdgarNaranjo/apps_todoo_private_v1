@@ -3,7 +3,7 @@
 
 {
     'name': 'Automatic Invoice Delivered',
-    'version': "16.0.1.0.0",
+    'version': "17.0.1.0.0",
     'summary': """Generate invoices automatically if deliveries are validated.""",
     'description': """This module automatically generates and posts invoices when deliveries are validated.""",
     'license': 'LGPL-3',
