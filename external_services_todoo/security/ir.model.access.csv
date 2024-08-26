@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ot_material_line_user,access.ot.material.line.user,model_ot_material_line,,1,1,1,1
+access_operation_line,access_operation_line,model_operation_line,,1,1,1,1
+access_tracking_line,access_tracking_line,model_tracking_line,,1,1,1,1
+access_material_selection_wizard_user,access.material.selection.wizard.user,model_material_selection_wizard,,1,1,1,1
+access_operation_selection_wizard,access_operation_selection_wizard,model_operation_selection_wizard,,1,1,1,1
