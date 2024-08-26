@@ -1,5 +1,5 @@
 # Copyright 2024-TODAY Todooweb (www.todooweb.com)
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# License LGPL-3 or later (https://www.gnu.org/licenses/agpl).
 
 {
     'name': "[Extended] External Services",
@@ -7,7 +7,7 @@
     'author': "Rapsodoo Iberia",
     'website': "https://www.rapsodoo.com/es/",
     'category': 'Industries/Field Services',
-    'license': 'AGPL-3',
+    'license': 'LGPL-3',
     'version': '17.0.1.0.0',
     'depends': [
         'base',
