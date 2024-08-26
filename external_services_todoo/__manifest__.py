@@ -4,9 +4,9 @@
 {
     'name': "[Extended] External Services",
     'summary': 'Changes to adapt the External Services module',
-    'category': 'Industries/Field Services',
+    'category': 'Manufacturing/Field Services',
     'license': 'LGPL-3',
-    'version': '16.0.1.0.0',
+    'version': '16.0.1.0.1',
     'author': "Todooweb (www.todooweb.com)",
     'website': "https://todooweb.com/",
     'contributors': [
