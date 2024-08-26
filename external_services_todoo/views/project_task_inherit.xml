@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- My Tasks: kanban action -->
+    <record id="industry_fsm.project_task_action_fsm" model="ir.actions.act_window">
+        <field name="domain">[('is_work_order', '=', True)]</field>
+        <field name="context">{
+            'fsm_mode': True,
+            'search_default_my_tasks': True,
+            'search_default_planned_future': True,
+            'search_default_planned_today': True,
+            'default_user_ids': [(4, uid)],
+            'default_scale': 'day',
+            'default_is_work_order': True
+        }</field>
+    </record>
+
+    <record id="industry_fsm.project_task_action_fsm_map" model="ir.actions.act_window">
+        <field name="domain">[('is_work_order', '=', True)]</field>
+        <field name="context">{
+            'fsm_mode': True,
+            'search_default_my_tasks': True,
+            'search_default_planned_today': True,
+            'default_user_ids': [(4, uid)],
+            'default_scale': 'day',
+            'default_is_work_order': True
+        }</field>
+    </record>
+
+    <record id="industry_fsm.project_task_action_all_fsm" model="ir.actions.act_window">
+        <field name="domain">[('is_work_order', '=', True)]</field>
+        <field name="context">{
+            'fsm_mode': True,
+            'default_scale': 'week',
+            'default_user_ids': False,
+            'graph_measure': '__count__',
+            'graph_groupbys': ['project_id'],
+            'pivot_measures': ['__count__'],
+            'default_is_work_order': True
+        }</field>
+    </record>
+
+    <record id="industry_fsm.project_task_action_to_schedule_fsm" model="ir.actions.act_window">
+        <field name="domain">[('is_work_order', '=', True)]</field>
+        <field name="context">{
+            'fsm_mode': True,
+            'search_default_schedule': True,
+            'default_user_ids': False,
+            'default_scale': 'week',
+            'default_is_work_order': True
+        }</field>
+    </record>
+
+    <record id="industry_fsm.project_tasks_action_fsm" model="ir.actions.act_window">
+        <field name="domain">[('is_work_order', '=', True)]</field>
+        <field name="context">{
+            'pivot_row_groupby': ['user_ids'],
+            'default_project_id': active_id,
+            'show_project_update': True,
+            'default_is_work_order': True
+        }</field>
+    </record>
+
+    <record id="industry_fsm.project_task_action_fsm_planning_groupby_user" model="ir.actions.act_window">
+        <field name="domain">[('is_work_order', '=', True)]</field>
+        <field name="context" eval="{'fsm_mode': 1, 'task_nameget_with_hours': 1, 'default_scale': 'week', 'default_is_work_order': True}"/>
+    </record>
+
+    <record id="industry_fsm.project_task_action_fsm_planning_groupby_project" model="ir.actions.act_window">
+        <field name="domain">[('is_work_order', '=', True)]</field>
+        <field name="context" eval="{'fsm_mode': 1, 'task_nameget_with_hours': 1, 'default_scale': 'week', 'default_is_work_order': True}"/>
+    </record>
+
+    <record id="view_sale_project_inherit_service_form" model="ir.ui.view">
+        <field name="name">project.task.view.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="is_work_order" widget="boolean_toggle"/>
+            </xpath>
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button name="action_picking_in_task" type="object" class="oe_stat_button" icon="fa-truck" invisible="is_work_order != True">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value"><field name="picking_count"/></span>
+                        <span class="o_stat_text">Pickings</span>
+                    </div>
+                </button>
+                <button name="action_analytic_in_task" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="is_work_order != True">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value"><field name="analytic_count"/></span>
+                        <span class="o_stat_text">Analytical</span>
+                    </div>
+                </button>
+            </xpath>
+            <xpath expr="//page[@name='description_page']" position="after">
+                <page string="Materials" name="material" invisible="is_work_order != True">
+                    <div class="o_row" invisible="is_readonly != False">
+                        <div class="w-50 o_setting_left_pane" >
+                            <button name="action_process_materials"
+                                string="Process Materials"
+                                type="object"
+                                class="btn-primary"/>
+                            <button name="action_mark_done"
+                                string="Mark done"
+                                type="object" style="margin-left:10px !important;"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <div class="o_row">
+                                <field name="purchase_order_filter_ids" invisible="True"/>
+                                <field name="purchase_order_id" options="{'no_create': True}"
+                                       placeholder="Select the Purchase Order to generate Materials" domain="[('id','in', purchase_order_filter_ids)]"/>
+                                <i class="fa fa-long-arrow-right mx-2 oe_edit_only" aria-label="Arrow icon" title="Arrow"/>
+                                <button name="action_po_add_materials"
+                                    string="Add PO Materials"
+                                    type="object"
+                                    class="btn-secondary"/>
+                            </div>
+                        </div>
+                    </div>
+                    <field name="ot_material_ids" widget="one2many" nolabel="1" invisible="is_readonly != False">
+                        <tree editable="bottom"
+                              decoration-info="state == 'new'"
+                              decoration-success="state in ['process', 'done']"
+                              decoration-muted="state == 'block'">
+                            <field name="sequence" readonly="True"/>
+                            <field name="product_id" options="{'no_create': True}" readonly="state != 'new'" required="True"/>
+                            <field name="name" readonly="state != 'new'" required="True"/>
+                            <field name="location_id" domain="[('usage', '=', 'internal')]" options="{'no_create': True}"
+                                   readonly="state != 'new'" required="True"/>
+                            <field name="warehouse_id" column_invisible="True"/>
+                            <field name="location_dest_id" domain="[('usage', '=', 'customer')]"
+                                   options="{'no_create': True}" readonly="state != 'new'" required="True"/>
+                            <field name="lot_id" domain="[('product_id', '=', product_id)]"
+                                   options="{'no_create': True}" readonly="state != 'new'"
+                                   required="required_lot != False" optional="show"/>
+                            <field name="estimated_qty" readonly="state != 'new' or purchase_order_id != False"/>
+                            <field name="product_qty" readonly="state != 'new'" />
+                            <field name="product_uom" readonly="state != 'new'"  required="True"/>
+                            <field name="is_billable" readonly="state != 'new'"  optional="show"/>
+                            <field name="management_stock" optional="hide"/>
+                            <field name="sale_line_id" column_invisible="True"/>
+                            <field name="move_line_id" column_invisible="True"/>
+                            <field name="analytic_line_id" column_invisible="True"/>
+                            <field name="purchase_order_id" optional="hide" readonly="True"/>
+                            <field name="check_process" column_invisible="True"/>
+                            <field name="check_send" optional="hide"/>
+                            <field name="create_date" readonly="True" optional="hide"/>
+                            <field name="write_date" readonly="True" optional="hide"/>
+                            <field name="company_id" column_invisible="1"/>
+                            <field name="is_invisible" column_invisible="True"/>
+                            <field name="is_readonly" column_invisible="True"/>
+                            <field name="required_lot" column_invisible="True"/>
+                            <field name="state" optional="show"  widget="badge" decoration-info="state == 'new'"
+                                   decoration-success="state in ['process', 'done']" decoration-muted="state == 'block'"/>
+                            <button name="action_deprocess" type="object" class="btn-icon fa fa-refresh o_refresh_count"
+                                    invisible="is_invisible != False or is_readonly != False"
+                                    title="Desprocess"/>
+                        </tree>
+                        <form>
+                            <header>
+                                <field name="state" widget="statusbar" required="True"/>
+                            </header>
+                            <sheet>
+                                <group>
+                                    <group>
+                                        <field name="product_id"/>
+                                        <field name="name"/>
+                                        <field name="product_qty"/>
+                                        <field name="product_uom"/>
+                                        <field name="is_billable"/>
+                                    </group>
+                                    <group>
+                                        <field name="location_id"/>
+                                        <field name="location_dest_id"/>
+                                        <field name="company_id"/>
+                                        <field name="currency_id"/>
+                                    </group>
+                                    <group>
+                                        <field name="purchase_order_id"/>
+                                        <field name="purchase_line_id"/>
+                                        <field name="sale_line_id"/>
+                                        <field name="move_line_id"/>
+                                        <field name="analytic_line_id"/>
+                                        <field name="management_stock"/>
+                                    </group>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                    <hr></hr>
+                    <h3 style="color: red;">Tracking</h3>
+                    <field name="tracking_ids" widget="one2many" nolabel="1" readonly="True">
+                        <tree editable="bottom" decoration-info="state == 'draft'"
+                              decoration-success="state == 'full'" decoration-danger="state == 'partial'">
+                            <field name="sequence"/>
+                            <field name="product_id"/>
+                            <field name="picking_id"/>
+                            <field name="product_origin_qty"/>
+                            <field name="picking_return_id"/>
+                            <field name="product_dest_qty"/>
+                            <field name="product_uom"/>
+                            <field name="line_id" column_invisible="True"/>
+                            <field name="is_readonly" column_invisible="True"/>
+                            <field name="state" optional="show"  widget="badge" decoration-info="state == 'draft'"
+                                   decoration-success="state == 'full'" decoration-danger="state == 'partial'"/>
+                        </tree>
+                        <form>
+                            <header>
+                                <field name="state" widget="statusbar" required="True"/>
+                            </header>
+                            <sheet>
+                                <group>
+                                    <group>
+                                        <field name="sequence"/>
+                                        <field name="product_id"/>
+                                        <field name="picking_id" readonly="True"/>
+                                        <field name="product_origin_qty" readonly="True"/>
+                                    </group>
+                                    <group>
+                                        <field name="picking_return_id" readonly="True"/>
+                                        <field name="product_dest_qty" readonly="True"/>
+                                        <field name="product_uom" readonly="True"/>
+                                        <field name="line_id" invisible="True"/>
+                                        <field name="is_readonly" invisible="True"/>
+                                    </group>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                </page>
+                <page string="Operations" name="operations" invisible="is_work_order != True">
+                    <div class="o_row" invisible="is_readonly != False">
+                        <div class="w-50 o_setting_left_pane" >
+                            <button name="action_process_operations"
+                                string="Process lines"
+                                type="object"
+                                class="btn-primary"/>
+                        </div>
+                    </div>
+                    <field name="operation_ids" widget="one2many" nolabel="1" invisible="is_readonly != False">
+                        <tree editable="bottom"
+                              decoration-info="state == 'new'"
+                              decoration-success="state == 'process'"
+                              decoration-muted="state == 'block'">
+                            <field name="product_id" options="{'no_create': True}" readonly="state != 'new'" required="True"
+                                   domain="[('detailed_type','=', 'service')]"/>
+                            <field name="name" readonly="state != 'new'" required="True"/>
+                            <field name="product_qty" readonly="state != 'new'"/>
+                            <field name="product_uom" readonly="state != 'new'" required="True"/>
+                            <field name="is_billable" readonly="state != 'new'"/>
+                            <field name="date_now" readonly="state != 'new'"/>
+                            <field name="check_process" column_invisible="True"/>
+                            <field name="check_send" optional="hide"/>
+                            <field name="create_date" optional="hide"/>
+                            <field name="technical_id" optional="show" options="{'no_create': True}"/>
+                            <field name="write_date" optional="hide"/>
+                            <field name="is_readonly" column_invisible="True"/>
+                            <field name="task_id" column_invisible="True"/>
+                            <field name="state" optional="show"  widget="badge" decoration-info="state == 'new'"
+                                   decoration-success="state == 'process'" decoration-muted="state == 'block'"/>
+                            <button name="action_deprocess" type="object" class="btn-icon fa fa-refresh o_refresh_count"
+                                    invisible="state != 'process' or is_readonly != False" title="Desprocess"/>
+                        </tree>
+                        <form>
+                            <header>
+                                <field name="state" widget="statusbar" required="True"/>
+                            </header>
+                            <sheet>
+                                <group>
+                                    <group>
+                                        <field name="product_id" options="{'no_create': True}"/>
+                                        <field name="name"/>
+                                        <field name="product_qty"/>
+                                    </group>
+                                    <group>
+                                        <field name="product_uom" options="{'no_create': True}"/>
+                                        <field name="is_billable"/>
+                                        <field name="company_id" options="{'no_create': True}"/>
+                                    </group>
+                                    <group>
+                                        <field name="sale_line_id" options="{'no_create': True}"/>
+                                        <field name="analytic_line_id" options="{'no_create': True}"/>
+                                        <field name="technical_id" options="{'no_create': True}"/>
+                                    </group>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//div[hasclass('oe_title')]" position="before">
+                <div class="oe_title pe-0">
+                    <h3 class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex w-100">
+                            <field name="is_fsm" invisible="1"/>
+                            <field name="sequence_name"
+                                   class="o_task_name text-truncate w-100 w-md-75 pe-2" invisible="is_work_order != True" readonly="1"/>
+                        </div>
+                    </h3>
+                </div>
+                <field name="is_readonly" invisible="True"/>
+                <field name="is_invisible" invisible="True"/>
+                <field name="is_invisible_technical" invisible="True"/>
+                <field name="is_template" invisible="True"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="contact_id" invisible="is_work_order != True" readonly="is_readonly != False"/>
+            </xpath>
+            <xpath expr="//field[@name='user_ids']" position="after">
+                <field name="type_order" invisible="is_work_order != True" readonly="is_readonly != False" required="is_work_order != False"/>
+                <field name="is_impediment" widget="boolean_toggle" invisible="is_work_order != True" readonly="is_readonly != False"/>
+                <field name="description_impediment" invisible="is_work_order != True or is_impediment != True"
+                       required="is_impediment !=False" readonly="is_readonly !=False" placeholder="Motive.."/>
+                <field name="in_observation" invisible="is_work_order != True" readonly="is_readonly != False"/>
+                <field name="other_state" invisible="is_work_order != True" readonly="is_readonly != False"/>
+                <field name="count_doc_sign" invisible="True"/>
+            </xpath>
+            <!--attributes-->
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="readonly">is_readonly != False</attribute>
+            </xpath>
+            <xpath expr="//field[@name='project_id']" position="attributes">
+                <attribute name="readonly">is_readonly != False</attribute>
+            </xpath>
+            <xpath expr="//field[@name='user_ids']" position="attributes">
+                <attribute name="readonly">is_readonly != False</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="readonly">is_readonly != False</attribute>
+            </xpath>
+            <xpath expr="//field[@name='date_deadline']" position="attributes">
+                <attribute name="invisible">is_closed != False</attribute>
+                <attribute name="readonly">is_readonly != False</attribute>
+            </xpath>
+            <xpath expr="//field[@name='tag_ids']" position="attributes">
+                <attribute name="readonly">is_readonly != False</attribute>
+            </xpath>
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="analytic_plan_id"  options="{'no_create': True}"/>
+            </xpath>
+            <xpath expr="//field[@name='task_properties']" position="attributes">
+                <attribute name="invisible">project_id != True</attribute>
+                <attribute name="readonly">is_readonly != False</attribute>
+            </xpath>
+            <xpath expr="//field[@name='description']" position="attributes">
+                <attribute name="readonly">is_readonly != False</attribute>
+            </xpath>
+            <xpath expr="//field[@name='child_ids']" position="attributes">
+                <attribute name="readonly">is_readonly != False</attribute>
+            </xpath>
+            <xpath expr="//field[@name='depend_on_ids']" position="attributes">
+                <attribute name="readonly">is_readonly != False</attribute>
+            </xpath>
+            <xpath expr="//field[@name='recurring_task']" position="attributes">
+                <attribute name="readonly">is_readonly != False</attribute>
+            </xpath>
+            <xpath expr="//span[@id='start_rating_buttons']" position="before">
+                <button class="oe_stat_button"
+                        type="object" name="action_view_so" icon="fa-dollar"
+                        string="Sales Order" invisible="is_invisible == True" groups="sales_team.group_sale_salesman_all_leads"/>
+                <button class="oe_stat_button"
+                        type="object" name="action_view_invoices" icon="fa-pencil-square-o"
+                        string="Invoices" invisible="is_invisible == True" groups="sales_team.group_sale_salesman_all_leads"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="options">{'always_reload': True}</attribute>
+                <attribute name="context">{'res_partner_search_mode': 'customer'}</attribute>
+            </xpath>
+            <xpath expr="//div[@id='date_deadline_and_recurring_task']" position="after">
+                <field name="is_readonly" invisible="True"/>
+                <field name="sale_order_id"  invisible="True" readonly="is_readonly == True"/>
+                <field name="order_id" options='{"no_create": True}' readonly="is_readonly == True"/>
+                <field name="sale_line_id" invisible="1" groups="!sales_team.group_sale_salesman" string="Testing" options='{"no_open": True}' readonly="1" context="{'create': False, 'edit': False, 'delete': False}"/>
+                <field name="sale_line_id" invisible="1" groups="sales_team.group_sale_salesman" string="Testing Item" options='{"no_create": True}' readonly="0" context="{'create': False, 'edit': False, 'delete': False, 'with_price_unit': True}"/>
+                <field name="tag_order_ids" widget="many2many_tags"
+                       options="{'color_field': 'color', 'no_create_edit': True}" readonly="is_readonly == True"/>
+            </xpath>
+        </field>
+    </record>
+
+       <!--View tree inherit project.task Kanban-->
+    <record id="project_task_view_kanban_services_inherit" model="ir.ui.view">
+        <field name="name">project.task.kanban.services.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//strong[hasclass('o_kanban_record_title')]" position="after">
+                <span><br/>
+                    <field name="sequence_name"/>
+                </span>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- View tree inherit project.task TREE-->
+    <record model="ir.ui.view" id="project_view_task_tree2_services_inherit">
+        <field name="name">project.view.task.tree2.services.inherit</field>
+        <field name="inherit_id" ref="project.view_task_tree2"/>
+        <field name="model">project.task</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="sequence_name" optional="show"/>
+            </xpath>
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="is_work_order" widget="boolean_toggle" readonly="1" optional="hide"/>
+                <field name="is_impediment" widget="boolean_toggle" readonly="1" optional="hide"/>
+                <field name="analytic_plan_id" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- View form inherit Services project.task TREE-->
+    <record id="project_task_view_list_services_external_inherit" model="ir.ui.view">
+        <field name="name">project.task.tree.services.external.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="industry_fsm.project_task_view_list_fsm"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="sequence_name" optional="show"/>
+            </field>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="is_work_order" readonly="1" widget="boolean_toggle" optional="hide"/>
+                <field name="is_impediment" widget="boolean_toggle" readonly="1" optional="hide"/>
+                <field name="analytic_plan_id" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="project_task_view_form2_services_external_inherit" model="ir.ui.view">
+        <field name="name">project.task.form2.services.external.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="industry_fsm_report.view_task_form2_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_fsm_validate'][hasclass('btn-primary')]" position="after">
+                <field name="is_work_order" invisible="True"/>
+            </xpath>
+            <xpath expr="//button[@name='action_preview_worksheet'][hasclass('btn-secondary')]" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_preview_worksheet'][hasclass('btn-primary')]" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_send_report'][hasclass('btn-primary')]" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_send_report'][hasclass('btn-secondary')]" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//field[@name='worksheet_template_id']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_send_report'][hasclass('btn-primary')]" position="after">
+                <button class="btn-primary" name="action_services_send" type="object" string="Send report"
+                        invisible="not is_work_order" data-hotkey="r"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_quick_create_task_form_fsm_services" model="ir.ui.view">
+        <field name="name">view.quick.create.task.form.fsm.service</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="industry_fsm.quick_create_task_form_fsm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="is_template" invisible="True"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="required">is_template != True</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="project_task_view_search_services_inherit" model="ir.ui.view">
+        <field name="name">project.task.view.search.services.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_search_form"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="sequence_name"/>
+            </field>
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="filter_domain">['|', ('name', 'ilike', self), ('sequence_name', 'ilike', self)]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="project_task_service_view_search_services_inherit" model="ir.ui.view">
+        <field name="name">project.task.service.view.search.services.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="industry_fsm.project_task_view_search_fsm"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="sequence_name"/>
+            </field>
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="filter_domain">['|', ('name', 'ilike', self), ('sequence_name', 'ilike', self)]</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

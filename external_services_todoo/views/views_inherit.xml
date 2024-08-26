@@ -1,0 +1,196 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="view_project_project_edit_services_inherit" model="ir.ui.view">
+            <field name="name">view.project.project.edit.services.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tag_ids']" position="after">
+                    <field name="is_template" widget="boolean_toggle"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_project_task_type_form_service_inherit" model="ir.ui.view">
+            <field name="name">view.project.task.type.form.service.inherit</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_edit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='fold']" position="after">
+                    <field name="is_last"/>
+                    <field name="is_locked"/>
+                    <field name="is_required"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_project_task_type_tree_service_inherit" model="ir.ui.view">
+            <field name="name">view.project.task.type.tree.service.inherit</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='fold']" position="before">
+                    <field name="sequence" optional="show"/>
+                </xpath>
+                <xpath expr="//field[@name='fold']" position="after">
+                    <field name="is_last" optional="show"/>
+                    <field name="is_locked" optional="show"/>
+                    <field name="is_required" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_location_form_seguas_inherit" model="ir.ui.view">
+            <field name="name">view.location.form.seguas.inherit</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='usage']" position="after">
+                    <field name="is_material" invisible="usage != 'customer'"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_picking_form_services_inherit" model="ir.ui.view">
+            <field name="name">view.picking.form.services.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="picking_reference"/>
+                    <field name="task_id" options="{'no_create': True}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_picking_tree_services_inherit" model="ir.ui.view">
+            <field name="name">view.picking.tree.services.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="picking_reference" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="product_product_view_form_seguas_inherit" model="ir.ui.view">
+            <field name="name">product.product.view.form.seguas.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_tag_ids']" position="after">
+                    <field name="location_info"
+                           invisible="product_tmpl_id == False"
+                           force_save="1"
+                           placeholder="Describe here the Location's detail"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="product_template_view_form_services_inherit" model="ir.ui.view">
+            <field name="name">product.template.view.form.services.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='detailed_type']" position="before">
+                    <field name="name_short" required="True"/>
+                </xpath>
+                <div name="options" position="inside">
+                    <span class="d-inline-block">
+                        <field name="can_movility"/>
+                        <label for="can_movility"/>
+                    </span>
+                </div>
+            </field>
+        </record>
+
+        <record id="view_order_form_external_services_inherit" model="ir.ui.view">
+            <field name="name">sale.order.form.external.services.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom_qty']" position="before">
+                    <field name="location_id" readonly="True" optional="show"/>
+                </xpath>
+                <xpath expr="//group[@name='partner_details']" position="inside">
+                    <field name="warehouse_id" options="{'no_create': True}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="sale_order_tree_external_services_inherit" model="ir.ui.view">
+            <field name="name">sale.order.tree.external.services.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="before">
+                    <field name="signed_on" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="sale_order_tree_onboarding_services_inherit" model="ir.ui.view">
+            <field name="name">sale.order.tree.onboarding.services.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="before">
+                    <field name="signed_on" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="purchase_order_kpis_tree_services_inherit" model="ir.ui.view">
+            <field name="name">purchase.order.kpis.tree.services.inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_status']" position="after">
+                    <field name="is_return_picking" optional="show" widget="boolean_toggle"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="purchase_order_view_tree_services_inherit" model="ir.ui.view">
+            <field name="name">purchase.order.view.tree.services.inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_status']" position="after">
+                    <field name="is_return_picking" optional="show" widget="boolean_toggle"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="purchase_order_view_form_services_inherit" model="ir.ui.view">
+            <field name="name">purchase.order.view.form.services.inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
+                    <field name="task_id" options="{'no_create': True}" domain="[('is_work_order','=',True)]" context="{'tree_view_ref': 'external_services_todoo.project_view_task_tree2_services_inherit'}"/>
+                    <field name="code_partner" invisible="True"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_ref']" position="after">
+                    <field name="task_id" readonly="state == 'purchase'" options="{'no_create': True}"
+                           domain="[('is_work_order','=',True)]"/>
+                    <field name="sequence_name"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_stock_move_line_detailed_operation_tree_lot_services" model="ir.ui.view">
+        <field name="name">stock.move.line.operations.tree.lot.services</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lot_id']" position="before">
+                <field name="lot_task_id" optional="show" options="{'no_create': True}"
+                       context="{'default_product_id': product_id, 'default_company_id': company_id, 'active_picking_id': picking_id}"/>
+            </xpath>
+        </field>
+        </record>
+    </data>
+</odoo>

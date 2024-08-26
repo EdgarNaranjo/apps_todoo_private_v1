@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Reports PDF -->
+
+        <template id="worksheet_custom_page_2" inherit_id="industry_fsm_report.worksheet_custom_page">
+            <xpath expr="//div[@name='worksheet_task_timesheet']" position="before">
+                <br/>
+                <h3 class="mt-4" >
+                    <span t-field="doc.sequence_name"/> <span t-field="doc.name"/>
+                </h3>
+                <br/>
+                <t t-if="doc.description">
+                    <h3>Description</h3>
+                    <div>
+                        <span t-field="doc.description"/>
+                    </div>
+                    <br/>
+                </t>
+                <div name="materials">
+                    <t t-if="doc.ot_material_ids and doc.is_work_order">
+                        <t t-set="materials" t-value="doc.ot_material_ids.filtered(lambda i: i.product_qty > 0)"/>
+                        <t t-if="materials">
+                            <h3>Materials</h3>
+                            <div t-attf-class="#{'table-responsive-sm' if report_type != 'pdf' else ''}">
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-start">Description</th>
+                                        <th class="text-end">Qty</th>
+                                        <th class="text-end">UdM</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="sale_tbody">
+                                    <t t-foreach="materials" t-as="material">
+                                        <tr>
+                                            <td class="text-start">
+                                                <span t-field="material.name"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-field="material.product_qty"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-field="material.product_uom.name"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                        </t>
+                    </t>
+                </div>
+                <br/>
+                <div name="operations">
+                    <t t-if="doc.operation_ids and doc.is_work_order">
+                        <t t-set="operations" t-value="doc.operation_ids.filtered(lambda i: i.product_qty > 0)"/>
+                        <t t-if="operations">
+                            <h3>Operations</h3>
+                            <div t-attf-class="#{'table-responsive-sm' if report_type != 'pdf' else ''}">
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-start">Description</th>
+                                        <th class="text-end">Qty</th>
+                                        <th class="text-end">UdM</th>
+                                        <th class="text-end">Date</th>
+                                        <th class="text-end">Technician</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="sale_tbody">
+                                    <t t-foreach="operations" t-as="line">
+                                        <tr>
+                                            <td class="text-start">
+                                                <span t-field="line.name"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-field="line.product_qty"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-field="line.product_uom.name"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-field="line.date_now"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-field="line.technical_id"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                        </t>
+                    </t>
+                </div>
+                <br/>
+            </xpath>
+        </template>
+
+        <template id="worksheet_custom_filter_page">
+            <div class="page">
+                <div class="row">
+                    <div t-attf-class="{{'col-6' if report_type == 'pdf' else 'col-md-6 col-12'}}">
+                        <t t-foreach="doc.user_ids" t-as="user">
+                            <div class="mb-3">
+                                <div><strong>Worker: </strong></div>
+                                <div t-out="user" t-options='{
+                                    "widget": "contact",
+                                    "fields": ["name", "address", "phone", "email"]}'
+                                />
+                            </div>
+                        </t>
+                    </div>
+                    <div t-attf-class="{{('col-6' if report_type == 'pdf' else 'col-md-6 col-12') + ' mb-3'}}">
+                        <t t-if="doc.partner_id">
+                            <div><strong>Customer: </strong></div>
+                            <div t-out="doc.partner_id" t-options='{
+                                "widget": "contact",
+                                "fields": ["name", "address", "phone", "email"]}'
+                            />
+                        </t>
+                    </div>
+                </div>
+                <br/>
+                <h3 class="mt-4" >
+                    <span t-field="doc.sequence_name"/> <span t-field="doc.name"/>
+                </h3>
+                <br/>
+                <t t-if="doc.description">
+                    <h3>Description</h3>
+                    <div>
+                        <span t-field="doc.description"/>
+                    </div>
+                    <br/>
+                </t>
+                <div name="materials">
+                    <t t-if="doc.ot_material_ids and doc.is_work_order">
+                        <t t-set="materials" t-value="doc.ot_material_ids.filtered(lambda i: i.product_qty > 0 and not i.check_send)"/>
+                        <t t-if="materials">
+                            <h3>Materials</h3>
+                            <div t-attf-class="#{'table-responsive-sm' if report_type != 'pdf' else ''}">
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-start">Description</th>
+                                        <th class="text-end">Qty</th>
+                                        <th class="text-end">UdM</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="sale_tbody">
+                                    <t t-foreach="materials" t-as="material">
+                                        <tr>
+                                            <td class="text-start">
+                                                <span t-field="material.name"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-field="material.product_qty"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-field="material.product_uom.name"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                        </t>
+                    </t>
+                </div>
+                <br/>
+                <div name="operations">
+                    <t t-if="doc.operation_ids and doc.is_work_order">
+                        <t t-set="operations" t-value="doc.operation_ids.filtered(lambda i: i.product_qty > 0 and not i.check_send)"/>
+                        <t t-if="operations">
+                            <h3>Operations</h3>
+                            <div t-attf-class="#{'table-responsive-sm' if report_type != 'pdf' else ''}">
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-start">Description</th>
+                                        <th class="text-end">Qty</th>
+                                        <th class="text-end">UdM</th>
+                                        <th class="text-end">Date</th>
+                                        <th class="text-end">Technician</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="sale_tbody">
+                                    <t t-foreach="operations" t-as="line">
+                                        <tr>
+                                            <td class="text-start">
+                                                <span t-field="line.name"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-field="line.product_qty"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-field="line.product_uom.name"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-field="line.date_now"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-field="line.technical_id"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                        </t>
+                    </t>
+                </div>
+                <br/>
+                <div name="worksheet_task_timesheet">
+                    <t t-set='is_uom_day' t-value='doc.timesheet_ids._is_timesheet_encode_uom_day()'/>
+                    <t t-if="doc.allow_timesheets and doc.timesheet_ids">
+                        <h2>Timesheets</h2>
+                        <div t-attf-class="#{'table-responsive-sm' if report_type != 'pdf' else ''}">
+                        <table class="table table-sm o_main_table">
+                            <thead>
+                                <tr>
+                                    <th class="text-start">Date</th>
+                                    <th class="text-start">Worker</th>
+                                    <th class="text-start">Description</th>
+                                    <th t-if="is_uom_day" class="text-end">Days Spent</th>
+                                    <th t-else="" class="text-end">Hours Spent</th>
+                                </tr>
+                            </thead>
+                            <tbody class="sale_tbody">
+                                <t t-foreach="doc.timesheet_ids" t-as="line">
+                                    <tr t-att-style="'background-color: #F1F1F1;' if line_index % 2 == 0 else ''">
+                                        <td>
+                                            <span t-field="line.date"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.employee_id.name"/>
+                                        </td>
+                                        <td class="text-start">
+                                            <span t-field="line.display_name"/>
+                                        </td>
+                                        <td class="text-end">
+                                            <t t-if="is_uom_day">
+                                                <span t-out="line._convert_hours_to_days(line.unit_amount)" t-options='{"widget": "timesheet_uom"}'/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-out="line.unit_amount" t-options="{'widget': 'float_time'}"/>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <div class="row justify-content-end">
+                            <div t-attf-class="#{'col-auto' if report_type != 'html' else 'col-sm-2'}">
+                                <table class="table table-sm">
+                                    <tr class="border-black o_total">
+                                        <td colspan="4" class="text-end">
+                                            <strong class="me-2">Total</strong>
+                                            <t t-if="is_uom_day">
+                                                <t t-out="line._convert_hours_to_days(doc.effective_hours)"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-field="doc.effective_hours" t-options='{"widget": "float_time"}'/>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    </t>
+                </div>
+            </div>
+        </template>
+
+        <template id="worksheet_custom_filter">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <t t-call="external_services_todoo.worksheet_custom_filter_page" t-lang="doc.partner_id.lang"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="task_custom_filter_report" model="ir.actions.report">
+            <field name="name">Field Service unprocessed</field>
+            <field name="model">project.task</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">external_services_todoo.worksheet_custom_filter</field>
+            <field name="report_file">external_services_todoo.worksheet_custom_filter</field>
+            <field name="print_report_name">'%s %s - %s (%s)' % (object.sequence_name, object.name, object.partner_id.name, str(object.count_doc_sign))</field>
+            <field name="binding_model_id" ref="model_project_task"/>
+            <field name="binding_type">report</field>
+        </record>
+
+    </data>
+</odoo>
