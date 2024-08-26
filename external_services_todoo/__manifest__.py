@@ -1,12 +1,12 @@
 # Copyright 2024-TODAY Todooweb (www.todooweb.com)
-# License LGPL-3 or later (https://www.gnu.org/licenses/agpl).
+# License LGPL-3 or later (https://www.gnu.org/licenses/lgpl).
 
 {
     'name': "[Extended] External Services",
     'summary': 'Changes to adapt the External Services module',
-    'category': 'Industries/Field Services',
+    'category': 'Manufacturing/Field Services',
     'license': 'LGPL-3',
-    'version': '17.0.1.0.0',
+    'version': '17.0.1.0.1',
     'author': "Todooweb (www.todooweb.com)",
     'website': "https://todooweb.com/",
     'contributors': [
