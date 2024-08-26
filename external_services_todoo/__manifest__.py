@@ -4,11 +4,17 @@
 {
     'name': "[Extended] External Services",
     'summary': 'Changes to adapt the External Services module',
-    'author': "Rapsodoo Iberia",
-    'website': "https://www.rapsodoo.com/es/",
     'category': 'Industries/Field Services',
     'license': 'LGPL-3',
     'version': '17.0.1.0.0',
+    'author': "Todooweb (www.todooweb.com)",
+    'website': "https://todooweb.com/",
+    'contributors': [
+        "Antonio David <antoniodavid8@gmail.com>",
+        "Equipo Dev <devtodoo@gmail.com>",
+        "Edgar Naranjo <edgarnaranjof@gmail.com>",
+    ],
+    'support': 'devtodoo@gmail.com',
     'depends': [
         'base',
         'sale',
