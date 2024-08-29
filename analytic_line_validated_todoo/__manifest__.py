@@ -4,7 +4,7 @@
     'version': '17.0.1.0.0',
     'summary': 'Do not delete analytic lines once they are validated.',
     'description': """Do not delete analytic lines once they are validated.""",
-    'license': 'AGPL-3',
+    'license': 'LGPL-3',
     'author': "ToDOO Web (www.todooweb.com)",
     'category': 'Services/Timesheets',
     'website': "https://todooweb.com/",
