@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 
 LIST_FIELD = ['boolean', 'one2many', 'many2many', 'binary', 'html']
 LIST_NOT = [
-    'id',
+    #'id',
     '__last_update',
     'create_date',
     'create_uid',

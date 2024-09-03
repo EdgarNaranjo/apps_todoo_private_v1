@@ -22,7 +22,7 @@
 
 {
     'name': 'Power BI Connector',
-    'version': '16.0.1.0.1',
+    'version': '16.0.1.0.2',
     'category': 'Tools/Tools',
     'summary': """Odoo Power BI Connector""",
     'description': """Connected odoo in Power BI: RRHH, Proyect, Sales, Purchase, Accounting""",
