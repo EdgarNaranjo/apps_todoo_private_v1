@@ -3,7 +3,7 @@
 
 {
     'name': 'Account Dashboard',
-    'version': '16.0.1.0.6',
+    'version': '16.0.1.0.7',
     'category': 'Accounting',
     'summary': 'Accounting Dashboard: Improved Accounting View.',
     'description': 'Accounting Dashboard: Enhanced accounting view to aid decision making.',

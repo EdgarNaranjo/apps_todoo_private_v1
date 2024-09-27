@@ -204,9 +204,7 @@ class AccountYear(models.Model):
             }
             for month in record.month_ids:
                 quarters['%d_sales' % month.quarter] += month.sale_amount
-                quarters[
-                    '%d_purchases' % month.quarter
-                ] += month.purchase_amount
+                quarters['%d_purchases' % month.quarter] += month.purchase_amount
                 quarters['%d_budgets' % month.quarter] += month.budget_amount
             for quarter, value in quarters.items():
                 record['q%s' % quarter] = value
@@ -257,7 +255,7 @@ class AccountYear(models.Model):
                     invoice.move_type in ['in_invoice', 'in_refund']
                     and invoice.invoice_date
                 ):
-                    record.month_ids[index].purchase_amount += amount
+                    record.month_ids[index].purchase_amount += - amount
                 else:
                     record.month_ids[index].sale_amount += amount
             record.compute_data()
@@ -314,6 +312,7 @@ class AccountYear(models.Model):
 
     @api.model
     def get_period_amount(self, invoice_type, start, end):
+        total_amount = 0
         include_taxes = bool(
             int(self.env.ref('account_dashboard.include_taxes_parameter').value)
         )
@@ -325,14 +324,10 @@ class AccountYear(models.Model):
                 ('state', 'not in', ['draft', 'cancel']),
             ]
         )
-        total_amount = 0
-        for inv in invoices:
-            amount = (
-                inv.amount_total_signed
-                if include_taxes
-                else inv.amount_untaxed_signed
-            )
-            total_amount += amount
+        if invoices.filtered(lambda e: e.move_type in ['in_invoice', 'in_refund']):
+            total_amount = - sum(inv.amount_total_signed if include_taxes else inv.amount_untaxed_signed for inv in invoices)
+        else:
+            total_amount = sum(inv.amount_total_signed if include_taxes else inv.amount_untaxed_signed for inv in invoices)
         return total_amount
 
     @api.model
@@ -479,10 +474,16 @@ class AccountYear(models.Model):
                 ('state', 'not in', ['draft', 'cancel', 'paid']),
             ]
         )
-        return (
-            sum(inv.amount_residual_signed for inv in pending_docs),
-            len(pending_docs),
-        )
+        if pending_docs.filtered(lambda e: e.move_type in ['in_invoice', 'in_refund']):
+            return (
+                - sum(inv.amount_residual_signed for inv in pending_docs),
+                len(pending_docs),
+            )
+        else:
+            return (
+                sum(inv.amount_residual_signed for inv in pending_docs),
+                len(pending_docs),
+            )
 
     @api.model
     def footer_data(self, mode, total=True):
@@ -543,11 +544,10 @@ class AccountYear(models.Model):
         )
         partners = {}
         for invoice in invoices:
-            amount = (
-                invoice.amount_total_signed
-                if include_taxes
-                else invoice.amount_untaxed_signed
-            )
+            if invoice.move_type in ['in_invoice', 'in_refund']:
+                amount = - (invoice.amount_total_signed if include_taxes else invoice.amount_untaxed_signed)
+            else:
+                amount = (invoice.amount_total_signed if include_taxes else invoice.amount_untaxed_signed)
             if invoice.partner_id not in partners:
                 partners[invoice.partner_id] = amount
             else:
