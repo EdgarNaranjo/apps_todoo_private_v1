@@ -49,8 +49,6 @@
         'point_of_sale._assets_pos': [
             'pos_vantiv_tripos_cloud/static/src/js/app/**/*',
             'pos_vantiv_tripos_cloud/static/src/js/override/**/*',
-            # 'pos_vantiv_tripos_cloud/static/src/xml/**/*',
-            # 'pos_vantiv_tripos_cloud/static/src/css/**/*',
         ],
     },
     'images': [
