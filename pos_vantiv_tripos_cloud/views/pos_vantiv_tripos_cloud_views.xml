@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<odoo>
+
+        <record id="view_pos_vantiv_tripos_cloud_configuration_form" model="ir.ui.view">
+            <field name="name">Vantiv triPOS Cloud Configurations</field>
+            <field name="model">pos_vantiv_tripos_cloud.configuration</field>
+            <field name="arch" type="xml">
+                <form string="Express API Credentials">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" />
+                            <h1>
+                                <field name="name" />
+                            </h1>
+
+                        </div>
+                        <group>
+                            <field name="is_production" label="Is Production?" />
+                        </group>
+                        <div>
+                            <p>
+                                <i>triPOS Cloud Configurations</i> define what Express API Credentials will be used when
+                                processing credit card transactions in the Point Of Sale. Setting up a triPOS Cloud
+                                configuration will enable you to allow payments with various credit cards
+                                (eg. Visa, MasterCard, Discovery, American Express, ...). After setting up this
+                                configuration you should associate it with a Point Of Sale payment method.
+                            </p>
+                        </div>
+                        <group col="2">
+                            <field name="express_api_credentials_account_id" />
+                            <field name="express_api_credentials_account_token" />
+                            <field name="express_api_credentials_application_id" />
+                            <field name="express_api_credentials_acceptor_id" />
+                            <field name="express_api_credentials_application_name" />
+                            <field name="express_api_credentials_application_version" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_pos_vantiv_tripos_cloud_configuration_tree" model="ir.ui.view">
+            <field name="name">triPOS Cloud Configurations</field>
+            <field name="model">pos_vantiv_tripos_cloud.configuration</field>
+            <field name="arch" type="xml">
+                <tree string="Express API Credentials">
+                    <field name="name" />
+                    <field name="express_api_credentials_account_id" />
+                    <field name="express_api_credentials_account_token" />
+                    <field name="express_api_credentials_application_id" />
+                    <field name="express_api_credentials_acceptor_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_configuration_form" model="ir.actions.act_window">
+            <field name="name">triPOS Cloud Configurations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pos_vantiv_tripos_cloud.configuration</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                Configure your Express API Credentials
+                </p>
+            </field>
+        </record>
+
+
+        <record id="pos_payment_method_view_form" model="ir.ui.view">
+            <field name="name">Payment Method</field>
+            <field name="model">pos.payment.method</field>
+            <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='use_payment_terminal']" position="after">
+                    <field name="pos_vantiv_tripos_cloud_config_id" invisible="use_payment_terminal != 'tripos_vantiv'" required="use_payment_terminal == 'tripos_vantiv'"/>
+                </xpath>
+            </field>
+        </record>
+
+
+</odoo>
