@@ -68,7 +68,6 @@ export class PaymentVantivTriposCloud extends PaymentInterface {
             'amount_total': line.amount,
             'transaction_type'  : 'Credit',
             'transaction_code'  : 'Sale',
-            'invoice_no'        : self.pos.get_order().uid.replace(/-/g,''),
         };
 
         return data;
