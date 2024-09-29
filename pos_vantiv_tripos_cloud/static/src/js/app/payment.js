@@ -72,13 +72,6 @@ export class PaymentVantivTriposCloud extends PaymentInterface {
     }
 
     _tripos_vantiv_pay(cid) {
-        const order = this.pos.get_order();
-
-        if (order.selected_paymentline.amount < 0) {
-            this._show_error(_t("Cannot process transactions with negative amount."));
-            return Promise.resolve();
-        }
-
         const data = this._tripos_vantiv_pay_data();
         return this._call_tripos_vantiv(data, "pay").then((data) => {
             return this._tripos_vantiv_handle_response(data);
