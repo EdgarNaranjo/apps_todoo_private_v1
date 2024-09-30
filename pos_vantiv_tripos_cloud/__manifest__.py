@@ -23,7 +23,7 @@
     'description': """
         Allow credit card POS payments with triPOS Cloud. This module allows customers to pay for their orders with credit cards. The transactions are processed by triPOS Cloud.
     """,
-    'version': '17.0.0.1',
+    'version': '17.0.0.2',
     'category': 'Payment',
     'license': 'LGPL-3',
     'author': "ToDOO (www.todooweb.com)",
@@ -31,11 +31,10 @@
     'contributors': [
         "Equipo Dev <devtodoo@gmail.com>",
         "Edgar Naranjo <edgarnaranjof@gmail.com>",
-        "Tatiana Rosabal <tatianarosabal@gmail.com>",
         "Antonio Ruban <antoniodavid8@gmail.com>",
     ],
     'support': 'devtodoo@gmail.com',
-    'depends': ['web', 'barcodes', 'point_of_sale'],
+    'depends': ['web', 'barcodes', 'point_of_sale', 'pos_mercury'],
     'data': [
         'data/pos_vantiv_tripos_cloud_data.xml',
         'security/ir.model.access.csv',
@@ -57,6 +56,6 @@
     'installable': True,
     'application': False,
     'auto_install': False,
-    'price': 59.99,
+    'price': 199.99,
     'currency': 'EUR',
 }
