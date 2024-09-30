@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="res_config_view_form_inherit_vantiv" model="ir.ui.view">
+        <field name="name">res.config.form.inherit.vantiv</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <div id="pos_payment_terminals_section" position="inside">
+                <div class="col-12 col-lg-6 o_setting_box"
+                    id="tripos_cloud_payment_terminal_setting"
+                    title="The transactions are processed by Tripos Cloud Vantiv. Set your Tripos Cloud Vantiv credentials on the related payment method.">
+                    <div class="o_setting_left_pane">
+                        <field name="module_pos_vantiv_tripos_cloud"/>
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="module_pos_vantiv_tripos_cloud" string="Tripos Vantiv"/>
+                        <a href="https://www.odoo.com/documentation/16.0/applications/sales/point_of_sale/payment/vantiv.html" title="Documentation" class="o_doc_link" target="_blank"></a>
+                        <div class="text-muted">
+                            Accept payments with an Tripos Cloud Vantiv payment terminal
+                        </div>
+                        <div class="content-group">
+                            <div class="mt16">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </field>
+    </record>
+
+<!--    <record id="pos_config_view_form_inherit_vantiv" model="ir.ui.view">-->
+<!--        <field name="name">pos.config.form.inherit.vantiv</field>-->
+<!--        <field name="model">pos.config</field>-->
+<!--        <field name="inherit_id" ref="point_of_sale.pos_config_view_form" />-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//field[@name='active']" position="before">-->
+<!--                <field name="show_is_lane" invisible="1"/>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//div[@id='restaurant_on_create']" position="after">-->
+<!--                <div class="row mt16 o_settings_container" invisible="show_is_lane == False">-->
+<!--                    <setting id="vantiv_tripos_cloud">-->
+<!--                        <field name="is_lane" string="Vantiv Tripos Cloud Lane"/>-->
+<!--                        <div class="content-group mt16" invisible="not is_lane">-->
+<!--                            <div class="text-warning" id="warning_text_employees">-->
+<!--                                Vantiv Lanes available-->
+<!--                            </div>-->
+<!--                            <field name="lane_id" colspan="4" nolabel="0" />-->
+<!--                        </div>-->
+<!--                    </setting>-->
+<!--                </div>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+</odoo>
