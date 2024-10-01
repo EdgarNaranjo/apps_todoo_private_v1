@@ -4,3 +4,4 @@ access_operation_line,access_operation_line,model_operation_line,base.group_user
 access_tracking_line,access_tracking_line,model_tracking_line,base.group_user,1,1,1,1
 access_material_selection_wizard_user,access.material.selection.wizard.user,model_material_selection_wizard,base.group_user,1,1,1,1
 access_operation_selection_wizard,access_operation_selection_wizard,model_operation_selection_wizard,base.group_user,1,1,1,1
+access_type_order_task,access_type_order_task,model_type_order_task,base.group_user,1,1,1,1

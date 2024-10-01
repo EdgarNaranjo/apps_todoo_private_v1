@@ -6,7 +6,7 @@
     'summary': 'Changes to adapt the External Services module',
     'category': 'Manufacturing/Field Services',
     'license': 'LGPL-3',
-    'version': '17.0.1.0.1',
+    'version': '17.0.1.0.2',
     'author': "Todooweb (www.todooweb.com)",
     'website': "https://todooweb.com/",
     'contributors': [

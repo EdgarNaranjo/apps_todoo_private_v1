@@ -117,13 +117,13 @@
                             </div>
                         </div>
                     </div>
-                    <field name="ot_material_ids" widget="one2many" nolabel="1" invisible="is_readonly != False">
+                    <field name="ot_material_ids" widget="one2many" nolabel="1" readonly="is_readonly != False">
                         <tree editable="bottom"
                               decoration-info="state == 'new'"
                               decoration-success="state in ['process', 'done']"
                               decoration-muted="state == 'block'">
                             <field name="sequence" readonly="True"/>
-                            <field name="product_id" options="{'no_create': True}" readonly="state != 'new'" required="True"/>
+                            <field name="product_id" options="{'no_create': True}" readonly="state != 'new'" required="True" domain="[('detailed_type','!=', 'service')]"/>
                             <field name="name" readonly="state != 'new'" required="True"/>
                             <field name="location_id" domain="[('usage', '=', 'internal')]" options="{'no_create': True}"
                                    readonly="state != 'new'" required="True"/>
@@ -137,7 +137,6 @@
                             <field name="product_qty" readonly="state != 'new'" />
                             <field name="product_uom" readonly="state != 'new'"  required="True"/>
                             <field name="is_billable" readonly="state != 'new'"  optional="show"/>
-                            <field name="management_stock" optional="hide"/>
                             <field name="sale_line_id" column_invisible="True"/>
                             <field name="move_line_id" column_invisible="True"/>
                             <field name="analytic_line_id" column_invisible="True"/>
@@ -181,7 +180,6 @@
                                         <field name="sale_line_id"/>
                                         <field name="move_line_id"/>
                                         <field name="analytic_line_id"/>
-                                        <field name="management_stock"/>
                                     </group>
                                 </group>
                             </sheet>
@@ -237,7 +235,7 @@
                                 class="btn-primary"/>
                         </div>
                     </div>
-                    <field name="operation_ids" widget="one2many" nolabel="1" invisible="is_readonly != False">
+                    <field name="operation_ids" widget="one2many" nolabel="1" readonly="is_readonly != False">
                         <tree editable="bottom"
                               decoration-info="state == 'new'"
                               decoration-success="state == 'process'"
@@ -307,12 +305,12 @@
                 <field name="contact_id" invisible="is_work_order != True" readonly="is_readonly != False"/>
             </xpath>
             <xpath expr="//field[@name='user_ids']" position="after">
-                <field name="type_order" invisible="is_work_order != True" readonly="is_readonly != False" required="is_work_order != False"/>
+                <field name="type_order" options='{"no_create": True}' invisible="is_work_order != True"
+                       readonly="is_readonly != False" required="is_work_order != False"/>
                 <field name="is_impediment" widget="boolean_toggle" invisible="is_work_order != True" readonly="is_readonly != False"/>
                 <field name="description_impediment" invisible="is_work_order != True or is_impediment != True"
                        required="is_impediment !=False" readonly="is_readonly !=False" placeholder="Motive.."/>
                 <field name="in_observation" invisible="is_work_order != True" readonly="is_readonly != False"/>
-                <field name="other_state" invisible="is_work_order != True" readonly="is_readonly != False"/>
                 <field name="count_doc_sign" invisible="True"/>
             </xpath>
             <!--attributes-->
@@ -334,9 +332,6 @@
             </xpath>
             <xpath expr="//field[@name='tag_ids']" position="attributes">
                 <attribute name="readonly">is_readonly != False</attribute>
-            </xpath>
-            <xpath expr="//field[@name='tag_ids']" position="after">
-                <field name="analytic_plan_id"  options="{'no_create': True}"/>
             </xpath>
             <xpath expr="//field[@name='task_properties']" position="attributes">
                 <attribute name="invisible">project_id != True</attribute>
@@ -404,7 +399,6 @@
             <xpath expr="//field[@name='tag_ids']" position="after">
                 <field name="is_work_order" widget="boolean_toggle" readonly="1" optional="hide"/>
                 <field name="is_impediment" widget="boolean_toggle" readonly="1" optional="hide"/>
-                <field name="analytic_plan_id" optional="show"/>
             </xpath>
         </field>
     </record>
@@ -421,7 +415,6 @@
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="is_work_order" readonly="1" widget="boolean_toggle" optional="hide"/>
                 <field name="is_impediment" widget="boolean_toggle" readonly="1" optional="hide"/>
-                <field name="analytic_plan_id" optional="show"/>
             </xpath>
         </field>
     </record>

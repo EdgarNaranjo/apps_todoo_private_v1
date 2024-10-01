@@ -24,5 +24,40 @@
         <record id="industry_fsm_sale_report.worksheet_custom_page" model="ir.ui.view">
             <field name="active">False</field>
         </record>
+
+
+        <record id="type_order_task01" model="type.order.task">
+            <field name="name">Inspections</field>
+        </record>
+        <record id="type_order_task02" model="type.order.task">
+            <field name="name">Maintenance</field>
+        </record>
+        <record id="type_order_task03" model="type.order.task">
+            <field name="name">Fault</field>
+        </record>
+        <record id="type_order_task04" model="type.order.task">
+            <field name="name">Start-up</field>
+        </record>
+        <record id="type_order_task05" model="type.order.task">
+            <field name="name">On guard</field>
+        </record>
+        <record id="type_order_task06" model="type.order.task">
+            <field name="name">Delivery of material</field>
+        </record>
+        <record id="type_order_task07" model="type.order.task">
+            <field name="name">Delivery of documentation</field>
+        </record>
+        <record id="type_order_task08" model="type.order.task">
+            <field name="name">Leak check</field>
+        </record>
+        <record id="type_order_task09" model="type.order.task">
+            <field name="name">Repairs</field>
+        </record>
+        <record id="type_order_task10" model="type.order.task">
+            <field name="name">Predictive</field>
+        </record>
+        <record id="type_order_task11" model="type.order.task">
+            <field name="name">Others</field>
+        </record>
     </data>
 </odoo>

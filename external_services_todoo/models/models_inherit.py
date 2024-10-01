@@ -42,27 +42,6 @@ class ProductProduct(models.Model):
         string='Location Info'
     )
 
-    @api.onchange('name')
-    def get_name_short(self):
-        for record in self:
-            if record.name:
-                record.name_short = record.name
-
-
-class ProductTemplate(models.Model):
-    _inherit = 'product.template'
-
-    name_short = fields.Char(
-        string='Short name'
-    )
-    can_movility = fields.Boolean(string="It is displacement")
-
-    @api.onchange('name')
-    def get_name_short(self):
-        for record in self:
-            if record.name:
-                record.name_short = record.name
-
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
@@ -84,13 +63,6 @@ class SaleOrderLine(models.Model):
             if record.state == 'cancel':
                 record.material_id.state = 'block'
 
-    @api.constrains('product_template_id', 'product_id')
-    def check_short_name_by_product(self):
-        for record in self:
-            if record.product_template_id and record.product_template_id.name_short:
-                record.name = record.product_template_id.name_short
-            elif record.product_id and record.product_id.name_short:
-                record.name = record.product_id.name_short
 
     def _purchase_service_create(self, quantity=False):
         """ On Sales Order confirmation, some lines (services ones) can create a purchase order line and maybe a purchase order.
@@ -260,7 +232,7 @@ class ProjectTaskType(models.Model):
 
     is_last = fields.Boolean('Last stage', help='Determine the last stage')
     is_locked = fields.Boolean('Locked', help='Block for a technical personnel')
-    is_required = fields.Boolean('Required', help='Required for use on Equipment associated with an OT')
+    # is_required = fields.Boolean('Required', help='Required for use on Equipment associated with an OT')
 
 
 class AccountAnalyticLine(models.Model):
@@ -287,10 +259,13 @@ class MailComposeMessage(models.TransientModel):
                 if obj_task.exists():
                     material_lines = self.env['ot.material.line'].search([('task_id', '=', obj_task.id), ('state', '=', 'process')])
                     operation_lines = self.env['operation.line'].search([('task_id', '=', obj_task.id), ('state', '=', 'process')])
+                    analytic_lines = self.env['account.analytic.line'].search([('task_id', '=', obj_task.id), ('check_process', '=', False)])
                     if material_lines:
                         material_lines.write({'check_send': True, 'state': 'done'})
                     if operation_lines:
                         operation_lines.write({'check_send': True})
+                    if analytic_lines:
+                        analytic_lines.write({'check_process': True})
                     obj_task.count_doc_sign += 1
                     if self.attachment_ids:
                         sign_count_str = f' ({obj_task.count_doc_sign})'

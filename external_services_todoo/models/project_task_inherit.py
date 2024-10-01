@@ -63,24 +63,15 @@ class ProjectTask(models.Model):
         string='Count Picking',
         compute='_compute_picking_counter'
     )
-    is_last = fields.Boolean(related='stage_id.is_last')
+    is_locked = fields.Boolean(related='stage_id.is_locked')
     analytic_count = fields.Integer(
         string='Count Analytic',
         compute='_compute_analytic_line'
     )
-    type_order = fields.Selection([
-        ('insp', 'Inspections'),
-        ('mant', 'Maintenance'),
-        ('aver', 'Fault'),
-        ('march', 'Start-up'),
-        ('guard', 'On guard'),
-        ('mater', 'Delivery of material'),
-        ('docu', 'Delivery of documentation'),
-        ('verif', 'Leak check'),
-        ('repa', 'Repairs'),
-        ('pred', 'Predictive'),
-        ('otr', 'Others'),
-    ], string='Type order')
+    type_order = fields.Many2one(
+        string='Type order',
+        comodel_name='type.order.task'
+    )
     is_impediment = fields.Boolean('An impediment', default=False, tracking=1)
     description_impediment = fields.Text('Motive', tracking=1)
     is_invisible = fields.Boolean('Is invisible', compute='get_invisible_by_group')
@@ -95,18 +86,9 @@ class ProjectTask(models.Model):
         string="Tag Orders")
     is_work_order = fields.Boolean('Work order', help='Determines whether a task is an external service or not.', tracking=1)
     in_observation = fields.Text('In observation', tracking=1)
-    other_state = fields.Selection([
-        ('rev', 'Reviewed'),
-        ('clos', 'Closed')
-    ], string='Work order state', help='- Reviewed: Editable for admins\n'
-                                       '- Closed: Read only for technicians', tracking=1)
     is_readonly = fields.Boolean('Is readonly', compute='get_readonly')
     is_invisible_technical = fields.Boolean('Invisible technical', compute='_get_invisible_other')
     is_template = fields.Boolean(related='project_id.is_template')
-    analytic_plan_id = fields.Many2one(
-        string='Plan',
-        comodel_name='account.analytic.plan'
-    )
     count_doc_sign = fields.Integer('Doc. signed', default=1)
 
     @api.model
@@ -123,20 +105,11 @@ class ProjectTask(models.Model):
         res = super(ProjectTask, self).create(vals)
         if res.is_work_order:
             dict_operation['task_id'] = res.id
-            if res.type_order == 'aver':
-                dict_operation['is_billable'] = True
             if not res.sequence_name:
                 # Assign value to sequence field
                 ctx = dict(company_id=res.company_id.id)
                 sequence = self.env['ir.sequence'].with_context(ctx).sudo().next_by_code('project.task')
                 res.sequence_name = sequence
-            obj_product_ids = env_prod.search([('can_movility', '=', True)])
-            if obj_product_ids:
-                for product in obj_product_ids:
-                    dict_operation['product_id'] = product.id
-                    dict_operation['name'] = product.name_short if product.name_short else product.name
-                    dict_operation['product_uom'] = product.uom_id.id
-                    env_operation.create(dict_operation)
         return res
 
     def write(self, vals):
@@ -152,13 +125,12 @@ class ProjectTask(models.Model):
     def get_data_purchase(self, line):
         data = {
             'product_id': line.product_id.id,
-            'name': line.product_id.name_short if line.product_id.name_short else line.product_id.name,
+            'name': line.product_id.name,
             'product_uom': line.product_id.uom_id.id,
             'task_id': self.id,
             'purchase_order_id': self.purchase_order_id.id,
             'purchase_line_id': line.id,
-            'estimated_qty': line.qty_received,
-            'is_billable': True if self.type_order == 'aver' else False
+            'estimated_qty': line.qty_received
         }
         return data
 
@@ -171,12 +143,6 @@ class ProjectTask(models.Model):
     def check_sale_order(self):
         if self.project_id:
             self.order_id = self.project_id.sale_order_id.id
-
-    @api.constrains('analytic_account_id')
-    def check_analytic_line(self):
-        for record in self:
-            if record.analytic_account_id:
-                record.analytic_plan_id = record.analytic_account_id.plan_id.id
 
     @api.depends('partner_id')
     def _compute_purchase_order_ids(self):
@@ -285,15 +251,9 @@ class ProjectTask(models.Model):
 
     @api.onchange('stage_id')
     def check_technical_worker(self):
-        show_message = False
         if self.stage_id.is_locked:
             if self.env.user.has_group('external_services_todoo.group_project_technical_worker'):
-                show_message = True
-        if self.other_state:
-            show_message = True
-        if show_message:
-            raise UserError(_('You do not have permissions to move the task to the stage "{}"')
-                            .format(self.stage_id.name))
+                raise UserError(_('You do not have permissions to move the task to the stage "{}"') .format(self.stage_id.name))
 
     def action_view_so(self):
         so_ids = self._get_action_view_so_ids()
@@ -342,18 +302,18 @@ class ProjectTask(models.Model):
             action_window["res_id"] = invoice_ids[0]
         return action_window
 
-    @api.depends('stage_id', 'other_state')
+    @api.depends('stage_id')
     def get_readonly(self):
         for record in self:
             record.is_readonly = False
-            if record.other_state and self.env.user.has_group('external_services_todoo.group_project_technical_worker'):
+            if record.is_locked and self.env.user.has_group('external_services_todoo.group_project_technical_worker'):
                 record.is_readonly = True
 
-    @api.depends('stage_id', 'other_state')
+    @api.depends('stage_id')
     def _get_invisible_other(self):
         for record in self:
             record.is_invisible_technical = False
-            if not record.stage_id.is_last or (not record.other_state and self.env.user.has_group('external_services_todoo.group_project_technical_worker')):
+            if self.env.user.has_group('external_services_todoo.group_project_technical_worker'):
                 record.is_invisible_technical = True
 
     def _is_fsm_report_available(self):

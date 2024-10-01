@@ -18,9 +18,9 @@
             <field name="inherit_id" ref="project.task_type_edit"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='fold']" position="after">
-                    <field name="is_last"/>
+<!--                    <field name="is_last"/>-->
                     <field name="is_locked"/>
-                    <field name="is_required"/>
+<!--                    <field name="is_required"/>-->
                 </xpath>
             </field>
         </record>
@@ -34,9 +34,9 @@
                     <field name="sequence" optional="show"/>
                 </xpath>
                 <xpath expr="//field[@name='fold']" position="after">
-                    <field name="is_last" optional="show"/>
+<!--                    <field name="is_last" optional="show"/>-->
                     <field name="is_locked" optional="show"/>
-                    <field name="is_required" optional="show"/>
+<!--                    <field name="is_required" optional="show"/>-->
                 </xpath>
             </field>
         </record>
@@ -86,23 +86,6 @@
                            force_save="1"
                            placeholder="Describe here the Location's detail"/>
                 </xpath>
-            </field>
-        </record>
-
-        <record id="product_template_view_form_services_inherit" model="ir.ui.view">
-            <field name="name">product.template.view.form.services.inherit</field>
-            <field name="model">product.template</field>
-            <field name="inherit_id" ref="product.product_template_form_view"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='detailed_type']" position="before">
-                    <field name="name_short" required="True"/>
-                </xpath>
-                <div name="options" position="inside">
-                    <span class="d-inline-block">
-                        <field name="can_movility"/>
-                        <label for="can_movility"/>
-                    </span>
-                </div>
             </field>
         </record>
 

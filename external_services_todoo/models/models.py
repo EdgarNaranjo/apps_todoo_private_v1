@@ -5,6 +5,21 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError, UserError
 
 
+class TypeOrderTask(models.Model):
+    _name = 'type.order.task'
+    _description = 'Type Order Task'
+
+    name = fields.Char(
+        string='Name',
+        required=True,
+        index=True,
+        translate=True
+    )
+    description = fields.Char(
+        string='Description'
+    )
+
+
 class MaterialLine(models.Model):
     _name = 'ot.material.line'
     _description = 'Materials used to complete a task'
@@ -96,7 +111,6 @@ class MaterialLine(models.Model):
         comodel_name='account.analytic.line'
     )
     sequence = fields.Integer('No.')
-    management_stock = fields.Boolean('Management Stock')
     check_process = fields.Boolean('Signed', help='Indicates that it was processed after being signed by the client')
     check_send = fields.Boolean('Enviado', help='Indicates that it was send after being signed by the client')
     lot_id = fields.Many2one(
@@ -224,16 +238,8 @@ class MaterialLine(models.Model):
     @api.onchange('product_id', 'product_qty')
     def onchange_check_related_product(self):
         if self.product_id:
-            if self.product_id.name_short:
-                self.name = self.product_id.name_short
-            else:
-                self.name = self.product_id.name
+            self.name = self.product_id.name
             self.product_uom = self.product_id.uom_id.id
-            if self.task_id:
-                if self.task_id.type_order == 'aver':
-                    self.is_billable = True
-                else:
-                    self.is_billable = False
         if self.product_qty and self.product_qty > self.estimated_qty:
             raise UserError(_("The quantity cannot be greater than the estimated quantity."))
 
@@ -300,16 +306,8 @@ class OperationLine(models.Model):
     @api.onchange('product_id')
     def onchange_check_related_product(self):
         if self.product_id:
-            if self.product_id.name_short:
-                self.name = self.product_id.name_short
-            else:
-                self.name = self.product_id.name
+            self.name = self.product_id.name
             self.product_uom = self.product_id.uom_id.id
-            if self.task_id:
-                if self.task_id.type_order == 'aver':
-                    self.is_billable = True
-                else:
-                    self.is_billable = False
 
     def _verify_so_line(self):
         """"

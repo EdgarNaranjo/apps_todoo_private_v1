@@ -1,6 +1,45 @@
 <?xml version="1.0" ?>
 <odoo>
     <data>
+        <record id="type_order_task_form_view" model="ir.ui.view">
+            <field name="name">type.order.task.form.view</field>
+            <field name="model">type.order.task</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="description"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- type.order.task Tree View-->
+        <record id="type_order_task_tree_view" model="ir.ui.view">
+            <field name="name">type.order.task.tree.view</field>
+            <field name="model">type.order.task</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="create_uid"/>
+                    <field name="create_date"/>
+                    <field name="write_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--type.order.task action model-->
+        <record id="type_order_task_action" model="ir.actions.act_window">
+            <field name="name">Tipo de pedido</field>
+            <field name="res_model">type.order.task</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
 <!--         ot.material.line Form View-->
         <record id="ot_material_form_view" model="ir.ui.view">
             <field name="name">ot.material.line.form.view</field>
@@ -38,7 +77,6 @@
                                 <field name="purchase_order_id"/>
                                 <field name="purchase_line_id"/>
                                 <field name="move_line_id"/>
-                                <field name="management_stock"/>
                                 <field name="check_process" invisible="True"/>
                                 <field name="check_send"/>
                             </group>
@@ -69,7 +107,6 @@
                     <field name="product_qty" optional="show"/>
                     <field name="product_uom" optional="show"/>
                     <field name="is_billable" optional="show"/>
-                    <field name="management_stock" optional="show"/>
                     <field name="check_process" column_invisible="True"/>
                     <field name="check_send" optional="hide"/>
                     <field name="company_id" optional="hide"/>
@@ -99,7 +136,7 @@
                     <field name="state"/>
                     <separator/>
                     <filter string="New" name="no_process" domain="[('state', '=', 'new')]"/>
-                    <filter string="Processed" name="process" domain="[('state', 'in=', ['process', 'done'])]"/>
+                    <filter string="Processed" name="process" domain="[('state', 'in', ['process', 'done'])]"/>
                     <filter string="Block" name="block" domain="[('state', '=', 'block')]"/>
                     <separator/>
                     <group expand="0" string="Group By">
@@ -237,5 +274,7 @@
                   parent="fsm_menu_all_material_root" groups="industry_fsm.group_fsm_user"/>
         <menuitem id="fsm_menu_all_material_item_stock" name="Materials of OT" action="ot_material_line_action" sequence="99"
                   parent="stock.menu_stock_inventory_control"/>
+        <menuitem id="fsm_menu_type_order_task" name="Tipo de pedido" sequence="12" action="type_order_task_action"
+                  parent="industry_fsm.fsm_menu_settings" groups="industry_fsm.group_fsm_manager"/>
     </data>
 </odoo>
