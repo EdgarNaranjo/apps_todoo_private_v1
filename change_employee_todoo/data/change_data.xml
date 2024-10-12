@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="ir_cron_data_update_list_action" model="ir.cron">
+        <field name="name">HR Employee Changes: change employee</field>
+        <field name="model_id" ref="model_employee_change_planning"/>
+        <field name="type">ir.actions.server</field>
+        <field name="state">code</field>
+        <field name="code">model.update_list_action()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+    </record>
+
+    <record id="notification_email_change_employee" model="mail.template">
+        <field name="name">HR Contract: Change in Employee</field>
+        <field name="model_id" ref="change_employee_todoo.model_employee_change_planning"/>
+        <field name="email_to">{{ object.employee_id.parent_id.work_email }}</field>
+        <field name="subject">Change in employee {{object.employee_id.name}}</field>
+        <field name="body_html" type="xml">
+            <div>
+                Hi <t t-out="object.employee_id.parent_id.name or ''">Manager</t>.<br/>
+                The following changes have been applied to the employee <t t-out="object.employee_id.name or ''">Employee</t>:<br/><br/>
+                <t t-out="object.list_data or ''">Data</t><br/><br/>
+                Greetings,<br/><br/>
+                <t t-out="object.department_id.name or 'Department'"> Team</t>.
+            </div>
+        </field>
+        <field name="lang">{{ object.employee_id.user_id.lang or user.lang }}</field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+</odoo>
