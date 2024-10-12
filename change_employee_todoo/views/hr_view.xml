@@ -1,0 +1,261 @@
+<odoo>
+    <data>
+<!--         Wizard View Form apply.change.wizard -->
+        <record model="ir.ui.view" id="apply_change_wizard_wizard_form">
+            <field name="name">Apply Change Wizard</field>
+            <field name="model">apply.change.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <h4>Do you want these changes to be effective today?</h4>
+                    <div name="msg_opr_main">
+                        <div>
+                            <p colspan="2" class="alert alert-info info_icon" role="alert">
+                                <b>
+                                    <u>
+                                        <h3 style="font-weight:bold;color:#7d5a29">Info :
+                                        </h3>
+                                    </u>
+                                    <ol>
+                                        <li>
+                                            Check the changes to apply.
+                                        </li>
+                                        <li>
+                                            A new application is required for each change to be applied.
+                                        </li>
+                                        <li>
+                                            By accepting you are generating:<br/>
+                                            * New changes related to an Employee.<br/>
+                                            * They will be effective as of today.
+                                        </li>
+                                    </ol>
+                                </b>
+                            </p>
+                        </div>
+                    </div>
+                    <br/>
+                    <group>
+                        <group>
+                            <field name="effective_date" readonly="True" invisible="True"/>
+                        </group>
+                    </group>
+                    <field name="list_action_ids" readonly="True">
+                        <tree editable="bottom" sample="1" decoration-info="state == 'not_processed'"
+                                  decoration-muted = "state == 'processed'" decoration-danger = "check_error == True">
+                                <field name="employee_id" column_invisible="1"/>
+                                <field name="field_id" options="{'no_create': True,
+                                    'no_create_edit':True, 'no_open': True}" column_invisible="1"/>
+                                <field name="field_name" readonly="1" force_save="1"/>
+                                <field name="actual_value" readonly="1" force_save="1" options="{'no_create': True,
+                                    'no_create_edit':True}"/>
+                                <field name="field_value_filters" column_invisible="1"/>
+                                <field name="field_value" widget="many2many_tags" domain="[('name','in', field_value_filters)]"/>
+                                <field name="type_action" readonly="1" force_save="1"/>
+                                <field name="type_model" column_invisible="1"/>
+                                <field name="check_error" column_invisible="1"/>
+                                <field name="effective_date" required="True"/>
+                                <field name="last_date" readonly="True" optional="hide"/>
+                                <field name="state" decoration-info="state == 'not_processed'"
+                                       decoration-muted = "state == 'processed'" decoration-danger = "check_error == True"
+                                       widget="badge" readonly="True"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button type="object" name="action_create_records" string="Apply" class="oe_highlight"/>
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- View form hr.employee -->
+        <record model="ir.ui.view" id="view_hr_employee_view_form2_inherited_change">
+            <field name="name">view.hr.employee.view.form2.inherited.change</field>
+            <field name="inherit_id" ref="hr_contract.hr_hr_employee_view_form2"/>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_stat_button" name="action_view_changes" type="object" icon="fa-file-text-o">
+                        <field string="Changes" name="count_changes" widget="statinfo"/>
+                    </button>
+                    <button class="oe_stat_button" name="action_view_history" type="object" icon="fa-id-card">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">
+                                History
+                            </span>
+                        </div>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- View Form employee.history -->
+        <record model="ir.ui.view" id="employee_history_form">
+            <field name="name">employee.history.form</field>
+            <field name="model">employee.history</field>
+            <field name="arch" type="xml">
+                <form string="History" create="false" delete="false" duplicate="false" import="false">
+                    <sheet>
+                        <group>
+                            <group name="first_group">
+                                <field name="value_before"/>
+                                <field name="value_actual"/>
+                                <field name="employee_id" invisible="True"/>
+                            </group>
+                            <group name="second_group">
+                                <field name="type_action"/>
+                                <field name="type_model"/>
+                                <field name="create_uid"/>
+                                <field name="create_date"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- View Tree employee.history -->
+        <record model="ir.ui.view" id="employee_history_tree">
+            <field name="name">employee.history.tree</field>
+            <field name="model">employee.history</field>
+            <field name="arch" type="xml">
+                <tree string="History" editable="bottom" sample="1" delete="false" edit="false" duplicate="false"
+                      import="false" create="false" decoration-success="type_model == 'contract'"
+                      decoration-info="type_model == 'employee'">
+                    <field name="employee_id" column_invisible="1"/>
+                    <field name="value_before"/>
+                    <field name="value_actual"/>
+                    <field name="type_action"/>
+                    <field name="type_model"/>
+                    <field name="create_uid" string="User"/>
+                    <field name="create_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- View Form field.value.relation -->
+        <record model="ir.ui.view" id="field_value_relation_form">
+            <field name="name">field.value.relation.form</field>
+            <field name="model">field.value.relation</field>
+            <field name="arch" type="xml">
+                <form create="false" delete="false" duplicate="false" import="false">
+                    <sheet>
+                        <group>
+                            <group name="first_group">
+                                <field name="name"/>
+                                <field name="res_id"/>
+                            </group>
+                            <group name="second_group">
+                                <field name="model"/>
+                                <field name="model_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- View Tree field.value.relation -->
+        <record model="ir.ui.view" id="field_value_relation_tree">
+            <field name="name">field.value.relation.tree</field>
+            <field name="model">field.value.relation</field>
+            <field name="arch" type="xml">
+                <tree sample="1" delete="false" edit="false" duplicate="false" import="false" create="false">
+                    <field name="name"/>
+                    <field name="res_id"/>
+                    <field name="model"/>
+                    <field name="model_id"/>
+                    <field name="create_uid"/>
+                    <field name="create_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- View Form employee.change.planning -->
+        <record model="ir.ui.view" id="employee_change_planning_form">
+            <field name="name">employee.change.planning.form</field>
+            <field name="model">employee.change.planning</field>
+            <field name="arch" type="xml">
+                <form string="Employee Change" import="false" duplicate="false">
+                    <header>
+                        <button name="action_open_wizard" string="Apply change" type="object" class="btn-primary"
+                                invisible="state == 'processed'"/>
+                        <field name="state" widget="statusbar" required="True"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h2><field name="employee_id" options="{'no_create': True, 'no_open': True}"/></h2>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="department_id"/>
+                                <field name="parent_id"/>
+                                <field name="check_notification"/>
+                            </group>
+                            <group>
+                                <field name="company_id"/>
+                                <field name="create_uid"/>
+                                <field name="create_date"/>
+                            </group>
+                        </group>
+                        <hr/>
+                        <field name="list_ids">
+                            <tree editable="bottom" sample="1" decoration-info="state == 'not_processed'"
+                                  decoration-muted = "state == 'processed'" decoration-danger = "check_error == True">
+                                <field name="employee_id" column_invisible="1"/>
+                                <field name="field_id" options="{'no_create': True,
+                                    'no_create_edit':True, 'no_open': True}"/>
+                                <field name="field_name" readonly="1" force_save="1"/>
+                                <field name="actual_value" readonly="1" force_save="1" options="{'no_create': True,
+                                    'no_create_edit':True}"/>
+                                <field name="field_value_filters" column_invisible="1"/>
+                                <field name="field_value" widget="many2many_tags" domain="[('name','in', field_value_filters)]"/>
+                                <field name="type_action" readonly="1" force_save="1"/>
+                                <field name="type_model" column_invisible="1"/>
+                                <field name="check_error" column_invisible="1"/>
+                                <field name="effective_date" required="True"/>
+                                <field name="last_date" readonly="True" optional="hide"/>
+                                <field name="state" decoration-info="state == 'not_processed'"
+                                       decoration-muted = "state == 'processed'" decoration-danger = "check_error == True"
+                                       widget="badge" readonly="True"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- View Tree employee.change.planning -->
+        <record model="ir.ui.view" id="employee_change_planning_tree">
+            <field name="name">employee.change.planning.tree</field>
+            <field name="model">employee.change.planning</field>
+            <field name="arch" type="xml">
+                <tree string="Employee Change" sample="1" import="false"
+                      decoration-info="state == 'not_processed'" decoration-muted = "state == 'processed'">
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="parent_id" optional="show"/>
+                    <field name="check_notification" optional="show"/>
+                    <field name="company_id" optional="show"/>
+                    <field name="create_uid" string="User"/>
+                    <field name="create_date"/>
+                    <field name="state" decoration-info="state == 'not_processed'"
+                           decoration-muted = "state == 'processed'"  widget="badge"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_employee_change_planning" model="ir.actions.act_window">
+            <field name="name">Employee Change</field>
+            <field name="res_model">employee.change.planning</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Employee change!
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_employee_change_planning_item04" name="Employee Change"
+                  parent="hr.menu_hr_employee_payroll" sequence="4" action="action_employee_change_planning" />
+    </data>
+</odoo>
