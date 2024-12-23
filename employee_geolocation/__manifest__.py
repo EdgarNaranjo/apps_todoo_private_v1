@@ -22,7 +22,7 @@
 
 {
     'name': '[Attendance] Employee geolocation',
-    'version': '16.0.1.0.1',
+    'version': '16.0.1.0.3',
     'category': 'Human Resources',
     'summary': """Employee geolocation from attendance control.""",
     'description': """Employee geolocation from attendance control, every time I check in and out.""",

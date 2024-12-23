@@ -49,7 +49,8 @@ class HrAttendance(models.Model):
         return self.env.user.partner_id.country_id
 
     def get_geocoder_osm_location(self, attendance=False):
-        ip = geocoder.ipinfo('me')
+        user_ip = request.httprequest.remote_addr
+        ip = geocoder.ipinfo(user_ip) if user_ip else 'me'
         conexion = ip.geojson['features'][-1]
         if not conexion['properties']:
             return
