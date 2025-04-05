@@ -1,0 +1,18 @@
+<odoo>
+    <data>
+        <record id="view_users_form_inherit" model="ir.ui.view">
+            <field name="name">res.users.form.inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <sheet position="before">
+                    <xpath expr="//header" position="after">
+                        <field name="banned" invisible="1"/>
+                        <field name="banned_warning" readonly="1" nolabel="1" attrs="{'invisible': [('banned','=', False)]}"/>
+                    </xpath>
+                </sheet>
+            </field>
+        </record>
+    </data>
+</odoo>
+
