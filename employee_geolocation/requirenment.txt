@@ -1,3 +1,0 @@
-geocoder==1.37.0
-device_detector
-folium==0.17.0

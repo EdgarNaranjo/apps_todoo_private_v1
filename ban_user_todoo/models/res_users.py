@@ -35,7 +35,7 @@ class ResUsers(models.Model):
             raise AccessDenied(_("🚫 Your account has been blocked. Please contact an administrator."))
         return super()._check_credentials(password, env)
 
-    def check_access_rights(self, operation, raise_exception=True):
+    def _check_access_rights(self, operation, raise_exception=True):
         uid = self._uid or self.env.uid
         self.env.cr.execute("SELECT banned FROM res_users WHERE id = %s", (uid,))
         result = self.env.cr.fetchone()
@@ -43,4 +43,4 @@ class ResUsers(models.Model):
         if banned:
             if request and hasattr(request, 'session'):
                 request.session.logout()
-        return super(ResUsers, self).check_access_rights(operation, raise_exception)
+        return super(ResUsers, self)._check_access_rights(operation, raise_exception)
