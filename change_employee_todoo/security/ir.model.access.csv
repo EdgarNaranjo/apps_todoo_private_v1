@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_employee_change_planning,access_employee_change_planning,model_employee_change_planning,base.group_user,1,1,1,1
+access_list_action_change,access_list_action_change,model_list_action_change,base.group_user,1,1,1,1
+access_employee_history,access_employee_history,model_employee_history,base.group_user,1,1,1,1
+access_apply_change_wizard,access_apply_change_wizard,model_apply_change_wizard,base.group_user,1,1,1,1
+access_field_value_relation,access_field_value_relation,model_field_value_relation,base.group_user,1,1,1,1
