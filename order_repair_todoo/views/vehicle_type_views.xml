@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- View vehicle.type View Tree -->
+    <record id="view_vehicle_type_tree" model="ir.ui.view">
+        <field name="name">view.vehicle.type.tree</field>
+        <field name="model">vehicle.type</field>
+        <field name="arch" type="xml">
+            <tree sample="1">
+                <field name="name" />
+                <field name="create_uid" />
+                <field name="create_date" />
+                <field
+                    name="company_id"
+                    groups="base.group_multi_company"
+                    optional="show"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <!-- View vehicle.type form -->
+    <record id="view_vehicle_type_form" model="ir.ui.view">
+        <field name="name">view.vehicle.type.form</field>
+        <field name="model">vehicle.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <header />
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" />
+                        <h1>
+                            <field name="name" placeholder="Name..." />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field
+                                    name="check_vehicle"
+                            />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                        </group>
+                    </group>
+                    <separator string="Fuels" colspan="4" />
+                    <field
+                        name="vehicle_fuel_ids"
+                        nolabel="1"
+                        colspan="4"
+                        options="{'no_open': False}"
+                    />
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- View vehicle.type search -->
+    <record id="view_vehicle_type_search" model="ir.ui.view">
+        <field name="name">view.vehicle.type.search</field>
+        <field name="model">vehicle.type</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="vehicle_fuel_ids" />
+                <group expand="1" string="Group By">
+                    <filter
+                        string="Name"
+                        name="name"
+                        domain="[]"
+                        context="{'group_by':'name'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action vehicle.type -->
+    <record id="action_vehicle_type" model="ir.actions.act_window">
+        <field name="name">Vehicle Type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">vehicle.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_vehicle_type_search" />
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                There is no examples click here to add new Vehicle Type.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_repair_order_vehicle_type" name="Vehicle Type" parent="menu_setting_vehicle"
+              action="action_vehicle_type" sequence="1"/>
+
+</odoo>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template id="repair_order_with_client_info2">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="order_repair_todoo.repair_order_with_client_info" t-lang="doc.partner_id.lang"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="repair_order_with_client_info">
+        <t t-set="o" t-value="doc"/>
+        <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)" />
+        <t t-call="web.external_layout">
+            <div class="page" style="page-break-after: always;margin-bottom: 25%;margin-top: 30px;">
+                <t t-call="order_repair_todoo.repair_client_info_page"/>
+                <hr/>
+                <div style="text-align: center;margin-top: 30px;">
+                    <h2 style="letter-spacing: 2px;">REPAIR ORDER</h2>
+                    <div style="float: right;font-size: 12px;border: 1px solid black; padding: 40px 40px;margin-top:-30px;">
+                        <span style="float: right;transform: rotate(-45deg);">Sticker</span>
+                    </div>
+                </div>
+                <div class="col-6 text-right">
+                    <p><strong>Entry date:</strong> <t t-esc="o.create_date.strftime('%d/%m/%Y %H:%M:%S')" /></p>
+                </div><br/>
+                <table style="width: 100%; border: none !important; border-collapse: collapse !important; margin-top:30px;">
+                    <tr>
+                        <td style="border: 1px solid #000; width: 20%; height: 80px; padding: 8px 10px;">
+                            <strong>Repair order:</strong><br/>
+                            <div style="font-size: 20px; font-weight: bold;">
+                                <t t-esc="o.name"/>
+                            </div>
+                        </td>
+                        <td style="width: 5%;"/>
+                        <td style="border: 1px solid #000; width: 15%; height: 80px; padding: 8px 10px;">
+                            <strong>Priority:</strong>
+                            <div style="margin-top: 5px;">
+                                <span style="margin: 0 10px;">1</span>
+                                <span>2</span>
+                                <span style="margin: 0 10px;">3</span>
+                            </div>
+                        </td>
+                        <td style="width: 5%;"/>
+                        <td style="border: 1px solid #000; width: 15%; height: 80px; padding: 8px 10px;">
+                            <strong>Difficulty:</strong>
+                            <div style="margin-top: 5px;">
+                                <span style="margin: 0 10px;">1</span>
+                                <span>2</span>
+                                <span style="margin: 0 10px;">3</span>
+                            </div>
+                        </td>
+                        <td style="width: 5%;"/>
+                        <td style="border: 1px solid #000; width: 35%; padding: 8px 10px;">
+                            <strong>Client:</strong> <t t-esc="o.partner_id.name"/><br/>
+                            <strong>Tlf:</strong> <t t-esc="o.partner_id.mobile"/>
+                        </td>
+                    </tr>
+                </table>
+                <div style="margin-top: 30px; font-weight: bold; background: #e0e0e0; padding: 5px;text-align: center;">
+                    Vehicle data
+                </div>
+                <table style="width: 100%; border: 1px solid #000; border-collapse: collapse; font-size: 14px;">
+                    <tr>
+                        <td style="padding: 8px 10px; border-right: 1px solid #000;"><strong>Brand:</strong> <t t-esc="o.vehicle_brand_id.name"/></td>
+                        <td style="padding: 8px 10px;"><strong>Model:</strong> <t t-esc="o.vehicle_model_id.name"/></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px 10px; border-right: 1px solid #000;"><strong>Serial:</strong> <t t-esc="o.vehicle_serial_id.name"/></td>
+                        <td style="padding: 8px 10px;"><strong>License:</strong> <t t-esc="o.license_vin"/></td>
+                    </tr>
+                </table>
+
+                <table style="width: 100%; margin-top: 30px; border: 1px solid #000; border-collapse: collapse; font-size: 14px;">
+                    <tr style="height: 70px;">
+                        <td style="background: #e0e0e0; width: 25%; border-right: 1px solid #000; padding: 8px 10px; vertical-align: top;">
+                            <strong>Work description:</strong>
+                        </td>
+                        <td style="padding: 8px 10px; vertical-align: top;">
+                            <t t-esc="o.symptoms"/>
+                        </td>
+                    </tr>
+                    <tr style="height: 150px;">
+                        <td style="background: #e0e0e0; border-top: 1px solid #000; border-right: 1px solid #000; padding: 8px 10px; vertical-align: top;">
+                            <strong>Diagnostic:</strong>
+                        </td>
+                        <td style="border-top: 1px solid #000; padding: 8px 10px; vertical-align: top;">
+                            <t t-esc="o.procedures_performed"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="repair_client_info_page">
+        <div style="text-align: center;">
+            <h3 style="letter-spacing: 2px;">CUSTOMER INFORMATION</h3>
+        </div>
+        <table style="font-size: 19px; border-collapse: separate; border-spacing: 8px; margin-bottom: 10%; margin-top: 10%; width: 100%;">
+            <tr>
+                <td style="width: 15%; padding: 6px;">Client:</td>
+                <td style="width: 30%; padding: 6px;"><t t-esc="doc.partner_id.name" /></td>
+                <td style="padding: 6px;">CIF:</td>
+                <td style="padding: 6px;"><t t-esc="doc.partner_id.vat" /></td>
+            </tr>
+            <tr>
+                <td style="padding: 6px;">Address:</td>
+                <td style="padding: 6px;"><t t-esc="doc.partner_id.street" /></td>
+                <td style="padding: 6px;">CP:</td>
+                <td style="padding: 6px;"><t t-esc="doc.partner_id.zip" /></td>
+                <td style="width: 8%; padding: 6px;">City:</td>
+                <td style="width: 20%; padding: 6px;"><t t-esc="doc.partner_id.city" /></td>
+                <td style="width: 8%; padding: 6px;">State:</td>
+                <td style="padding: 6px;"><t t-esc="doc.partner_id.state_id.name" /></td>
+            </tr>
+            <tr>
+                <td style="padding: 6px;">Phone:</td>
+                <td style="padding: 6px;"><t t-esc="doc.partner_id.phone" /></td>
+            </tr>
+            <tr>
+                <td style="padding: 6px;">Mobile:</td>
+                <td style="padding: 6px;"><t t-esc="doc.partner_id.mobile" /></td>
+            </tr>
+            <tr>
+                <td style="padding: 6px;">Email:</td>
+                <td style="padding: 6px;"><t t-esc="doc.partner_id.email" /></td>
+            </tr>
+        </table>
+    </template>
+</odoo>

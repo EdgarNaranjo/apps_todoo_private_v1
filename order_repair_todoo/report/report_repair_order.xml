@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="inherit_report_repairorder_custom" inherit_id="repair.report_repairorder">
+        <xpath expr="//div[@id='informations']" position="after">
+            <div id="custom_info" class="row mt32 mb32">
+                <div t-if="o.vehicle_brand_id" class="col-3 bm-2">
+                    <strong>Brand:</strong>
+                    <p t-field="o.vehicle_brand_id.name" class="m-0"/>
+                </div>
+                <div t-if="o.vehicle_model_id" class="col-3 bm-2">
+                    <strong>Model:</strong>
+                    <p t-field="o.vehicle_model_id.name" class="m-0"/>
+                </div>
+                <div t-if="o.vehicle_serial_id" class="col-3 bm-2">
+                    <strong>Serial:</strong>
+                    <p t-field="o.vehicle_serial_id.name" class="m-0"/>
+                </div>
+                <div t-if="o.license_vin" class="col-3 bm-2">
+                    <strong>License:</strong>
+                    <p t-field="o.license_vin" class="m-0"/>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//thead[1]" position="replace">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th class="text-end">Quantity</th>
+                    <t t-if="o.invoice_method != 'none'">
+                        <th class="text-end">Unit Price</th>
+                        <th class="text-center">Tax</th>
+                        <th class="text-center">Disc.(%)</th>
+                        <th class="text-end">Price</th>
+                    </t>
+                </tr>
+            </thead>
+        </xpath>
+        <xpath expr="//tbody[1]" position="replace">
+            <tbody>
+                <t t-if="o.operations">
+                    <tr class="bg-200 o_line_section"><td colspan="6"><strong>Parts</strong></td></tr>
+                    <tr t-foreach="o.operations" t-as="line">
+                        <td>
+                            <p t-if="line.type == 'add'"><i>(Add)</i> <span t-field="line.name"/></p>
+                            <p t-if="line.type == 'remove'">(<i>Remove</i>) <span t-field="line.name"/></p>
+                        </td>
+                        <td class="text-end">
+                            <span t-field="line.product_uom_qty"/>
+                            <span groups="uom.group_uom" t-field="line.product_uom.name"/>
+                        </td>
+                        <t t-if="(line.repair_id.invoice_method != 'none')">
+                            <td class="text-end">
+                                <span t-field="line.price_unit"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="','.join(map( lambda x: x.description or x.name, line.tax_id))"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="line.discount"/>
+                            </td>
+                            <td class="text-end o_price_total">
+                                <span t-field="line.price_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.pricelist_id.currency_id}"/>
+                           </td>
+                        </t>
+                    </tr>
+                </t>
+                <t t-if="o.fees_lines">
+                    <tr class="bg-200 o_line_section"><td colspan="6"><strong>Operations</strong></td></tr>
+                    <tr t-foreach="o.fees_lines" t-as="fees">
+                        <td>
+                            <span t-field="fees.name"/>
+                        </td>
+                        <td class="text-end">
+                            <span t-field="fees.product_uom_qty"/>
+                            <span groups="uom.group_uom" t-field="fees.product_uom.name"/>
+                        </td>
+                        <t t-if="(fees.repair_id.invoice_method != 'none')">
+                            <td class="text-end">
+                                <span t-field="fees.price_unit"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="','.join(map( lambda x: x.description or x.name, fees.tax_id))"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="fees.discount"/>
+                            </td>
+                            <td class="text-end o_price_total">
+                                <span t-field="fees.price_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.pricelist_id.currency_id}"/>
+                           </td>
+                        </t>
+                    </tr>
+                </t>
+            </tbody>
+        </xpath>
+    </template>
+</odoo>

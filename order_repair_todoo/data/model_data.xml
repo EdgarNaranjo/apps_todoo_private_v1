@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="repair_reason_wear" model="repair.reason">
+        <field name="name">Natural Wear</field>
+    </record>
+    <record id="repair_reason_misuse" model="repair.reason">
+        <field name="name">Incorrect Use</field>
+    </record>
+    <record id="repair_reason_lack_maintenance" model="repair.reason">
+        <field name="name">Lack of Maintenance</field>
+    </record>
+    <record id="repair_reason_impact" model="repair.reason">
+        <field name="name">Impact or Blow</field>
+    </record>
+    <record id="repair_reason_factory_defect" model="repair.reason">
+        <field name="name">Manufacturing Defect</field>
+    </record>
+
+    <record id="repair_type_preventive" model="repair.type">
+        <field name="name">Preventive Maintenance</field>
+        <field name="description">Regular inspection and maintenance to prevent failures.</field>
+    </record>
+    <record id="repair_type_corrective" model="repair.type">
+        <field name="name">Corrective Repair</field>
+        <field name="description">Repair of a fault that has already occurred.</field>
+    </record>
+    <record id="repair_type_warranty" model="repair.type">
+        <field name="name">Warranty Repair</field>
+        <field name="description">Repair covered by the manufacturer's warranty.</field>
+    </record>
+    <record id="repair_type_modification" model="repair.type">
+        <field name="name">Modification or Upgrade</field>
+        <field name="description">Modification or upgrade of equipment to improve its performance.</field>
+    </record>
+    <record id="repair_type_urgent" model="repair.type">
+        <field name="name">Urgent Repair</field>
+        <field name="description">Immediate repair due to a critical failure.</field>
+    </record>
+
+    <record id="internal_state00" model="internal.state">
+        <field name="name">Quotation</field>
+        <field name="color" eval="1"/>
+    </record>
+    <record id="internal_state01" model="internal.state">
+        <field name="name">Waiting for quotation</field>
+        <field name="color" eval="3"/>
+    </record>
+    <record id="internal_state02" model="internal.state">
+        <field name="name">Waiting for material</field>
+        <field name="color" eval="5"/>
+    </record>
+    <record id="internal_state03" model="internal.state">
+        <field name="name">Waiting for documentation</field>
+        <field name="color" eval="7"/>
+    </record>
+    <record id="internal_state04" model="internal.state">
+        <field name="name">In testing process</field>
+        <field name="color" eval="9"/>
+    </record>
+    <record id="internal_state05" model="internal.state">
+        <field name="name">External jobs</field>
+        <field name="color" eval="11"/>
+    </record>
+
+    <record id="email_template_mobile_invite" model="mail.template">
+        <field name="name">Invitation to connect to the Mobile App</field>
+        <field name="model_id" ref="base.model_res_config_settings"/>
+        <field name="subject">Connect with our Mobile App</field>
+        <field name="description">Send email for request App mobile demo.</field>
+        <field name="email_from">noreply@example.com</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px; font-size: 13px;">
+                <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                    Dear administrator, <br/><br/>
+                    We request a demo to connect our system to your mobile app.<br/>
+                    Company Details: <br/>
+                    - Company: <t t-out="object.company_name or ''"></t><br/>
+                    - Other Details: <t t-out="object.company_informations or ''"></t><br/>
+                    - Tax Country: <t t-out="object.account_fiscal_country_id.name or ''"></t><br/>
+                    - Mobile App: Repair App<br/><br/>
+                    Thank you,<br/><br/>
+                    --<br/>
+                    Team <t t-out="object.company_name  or ''"></t>
+                    <br/>
+                </p>
+            </div>
+        </field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+</odoo>
