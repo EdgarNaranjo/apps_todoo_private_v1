@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!--View Form stock.picking.wizard-->
+        <record id="view_stock_picking_wizard" model="ir.ui.view">
+            <field name="name">view.stock.picking.wizard</field>
+            <field name="model">stock.picking.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="check_in" invisible="True"/>
+                        <field name="check_out" invisible="True"/>
+                        <div name="msg_opr_main">
+                            <div>
+                                <p colspan="2" class="alert alert-warning info_icon" role="alert" invisible="check_out">
+                                    <b>
+                                        <u>
+                                            <h3 style="font-weight:bold;color:#7d5a29">Info :
+                                            </h3>
+                                        </u>
+                                        <ol>
+                                            <li>
+                                                Check that the information is correct.
+                                            </li>
+                                            <li>
+                                                Select the destination location.
+                                            </li>
+                                            <li>
+                                                Generate the outgoing delivery related to the repair.
+                                            </li>
+                                            <li>
+                                                Return to the repair flow.
+                                            </li>
+                                        </ol>
+                                    </b>
+                                </p>
+                                <p colspan="2" class="alert alert-info info_icon" role="alert" invisible="check_in">
+                                    <b>
+                                        <u>
+                                            <h3 style="font-weight:bold;color:#7d5a29">Info :
+                                            </h3>
+                                        </u>
+                                        <ol>
+                                            <li>
+                                                Check that the information is correct.
+                                            </li>
+                                            <li>
+                                                Select the destination location.
+                                            </li>
+                                            <li>
+                                                Generate the incoming delivery related to the repair.
+                                            </li>
+                                            <li>
+                                                Return to the repair flow.
+                                            </li>
+                                        </ol>
+                                    </b>
+                                </p>
+                            </div>
+                        </div>
+                        <br/>
+                        <group>
+                            <group>
+                                <field name="repair_id" readonly="1" force_save="1"/>
+                                <field name="partner_id" readonly="1" force_save="1"/>
+                            </group>
+                            <group>
+                                <field name="product_id" options="{'no_create': True}" readonly="1" force_save="1"/>
+                                <field name="quantity"/>
+                                <field name="location_id" options="{'no_create': True}" required='True'
+                                       domain="[('usage', '=', 'supplier')]"/>
+                                <field name="location_dest_id" options="{'no_create': True}" required='True'
+                                       domain="[('usage', '=', 'internal')]"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="action_create_picking_in" string="Create incoming delivery"
+                                invisible="check_in" class="oe_highlight"/>
+                        <button type="object" name="action_create_picking_out" string="Create outgoing delivery"
+                                invisible="check_out" class="oe_highlight"/>
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
+
