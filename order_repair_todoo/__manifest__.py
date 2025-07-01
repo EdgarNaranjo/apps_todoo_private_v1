@@ -22,7 +22,7 @@
 
 {
     'name': "[Advance] Workflow Repair",
-    'version': '17.0.1.0.2',
+    'version': '17.0.1.0.3',
     'category': 'Industry/Services',
     'summary': '[Mechanical workshop] Improvements to the repair process.',
     'description': """[Mechanical workshop] Add new functionality to the repair process. Advance workflow repair.""",
