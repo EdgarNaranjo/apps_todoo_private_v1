@@ -113,7 +113,7 @@
     </record>
 
     <!--Inherit view_repair_order_tree  -->
-    <!--<record id="view_repair_order_inherit_tree" model="ir.ui.view">
+    <record id="view_repair_order_inherit_tree" model="ir.ui.view">
         <field name="name">view.repair.order.inherit.tree</field>
         <field name="model">repair.order</field>
         <field name="inherit_id" ref="repair.view_repair_order_tree" />
@@ -124,24 +124,13 @@
                  <field name="vehicle_brand_id" optional="show"/>
                  <field name="vehicle_model_id" optional="show"/>
                  <field name="vehicle_serial_id" optional="show"/>
-            </field>
-            <xpath expr="//field[@name='picking_id']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
-            <xpath expr="//field[@name='is_returned']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
-            <xpath expr="//field[@name='sale_order_id']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
-            <xpath expr="//field[@name='sale_order_id']" position="after">
                 <field name="internal_state_ids" options="{'color_field': 'color'}" widget="many2many_tags" optional="show"/>
-            </xpath>
+            </field>
         </field>
-    </record>-->
+    </record>
 
     <!--Inherit view_repair_order_filter  -->
-    <!--<record id="view_repair_order_inherit_filter" model="ir.ui.view">
+    <record id="view_repair_order_inherit_filter" model="ir.ui.view">
         <field name="name">view.repair.order.inherit.filter</field>
         <field name="model">repair.order</field>
         <field name="inherit_id" ref="repair.view_repair_order_form_filter" />
@@ -163,7 +152,7 @@
                 <filter name="vehicle_serial_id" domain="[]" context="{'group_by': 'vehicle_serial_id'}"/>
             </xpath>
         </field>
-    </record>-->
+    </record>
 
     <record id="action_stock_picking_wizard" model="ir.actions.act_window">
         <field name="name">Generate stock picking</field>
