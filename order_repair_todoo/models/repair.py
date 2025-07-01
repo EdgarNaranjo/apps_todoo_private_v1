@@ -313,7 +313,7 @@ class RepairOrder(models.Model):
 
     @api.depends('company_id')
     def _compute_location_id(self):
-        param_id = self.env['ir.config_parameter'].sudo().get_param('repair_todoo.location_id')
+        param_id = self.env['ir.config_parameter'].sudo().get_param('order_repair_todoo.location_id')
         for order in self:
             location = False
             if param_id and str(param_id).isdigit():
