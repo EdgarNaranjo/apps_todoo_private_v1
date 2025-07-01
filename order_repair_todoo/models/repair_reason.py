@@ -1,0 +1,30 @@
+from odoo import models, fields, _
+
+
+class RepairReason(models.Model):
+    _name = 'repair.reason'
+    _description = 'Repair Reason'
+    _order = 'id'
+
+    name = fields.Char(
+        'Root Cause',
+        required=True,
+        translate=True
+    )
+    parent_id = fields.Many2one(
+        'repair.reason',
+        'Parent reason'
+    )
+    company_id = fields.Many2one(
+        'res.company',
+        'Company',
+        default=lambda self: self.env.company
+    )
+
+    def _compute_display_name(self):
+        for reason in self:
+            name = reason.name
+            if reason.parent_id:
+                name = f"{reason.parent_id.name} / {reason.name}"
+            reason.display_name = name
+

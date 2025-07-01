@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+   <record id="view_repair_order_todoo_form" model="ir.ui.view">
+        <field name="name">view.repair.order.todoo.form</field>
+        <field name="model">repair.order</field>
+        <field name="inherit_id" ref="repair.view_repair_order_form" />
+        <field name="arch" type="xml">
+           <xpath expr="//div[@class='oe_title']" position="before">
+                <field name="parent_id" invisible="1"/>
+                <field name="check_child" invisible="1"/>
+                <widget name="web_ribbon" title="RELATED" bg_color="bg-warning" invisible="not parent_id"/>
+                <widget name="web_ribbon" title="PRINCIPAL" bg_color="bg-info" invisible="not check_child"/>
+            </xpath>
+            <xpath expr="//field[@name='state']" position="attributes">
+                <attribute name="statusbar_visible">draft,pick,confirmed,done</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_validate']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_validate']" position="before">
+                <button name="action_picking" invisible="state != 'draft'" type="object" string="Generate Pick" class="oe_highlight" data-hotkey="p"/>
+            </xpath>
+            <xpath expr="//sheet" position="before">
+                <field name="show_in" invisible="True"/>
+                <field name="show_out" invisible="True"/>
+                <div invisible="not show_in" class="alert alert-warning info_icon" role="alert">
+                    <b>
+                        <h4 style="font-style:italic;">
+                            There are incoming delivery notes that need to be validated.
+                        </h4>
+                    </b>
+                </div>
+                <div invisible="not show_out" class="alert alert-info info_icon" role="alert">
+                    <b>
+                        <h4 style="font-style:italic;">
+                            There are outgoing delivery notes that need to be validated.
+                        </h4>
+                    </b>
+                </div>
+            </xpath>
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button name="action_open_transfers" class="oe_stat_button" icon="fa-truck" type="object">
+                    <field name="transfer_count" widget="statinfo" string="Transfers"/>
+                </button>
+                <button name="action_open_child" class="oe_stat_button" invisible="count_child &lt; 1"
+                        icon="fa-list-ul" type="object">
+                    <field name="count_child" widget="statinfo" string="Repairs"/>
+                </button>
+            </xpath>
+            <xpath expr="//field[@name='schedule_date']" position="before">
+                <field name="internal_state_ids" options="{'no_create': True,'color_field': 'color'}" widget="many2many_tags"/>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="before">
+                <field name="duration" readonly="True"/>
+            </xpath>
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="repair_reason_id" options="{'no_create': True}" required="True"/>
+            </xpath>
+            <xpath expr="//field[@name='product_id']" position="replace">
+                <label for="product_id"/>
+                <div class="o_row">
+                    <field name="product_id" domain="[('unit','!=', False)]" options="{'no_create': True}" required="1"/>
+                    <button type="object"
+                            name="action_add_new_order"
+                            icon="fa-plus"
+                            class="btn btn-sm btn-outline-primary"
+                            string=""
+                            title="Add new order related"
+                            invisible="state != 'draft' or parent_id"
+                    />
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="repair_type_id" options="{'no_create': True}" required="True"/>
+            </xpath>
+            <xpath expr="//page[@name='parts']" position="before">
+                <page name="other_data_repair" string="Repair data">
+                    <group>
+                        <group name="data_car" string="Car data">
+                            <field name="vehicle_brand_id" options="{'no_create': True}"
+                                   domain="[('vehicle_type_id.check_vehicle','=',True)]"/>
+                            <field name="vehicle_model_id" options="{'no_create': True}"
+                                   domain="[('vehicle_brand_id','=',vehicle_brand_id)]"/>
+                            <field name="vehicle_serial_id" options="{'no_create': True}"
+                                   domain="[('vehicle_model_id','=',vehicle_model_id)]"/>
+                            <field name="license_vin"/>
+                            <field name="technical_sheet" widget="image" invisible="True"/>
+                            <field name="unit"/>
+                            <field name="reference"/>
+                            <field name="tag_attachment" widget="image" invisible="True"/>
+                        </group>
+                        <group name="other_data" string="Other data">
+                            <field name="vehicle_starts" widget="radio" options="{'horizontal': true}"/>
+                            <field name="communication_unit" widget="radio" options="{'horizontal': true}"/>
+                            <field name="fault_code" widget="radio" options="{'horizontal': true}"/>
+                            <field name="diagnosis_attachment" widget="image" invisible="True"/>
+                            <field name="delete_codes" widget="radio" options="{'horizontal': true}"/>
+                            <field name="continuous_failure" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                    </group>
+                    <br/>
+                    <group>
+                        <field name="symptoms" placeholder="Description ..."/>
+                        <field name="procedures_performed" placeholder="MEASUREMENTS, DIAGNOSTIC TESTS, ..."/>
+                        <field name="antecedents" placeholder="SITUATIONS OR ACTIONS THAT HAVE BEEN PERFORMED PREVIOUSLY RELATED TO THIS FAULT ..."/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!--Inherit view_repair_order_tree  -->
+    <record id="view_repair_order_inherit_tree" model="ir.ui.view">
+        <field name="name">view.repair.order.inherit.tree</field>
+        <field name="model">repair.order</field>
+        <field name="inherit_id" ref="repair.view_repair_order_tree" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                 <field name="repair_type_id" optional="hide"/>
+                 <field name="repair_reason_id" optional="hide"/>
+                 <field name="vehicle_brand_id" optional="show"/>
+                 <field name="vehicle_model_id" optional="show"/>
+                 <field name="vehicle_serial_id" optional="show"/>
+                <field name="internal_state_ids" options="{'color_field': 'color'}" widget="many2many_tags" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <!--Inherit view_repair_order_filter  -->
+    <record id="view_repair_order_inherit_filter" model="ir.ui.view">
+        <field name="name">view.repair.order.inherit.filter</field>
+        <field name="model">repair.order</field>
+        <field name="inherit_id" ref="repair.view_repair_order_form_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='sale_order_id']" position="after">
+                <field name="repair_type_id"/>
+                <field name="repair_reason_id"/>
+                 <field name="vehicle_brand_id"/>
+                 <field name="vehicle_model_id"/>
+                 <field name="vehicle_serial_id"/>
+                 <field name="internal_state_ids"/>
+            </xpath>
+            <xpath expr="//filter[@name='status']" position="after">
+                <filter name="internal_state_ids" domain="[]" context="{'group_by': 'internal_state_ids'}"/>
+                <filter name="repair_type_id" domain="[]" context="{'group_by': 'repair_type_id'}"/>
+                <filter name="repair_reason_id" domain="[]" context="{'group_by': 'repair_reason_id'}"/>
+                <filter name="vehicle_brand_id" domain="[]" context="{'group_by': 'vehicle_brand_id'}"/>
+                <filter name="vehicle_model_id" domain="[]" context="{'group_by': 'vehicle_model_id'}"/>
+                <filter name="vehicle_serial_id" domain="[]" context="{'group_by': 'vehicle_serial_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_stock_picking_wizard" model="ir.actions.act_window">
+        <field name="name">Generate stock picking</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.picking.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="binding_model_id" ref="order_repair_todoo.model_repair_order"/>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_repair_order_wizard" model="ir.actions.act_window">
+        <field name="name">Do you want to create a new repair order?</field>
+        <field name="res_model">repair.order.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_setting_repair" name="Setting repair" parent="repair.repair_menu_config" sequence="2"
+              groups="order_repair_todoo.group_repair_admin"/>
+    <menuitem id="menu_setting_vehicle" name="Setting vehicle" parent="repair.repair_menu_config" sequence="3"
+              groups="order_repair_todoo.group_repair_admin"/>
+</odoo>
