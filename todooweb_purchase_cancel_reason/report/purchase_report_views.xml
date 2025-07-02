@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_purchase_report_search" model="ir.ui.view">
+        <field name="name">view.purchase.report.search</field>
+        <field name="model">purchase.report</field>
+        <field name="inherit_id" ref="purchase.view_purchase_order_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="cancel_reason_id"/>
+            </xpath>
+            <xpath expr="//filter[@name='group_partner_id']" position="before">
+               <filter string="Cancel reason" name="cancel_reason_id" domain="[]" context="{'group_by':'cancel_reason_id'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
