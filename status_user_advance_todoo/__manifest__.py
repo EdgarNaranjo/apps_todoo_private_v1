@@ -18,10 +18,10 @@
 ##############################################################################
 
 {
-    'name': 'Status Session Users',
+    'name': '[Advanced] Status Session Users',
     'version': '18.0.1.0.0',
     'category': 'Tools',
-    'description': """Status Session Users. Inactive, Active. Online or Offline""",
+    'description': """[Advanced] Status Session Users. Inactive, Active. Online or Offline. Notifications to managers.""",
     'author': "ToDOO Web (www.todooweb.com)",
     'support': 'devtodoo@gmail.com',
     'website': "https://todooweb.com/",
@@ -30,10 +30,12 @@
         "Equipo Dev <devtodoo@gmail.com>",
         "Edgar Naranjo <edgarnaranjof@gmail.com>",
     ],
-    'depends': ['base', 'hr', 'hr_attendance', 'crm', 'sale', 'purchase', 'account'],
+    'depends': ['base', 'hr', 'hr_attendance', 'crm', 'sale', 'purchase', 'account', 'status_user_todoo'],
     'data': [
+        'security/ir.model.access.csv',
+        'security/security.xml',
         'views/res_users_view.xml',
-        'data/user_data.xml'
+        'data/sessions_data.xml'
     ],
      'images': [
          'static/description/screenshot_status.png'
@@ -41,7 +43,7 @@
     'installable': True,
     'application': False,
     'auto_install': False,
-    'price': 10.99,
+    'price': 12.0,
     'currency': 'EUR',
 
 }
