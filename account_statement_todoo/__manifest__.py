@@ -35,6 +35,6 @@ Customer account statement, balance, general ledger report, printed account stat
     'installable': True,
     'application': True,
     'auto_install': False,
-    'price': 29.99,
+    'price': 35.99,
     'currency': 'EUR',
 }
