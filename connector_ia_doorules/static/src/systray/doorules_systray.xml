@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="connector_ia_doorules.DooRulesSystray">
+        <div class="o_systray_item d-flex align-items-center">
+            <button type="button" 
+                    class="btn p-2 border-0 shadow-none text-white opacity-75 opacity-100-hover" 
+                    t-on-click="_onClick" 
+                    title="DooRules AI"
+                    style="background: transparent;">
+                <i class="fa fa-lg fa-sitemap" role="img" aria-label="DooRules AI"/>
+            </button>
+        </div>
+    </t>
+</templates>
