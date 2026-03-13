@@ -3,7 +3,7 @@
 
 {
     'name': 'Global Advanced Search',
-    'version': '17.0.1.0.2',
+    'version': '18.0.1.0.3',
     'category': 'Extra Tools',
     'summary': """Advanced Search: Activate search in all odoo models.""",
     'description': """Global Advanced Search: Activate search in all odoo models.""",
@@ -16,7 +16,7 @@
         "Edgar Naranjo <edgarnaranjof@gmail.com>",
     ],
     'support': 'devtodoo@gmail.com',
-    'depends': ['base', 'web', 'sale'],
+    'depends': ['base', 'web'],
     'data': [
         'views/views_inherits.xml',
     ],

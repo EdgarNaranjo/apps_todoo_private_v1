@@ -10,16 +10,25 @@ class ResUsers(models.Model):
     @api.model
     def search_terms(self, term):
         res = []
-        model_ids = self.env['ir.model'].search([('allow_search', '=', True)])
+        LIMIT = 5
+        model_ids = self.env.user.groups_id.mapped('model_access').mapped('model_id').filtered(
+            lambda l: l.allow_search
+        )
         for rec in model_ids:
             model = rec.model
-            records = self.env[model].name_search(term)
-            action = self.env['ir.actions.act_window'].sudo().search([
-                ('res_model', '=', model),
-                ('path', '!=', False),
-            ], limit=1)
+            if model not in self.env:
+                continue
+            records = self.env[model].name_search(term, limit=LIMIT + 1)
             if records:
-                res.append({'model': model, 'name': rec.name, 'records': records, 'path': action.path if action else ''})
+                has_more = len(records) > LIMIT
+                records = records[:LIMIT]
+                res.append({
+                    'model': model,
+                    'name': rec.name,
+                    'records': records,
+                    'total_count': len(records),
+                    'has_more': has_more,
+                })
         return res
 
 
