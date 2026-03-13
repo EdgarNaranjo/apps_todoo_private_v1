@@ -1,115 +1,314 @@
-.toggle-icon{
-    padding: 3px;
-    margin-bottom: 18px;
+/* =============================================================
+   Todoo Global Search Systray
+   ============================================================= */
+
+/* Variables propias con fallback al tema de Odoo.
+   Para personalizar, sobreescribe estas variables en tu tema:
+     --todoo-accent, --todoo-hover-bg, --todoo-hl-color         */
+:root {
+    --todoo-accent:    var(--o-brand-primary, #017e84);
+    --todoo-hover-bg:  color-mix(in srgb, var(--todoo-accent) 8%, white);
+    --todoo-hl-color:  var(--todoo-accent);
 }
 
-.o_main_navbar > ul > li.o_search_systray {
-    display: flex;
+/* Wrapper posicionado para anclar el dropdown */
+.o_todoo_search_wrap {
     position: relative;
-    color: #333;
+    display: flex;
+    align-items: center;
 }
 
-li.o_search_systray {
-    list-style-type: none;
+/* ---- Toggle button (estado colapsado) ---- */
+.o_todoo_toggle_btn {
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    transition: background 0.2s, color 0.2s;
 }
 
-.systray_input {
-    width: 0;
+.o_todoo_toggle_btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+/* ---- Input bar ---- */
+.o_todoo_input_wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 0 10px;
+    transition: background 0.2s, box-shadow 0.2s;
+    cursor: text;
+}
+
+.o_todoo_input_wrap:focus-within {
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+}
+
+.o_todoo_icon_search {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 13px;
+    pointer-events: none;
+    transition: color 0.2s;
+    flex-shrink: 0;
+}
+
+.o_todoo_input_wrap:focus-within .o_todoo_icon_search {
+    color: #999;
+}
+
+.o_todoo_input {
+    width: 210px;
     border: none;
-    border-radius: 1rem;
-    padding-left: 15px;
-    background-color: transparent;
-    transition: width 0.5s, background-color 0.3s, border-radius 0.3s;
+    background: transparent;
+    outline: none;
+    padding: 7px 0;
+    font-size: 14px;
+    color: #fff;
+    transition: color 0.2s;
 }
 
-.o_main_navbar > ul > li.o_search_systray.o_search_open {
-    border-radius: 1rem;
-    height: 3rem;
-    background-color: white;
-    margin: 5px 0;
-    transition: background-color 0.5s, border-radius 0.5s;
-}
-
-.o_main_navbar > ul > li.o_search_systray.o_search_open > a {
-    color: #555;
-    height: 3rem;
-    width: 33px;
-    line-height: 3rem;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.o_main_navbar > ul > li.o_search_systray.o_search_open > a:hover {
-    background-color: transparent;
-}
-
-.o_main_navbar > ul > li.o_search_systray.o_search_open > a:hover i::before {
-    content: "\f00d";
-    transition: 2s;
-}
-
-.systray_input {
-    width: 250px;
-    background-color: white;
-    transition: width 0.3s, background-color 0.3s;
-}
-
-ul.o_search_results {
-    position: relative;
-    right: 0;
-    width: 280px;
+.o_todoo_input_wrap:focus-within .o_todoo_input {
     color: #333;
-    z-index: 9999;
-    max-height: 400px;
-    overflow-y: auto;
 }
 
-a.list_link:hover {
-    color: #FF7E26 !important;
+.o_todoo_input::placeholder {
+    color: rgba(255, 255, 255, 0.55);
+    transition: color 0.2s;
 }
 
-ul.o_search_results > li {
+.o_todoo_input_wrap:focus-within .o_todoo_input::placeholder {
+    color: #bbb;
+}
+
+.o_todoo_clear {
+    cursor: pointer;
+    color: #aaa;
     display: flex;
+    align-items: center;
+    padding: 2px;
+    flex-shrink: 0;
+    transition: color 0.15s;
 }
 
-ul.o_search_results > li > p:first-child {
-    font-weight: bold;
-    margin-bottom: 0;
-    flex: 0 0 50%;
+.o_todoo_clear:hover {
+    color: #555;
 }
 
-ul.o_search_results > li > p:last-child {
-    margin-left: 0.5rem;
-    margin-bottom: 0;
-    flex: 1 1 70%;
-    width: 100px;
+/* ---- Dropdown ---- */
+.o_todoo_dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.14);
+    border: 1px solid #ebebeb;
+    z-index: 9999;
+    max-height: 480px;
+    overflow-y: auto;
+    animation: todoo_slide_in 0.15s ease;
 }
 
-ul.o_search_results > li > p:last-child a {
+@keyframes todoo_slide_in {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- State messages ---- */
+.o_todoo_state_msg {
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.o_todoo_msg_error {
+    color: #d9534f;
+}
+
+.o_todoo_msg_empty {
+    color: #aaa;
+    font-style: italic;
+}
+
+/* ---- Section label ---- */
+.o_todoo_section_label {
+    padding: 10px 16px 4px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #bbb;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.o_todoo_clear_history {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 600;
+    color: #ccc;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: color 0.15s;
+}
+
+.o_todoo_clear_history:hover {
+    color: #d9534f;
+}
+
+.o_todoo_history_item {
+    padding: 9px 16px;
+    font-size: 14px;
+    color: #555;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.1s, color 0.1s;
+}
+
+.o_todoo_history_item:hover {
+    background: var(--todoo-hover-bg);
+    color: var(--todoo-accent);
+}
+
+.o_todoo_history_item .fa-clock-o {
+    color: #ccc;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.o_todoo_history_item span:not(.o_todoo_history_remove) {
+    flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    display: block;
 }
 
-.input-container {
-  position: relative;
+.o_todoo_history_remove {
+    margin-left: auto;
+    flex-shrink: 0;
+    color: #ccc;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+    padding: 2px 4px;
+    font-size: 11px;
 }
 
-.input-container input[type="text"] {
-  padding-left: 30px;
+.o_todoo_history_item:hover .o_todoo_history_remove {
+    opacity: 1;
 }
 
-.input-container .search-icon {
-  position: absolute;
-  left: 5px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 20px;
-  height: auto;
+.o_todoo_history_remove:hover {
+    color: #d9534f !important;
 }
 
+/* ---- Result group header ---- */
+.o_todoo_group_header {
+    padding: 10px 16px 4px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #bbb;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-top: 1px solid #f2f2f2;
+}
+
+.o_todoo_group_header:first-child {
+    border-top: none;
+}
+
+.o_todoo_group_header .fa {
+    color: var(--todoo-accent);
+    font-size: 11px;
+}
+
+/* ---- Record items ---- */
+.o_todoo_record_item {
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #444;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.1s, color 0.1s;
+}
+
+.o_todoo_record_item .fa {
+    color: #ddd;
+    font-size: 11px;
+    flex-shrink: 0;
+    transition: color 0.1s;
+}
+
+.o_todoo_record_item span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.o_todoo_record_item:hover,
+.o_todoo_record_item.o_todoo_active {
+    background: var(--todoo-hover-bg);
+    color: var(--todoo-accent);
+}
+
+.o_todoo_record_item:hover .fa,
+.o_todoo_record_item.o_todoo_active .fa {
+    color: var(--todoo-accent);
+}
+
+/* ---- Highlight término buscado ---- */
+.o_todoo_hl {
+    background: transparent;
+    color: var(--todoo-hl-color);
+    font-weight: 700;
+    padding: 0;
+}
+
+/* ---- See more ---- */
+.o_todoo_see_more {
+    padding: 6px 16px 12px 34px;
+    font-size: 13px;
+    color: var(--todoo-accent);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: opacity 0.1s;
+}
+
+.o_todoo_see_more:hover {
+    opacity: 0.75;
+    text-decoration: underline;
+}
+
+/* ---- Responsive ---- */
 @media (max-width: 1199px) {
-    .o_main_navbar > ul > li.o_search_systray {
+    .o_todoo_search_wrap {
         display: none;
     }
 }
