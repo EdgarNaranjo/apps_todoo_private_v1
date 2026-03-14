@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="systray_icon" owl="1">
+        <div class="o_todoo_search_wrap">
+
+            <!-- Estado colapsado: solo la lupa -->
+            <span t-if="!state.isExpanded" class="o_todoo_toggle_btn" t-on-click="expandSearch" title="Search (Ctrl+K)">
+                <i class="fa fa-search"/>
+            </span>
+
+            <!-- Estado expandido: barra + dropdown -->
+            <t t-if="state.isExpanded">
+                <div class="o_todoo_input_wrap">
+                    <i class="fa fa-search o_todoo_icon_search"/>
+                    <input
+                        type="text"
+                        t-ref="inputSearch"
+                        class="o_todoo_input"
+                        placeholder="Search… (Ctrl+K)"
+                        autocomplete="off"
+                        spellcheck="false"
+                        t-model="state.inputSearch"
+                        t-on-input="onInput"
+                        t-on-focus="onFocus"
+                        t-on-blur="onBlur"
+                        t-on-keydown="onKeyDown"
+                    />
+                    <span t-if="state.inputSearch or state.isLoading" class="o_todoo_clear" t-on-click="clear">
+                        <i t-att-class="state.isLoading ? 'fa fa-spinner fa-spin' : 'fa fa-times'"/>
+                    </span>
+                </div>
+
+                <!-- Dropdown -->
+                <div t-if="showDropdown" class="o_todoo_dropdown" t-on-mousedown.prevent="">
+
+                    <!-- Loading -->
+                    <div t-if="state.isLoading" class="o_todoo_state_msg">
+                        <i class="fa fa-spinner fa-spin"/> Searching…
+                    </div>
+
+                    <!-- Error -->
+                    <div t-elif="state.hasError" class="o_todoo_state_msg o_todoo_msg_error">
+                        <i class="fa fa-exclamation-circle"/> Search failed. Please try again.
+                    </div>
+
+                    <!-- No results -->
+                    <div t-elif="showNoResults" class="o_todoo_state_msg o_todoo_msg_empty">
+                        <i class="fa fa-search"/> No results for "<t t-esc="state.inputSearch"/>"
+                    </div>
+
+                    <!-- Recent searches -->
+                    <t t-elif="showHistory">
+                        <div class="o_todoo_section_label">
+                            <i class="fa fa-history"/> Recent searches
+                            <span class="o_todoo_clear_history" t-on-click="clearHistory">
+                                <i class="fa fa-trash-o"/> Clear
+                            </span>
+                        </div>
+                        <t t-foreach="state.history" t-as="term" t-key="term">
+                            <div class="o_todoo_history_item" t-on-click="() => this.searchFromHistory(term)">
+                                <i class="fa fa-clock-o"/>
+                                <span t-esc="term"/>
+                                <span class="o_todoo_history_remove" t-on-click.stop="() => this.removeHistory(term)" title="Remove">
+                                    <i class="fa fa-times"/>
+                                </span>
+                            </div>
+                        </t>
+                    </t>
+
+                    <!-- Results -->
+                    <t t-else="">
+                        <t t-foreach="state.results" t-as="group" t-key="group.id">
+                            <div class="o_todoo_group_header">
+                                <i t-att-class="'fa ' + group.icon"/>
+                                <span t-esc="group.modelNameDisplay"/>
+                            </div>
+                            <t t-foreach="group.records" t-as="record" t-key="record.id">
+                                <div
+                                    t-att-class="'o_todoo_record_item' + (isSelected(group_index, record_index) ? ' o_todoo_active' : '')"
+                                    t-on-click="() => this.openRecord(group.model, record.id)"
+                                    t-att-title="record.title">
+                                    <i class="fa fa-angle-right"/>
+                                    <span t-out="highlight(record.title, state.inputSearch)"/>
+                                </div>
+                            </t>
+                            <div t-if="group.hasMore"
+                                 class="o_todoo_see_more"
+                                 t-on-click="() => this.seeMore(group.model, group.modelNameDisplay)">
+                                <i class="fa fa-list"/> See all in <t t-esc="group.modelNameDisplay"/>…
+                            </div>
+                        </t>
+                    </t>
+
+                </div>
+            </t>
+
+        </div>
+    </t>
+</templates>
