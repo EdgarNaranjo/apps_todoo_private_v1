@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Change the Property Noupdate to False, to allow the change-->
+
+        <record id="group_project_technical_worker" model="res.groups">
+            <field name="name">Technical Services</field>
+            <field name="category_id" ref="base.module_category_services_project"/>
+        </record>
+    </data>
+</odoo>
