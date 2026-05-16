@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- View vehicle.brand View Tree -->
+    <record id="view_vehicle_brand_tree" model="ir.ui.view">
+        <field name="name">view.vehicle.brand.tree</field>
+        <field name="model">vehicle.brand</field>
+        <field name="arch" type="xml">
+            <list sample="1">
+                <field name="name" />
+                <field name="vehicle_fuel_id" optional="show" />
+                <field name="vehicle_type_id" optional="show" />
+                <field name="create_uid" />
+                <field name="create_date" />
+                <field
+                    name="company_id"
+                    groups="base.group_multi_company"
+                    optional="show"
+                />
+            </list>
+        </field>
+    </record>
+
+    <!-- View vehicle.brand form -->
+    <record id="view_vehicle_brand_form" model="ir.ui.view">
+        <field name="name">view.vehicle.brand.form</field>
+        <field name="model">vehicle.brand</field>
+        <field name="arch" type="xml">
+            <form>
+                <header />
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" />
+                        <h1>
+                            <field name="name" placeholder="Name..." />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                            <field
+                                name="vehicle_fuel_id"
+                                options="{'no_create': True}"
+                            />
+                            <field name="vehicle_type_id" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+
+                    <separator string="Models" colspan="4" />
+                    <field
+                        name="vehicle_model_ids"
+                        nolabel="1"
+                        colspan="4"
+                        options="{'no_open': False}"
+                    />
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- View vehicle.brand search -->
+    <record id="view_vehicle_brand_search" model="ir.ui.view">
+        <field name="name">view.vehicle.brand.search</field>
+        <field name="model">vehicle.brand</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="vehicle_fuel_id" />
+                <field name="vehicle_model_ids" />
+                <group expand="1" string="Group By">
+                    <filter
+                        string="Name"
+                        name="name"
+                        domain="[]"
+                        context="{'group_by':'name'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action vehicle.brand -->
+    <record id="action_vehicle_brand" model="ir.actions.act_window">
+        <field name="name">Vehicle Brand</field>
+        <field name="res_model">vehicle.brand</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                There is no examples click here to add new Vehicle Brand.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_repair_order_vehicle_brand" name="Vehicle Brand" parent="menu_setting_vehicle"
+              action="action_vehicle_brand" sequence="3"/>
+</odoo>

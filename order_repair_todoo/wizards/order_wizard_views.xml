@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!--View Form repair.order.wizard-->
+        <record id="view_repair_order_wizard" model="ir.ui.view">
+            <field name="name">view.repair.order.wizard</field>
+            <field name="model">repair.order.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div name="msg_opr_main">
+                            <div>
+                                <p colspan="2" class="alert alert-info info_icon" role="alert">
+                                    <b>
+                                        <u>
+                                            <h3 style="font-weight:bold;color:#7d5a29">Info :
+                                            </h3>
+                                        </u>
+                                        <ol>
+                                            <li>
+                                                Check that the information is correct.
+                                            </li>
+                                            <li>
+                                                Select a product related whit order.
+                                            </li>
+                                            <li>
+                                                Check the quantity to generate.
+                                            </li>
+                                            <li>
+                                                Return to the repair flow.
+                                            </li>
+                                        </ol>
+                                    </b>
+                                </p>
+                            </div>
+                        </div>
+                        <br/>
+                        <group>
+                            <group>
+                                <field name="repair_id" invisible="1"/>
+                                <field name="product_filter_ids" invisible="1"/>
+                                <field name="product_id" options="{'no_create': True}" required="1" domain="[('id', 'in', product_filter_ids)]"/>
+                                <field name="quantity" required="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="action_create_order" string="Create new order" class="oe_highlight"/>
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
+

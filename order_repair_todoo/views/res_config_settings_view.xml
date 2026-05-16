@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_repair_config_inherit_settings_form" model="ir.ui.view">
+        <field name="name">repair.config.settings.view.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="0"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Repair Settings" string="Repair Settings" name="repair_settings" groups="base.group_system">
+                    <block title="Repair Type &amp; Repair Reason" name="type_values_container">
+                        <setting id="default_setting_type" string="Repair type" help="Choose the repair type as the default in your Repair.">
+                            <div class="mt16">
+                                 <field name="repair_type_id" options="{'no_open': True, 'no_create': True}"/>
+                            </div>
+                        </setting>
+                        <setting id="default_setting_reason" string="Repair reason" help="Choose the repair reason as the default in your Repair.">
+                            <div class="mt16">
+                                 <field name="reason_id" options="{'no_open': True, 'no_create': True}"/>
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Location &amp; Component location" name="method_values_container">
+                        <setting id="default_setting_location" string="Product" help="Choose the location for the default."
+                                 documentation="/applications/inventory_and_mrp/inventory/management/warehouses/warehouses_locations.html">
+                            <div class="mt16">
+                                 <field name="product_location_src_id" options="{'no_open': True, 'no_create': True}"/>
+                            </div>
+                        </setting>
+                        <setting id="default_setting_location_component" string="Component" help="Choose the location for the default."
+                                 documentation="/applications/inventory_and_mrp/inventory/management/warehouses/warehouses_locations.html">
+                            <div class="mt16">
+                                 <field name="location_id" options="{'no_open': True, 'no_create': True}"/>
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Integrations &amp; App Mobile" name="mobile_invite_container">
+                        <setting id="default_setting_mobile" string="Request demo" help="Check the following option if you want to request to connect with the mobile app.">
+                            <div class="mt16">
+                                 <field name="check_demo"/>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="res_config_setting_act_inherit_window" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'repair_settings', 'bin_size': False}</field>
+    </record>
+
+    <menuitem id="repair_config_menu" name="Settings" parent="repair.repair_menu_config" sequence="0"
+              action="res_config_setting_act_inherit_window"/>-->
+
+</odoo>

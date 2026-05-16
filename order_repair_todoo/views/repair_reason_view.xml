@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Define a new tree view for the Repair Root Cause model -->
+    <record id="view_repair_order_root_cause_tree" model="ir.ui.view">
+        <field name="name">repair.reason.tree</field>
+        <field name="model">repair.reason</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="parent_id"/>
+                <field name="create_uid"/>
+                <field name="create_date"/>
+                <field name="company_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Define a new form view for the Repair Root Cause model -->
+    <record id="view_repair_order_root_cause_form" model="ir.ui.view">
+        <field name="name">repair.reason.form</field>
+        <field name="model">repair.reason</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="parent_id" options="{'no_create': True}"/>
+                            <field name="company_id" groups="base.group_multi_company" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search view for RepairRoot Cause model -->
+    <record id="view_repair_order_root_cause_search" model="ir.ui.view">
+        <field name="name">repair.reason.search</field>
+        <field name="model">repair.reason</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="parent_id"/>
+                <field name="company_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_repair_order_root_cause" model="ir.actions.act_window">
+        <field name="name">Repair reason</field>
+        <field name="res_model">repair.reason</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create a new repair reason
+          </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_repair_order_root_cause" name="Repair reason" parent="menu_setting_repair"
+              action="action_repair_order_root_cause" sequence="3"/>
+</odoo>
