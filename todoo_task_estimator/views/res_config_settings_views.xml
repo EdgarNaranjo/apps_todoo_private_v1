@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="res_config_settings_view_form_estimator" model="ir.ui.view">
+    <field name="name">res.config.settings.view.form.estimator</field>
+    <field name="model">res.config.settings</field>
+    <field name="inherit_id" ref="project.res_config_settings_view_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//app[@name='project']" position="inside">
+        <block title="Task Estimator" name="task_estimator">
+          <setting id="task_estimator_url_setting"
+                   help="URL of the external task-estimator server (e.g. http://localhost:3000 or https://estimator.yourcompany.com)">
+            <field name="estimator_url" placeholder="http://localhost:3000"/>
+          </setting>
+          <setting id="task_estimator_api_key_setting"
+                   help="API key to authenticate requests to the task-estimator server. Leave empty if the server has no API_KEY configured (open/dev mode).">
+            <field name="estimator_api_key" password="True" placeholder="optional"/>
+          </setting>
+        </block>
+      </xpath>
+    </field>
+  </record>
+
+</odoo>

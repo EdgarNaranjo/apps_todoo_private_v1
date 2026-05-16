@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+  <record id="param_task_estimator_url" model="ir.config_parameter">
+    <field name="key">todoo_task_estimator.url</field>
+    <field name="value">http://localhost:3000</field>
+  </record>
+
+  <record id="param_task_estimator_api_key" model="ir.config_parameter">
+    <field name="key">todoo_task_estimator.api_key</field>
+    <field name="value"></field>
+  </record>
+
+</odoo>
