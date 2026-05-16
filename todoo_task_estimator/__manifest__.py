@@ -1,6 +1,6 @@
 {
     'name': 'Task Estimator Integration',
-    'version': '18.0.2.0.0',
+    'version': '17.0.2.0.0',
     'category': 'Project/Project',
     'summary': 'Direct API integration with task-estimator',
     'description': """

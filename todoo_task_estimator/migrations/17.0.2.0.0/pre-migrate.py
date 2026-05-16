@@ -1,6 +1,6 @@
 """
-Migration 18.0.2.0.0 — pre-migrate
-Drop todoo_estimator_session table (model removed in v2).
+Migration 17.0.2.0.0 — pre-migrate
+Drop todoo_estimator_session table if it exists (model removed in v2).
 """
 
 
