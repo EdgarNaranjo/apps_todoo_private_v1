@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="view_task_form_estimator" model="ir.ui.view">
+    <field name="name">project.task.form.estimator</field>
+    <field name="model">project.task</field>
+    <field name="inherit_id" ref="project.view_task_form2"/>
+    <field name="arch" type="xml">
+
+      <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+
+        <button name="action_open_estimator_ui"
+                type="object"
+                class="oe_stat_button"
+                icon="fa-magic"
+                invisible="not id or has_estimation"
+                title="Estimate this task">
+          <div class="o_stat_info">
+            <span class="o_stat_text">Estimate</span>
+          </div>
+        </button>
+
+        <button name="action_open_estimator_ui"
+                type="object"
+                class="oe_stat_button"
+                icon="fa-magic"
+                invisible="not id or not has_estimation"
+                title="Re-estimate task">
+          <div class="o_stat_info">
+            <span class="o_stat_value">
+              <field name="estimator_pts_manual" nolabel="1" readonly="1"/>
+              /
+              <field name="estimator_pts_ia" nolabel="1" readonly="1"/>
+            </span>
+            <span class="o_stat_text">Est. Pts</span>
+          </div>
+        </button>
+
+      </xpath>
+
+    </field>
+  </record>
+
+</odoo>
