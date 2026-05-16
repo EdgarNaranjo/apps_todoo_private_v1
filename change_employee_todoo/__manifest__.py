@@ -20,7 +20,6 @@
         'hr',
         'hr_skills',
         'planning',
-        'hr_contract'
     ],
     'data': [
         'security/ir.model.access.csv',
