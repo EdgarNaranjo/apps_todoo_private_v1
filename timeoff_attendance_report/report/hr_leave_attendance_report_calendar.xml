@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<odoo>
+
+    <record id="hr_leave_attendance_report_calendar_view" model="ir.ui.view">
+        <field name="name">hr.leave.attendance.report.calendar.view</field>
+        <field name="model">hr.leave.attendance.report.calendar</field>
+        <field name="arch" type="xml">
+            <calendar string="Time Off/Attendance" mode="month" quick_create="flase" date_start="start_datetime" date_stop="stop_datetime"
+                      event_open_popup="true" color="color" show_unusual_days="True" create="false" delete="false">
+                <field name="name"/>
+                <field name="employee_id" filters="1"/>
+                <field name="department_id" filters="1"/>
+                <field name="company_id" filters="1"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="hr_leave_attendance_report_calendar_form_view" model="ir.ui.view">
+        <field name="name">hr.leave.attendance.report.form.view</field>
+        <field name="model">hr.leave.attendance.report.calendar</field>
+        <field name="arch" type="xml">
+            <form string="Time Off/Attendance">
+                <group>
+                    <group>
+                        <field name="name" invisible="True"/>
+                        <field name="employee_id"/>
+                        <field name="job_id"/>
+                        <field name="department_id"/>
+                    </group>
+                    <group>
+                        <field name="start_datetime"/>
+                        <field name="stop_datetime"/>
+                        <field name="company_id"/>
+                        <field name="on_holiday" invisible="True"/>
+                        <field name="on_attendance" invisible="True"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_leave_attendance_report_calendar_view_search" model="ir.ui.view">
+        <field name="name">hr.leave.attendance.report.calendar.view.search</field>
+        <field name="model">hr.leave.attendance.report.calendar</field>
+        <field name="arch" type="xml">
+            <search string="Time Off/Attendance">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="job_id"/>
+                <filter string="My Department" name="department" domain="['|', ('department_id.member_ids.user_id', '=', uid), ('employee_id.user_id', '=', uid)]" help="My Department"/>
+                <separator/>
+                <filter string="On holiday" name="holiday" domain="[('on_holiday', '=', True)]" help="On holiday"/>
+                <filter string="On attendance" name="attendance" domain="[('on_attendance', '=', True)]" help="On attendance"/>
+                <group expand="0" string="Group By">
+                    <filter name="groupby_job_id" string="Job Position" context="{'group_by': 'job_id'}"/>
+                    <filter name="groupby_company_id" string="Company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                    <filter name="groupby_department_id" context="{'group_by': 'department_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="hr_leave_attendance_report_calendar_view_gantt" model="ir.ui.view">
+        <field name="name">hr.leave.attendance.report.calendar.gantt</field>
+        <field name="model">hr.leave.attendance.report.calendar</field>
+        <field name="arch" type="xml">
+            <gantt
+                date_start="start_datetime"
+                date_stop="stop_datetime"
+                default_group_by="department_id"
+                default_scale="week"
+                color="color"
+                scales="day,week,month,year"
+                total_row="True"
+                sample="1"
+                pill_label="True"
+                precision="{'day': 'hour:full', 'week': 'day:full', 'month': 'day:full', 'year': 'day:full'}"
+                display_unavailability="1"
+                thumbnails="{'employee_id': 'image_128'}" create="0" delete="0">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="job_id"/>
+                <field name="department_id"/>
+                <field name="start_datetime"/>
+                <field name="stop_datetime"/>
+                <field name="company_id"/>
+                <field name="on_holiday"/>
+                <field name="on_attendance"/>
+                <field name="color"/>
+           </gantt>
+        </field>
+    </record>
+
+    <record id="action_hr_holidays_attendance_dashboard" model="ir.actions.act_window">
+        <field name="name">Time Off/Attendance</field>
+        <field name="res_model">hr.leave.attendance.report.calendar</field>
+        <field name="view_mode">gantt,calendar,form</field>
+        <field name="search_view_id" ref="hr_leave_attendance_report_calendar_view_search"/>
+        <field name="domain">[('employee_id.active','=',True)]</field>
+    </record>
+
+    <menuitem
+            id="menu_hr_holidays_attendance_report_calendar_root"
+            name="Time Off/Attendance"
+            parent="hr_holidays.menu_hr_holidays_root"
+            action="action_hr_holidays_attendance_dashboard"
+            groups="timeoff_attendance_report.timeoff_attendance_admin_group"
+            sequence="1"/>
+</odoo>
