@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form_inherit_provision" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.provision</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="40"/>
+            <field name="inherit_id" ref="purchase.res_config_settings_view_form_purchase"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='invoicing_settings_container']" position="after">
+                    <h2>Purchase provisions</h2>
+                    <div class="row mt16 o_settings_container" name="generic_data_setting_container">
+                        <div class="col-12 col-lg-6 o_setting_box" id="generic_month" title="Default month">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <label for="set_month"/>
+                                <a href="https://www.odoo.com/documentation/16.0/applications/inventory_and_mrp/inventory/product_management/product_replenishment/strategies.html" title="Replenishment" class="o_doc_link" target="_blank"></a>
+                                <div class="text-muted">
+                                    Number of months
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <span><field name="set_month" class="o_light_label"/> months</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box" id="generic_multiple" title="Default multiple">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <label for="value_multiple"/>
+                                <div class="text-muted">
+                                    Purchase forecast for that period
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="value_multiple" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

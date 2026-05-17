@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <menuitem name="Vantiv" parent="point_of_sale.menu_point_config_product" id="menu_pos_pos_vantiv_tripos_cloud_root" sequence="36" />
+        <menuitem name="Configurations" parent="menu_pos_pos_vantiv_tripos_cloud_root" action="pos_vantiv_tripos_cloud.action_configuration_form" id="menu_pos_pos_vantiv_tripos_cloud_config" sequence="36" />
+        <menuitem name="Lanes" parent="menu_pos_pos_vantiv_tripos_cloud_root" action="pos_vantiv_tripos_cloud.action_lane_configuration_form" id="menu_pos_pos_vantiv_tripos_cloud_lane_config" sequence="38" />
+        <menuitem name="Transactions" parent="menu_pos_pos_vantiv_tripos_cloud_root" action="pos_vantiv_tripos_cloud.action_transaction_form" id="menu_pos_vantiv_tripos_cloud_lane_transaction" sequence="39" />
+    </data>
+</odoo>
