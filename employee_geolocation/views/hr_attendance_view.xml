@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vista formulario hr.attendance: sección de geolocalización mejorada -->
+        <record id="geolocate_hr_attendance_view_form_inherit" model="ir.ui.view">
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group" position="after">
+                    <notebook>
+                        <page string="📍 Check In Location" name="checkin_geo">
+                            <group>
+                                <group string="Location">
+                                    <field name="in_ip_address" readonly="True" string="IP Address"/>
+                                    <field name="city_check_in" readonly="True" string="City"/>
+                                    <field name="code_country_in" readonly="True" string="Country"/>
+                                    <div class="o_form_label fw-bold">📍 GPS Coordinates (In)</div>
+                                    <div>
+                                        <span invisible="not in_latitude">
+                                            <field name="in_latitude" readonly="True" nolabel="1"/>,
+                                            <field name="in_longitude" readonly="True" nolabel="1"/>
+                                        </span>
+                                        <span invisible="in_latitude" class="text-muted">No GPS coordinates</span>
+                                    </div>
+                                </group>
+                                <group string="Device">
+                                    <field name="type_disp_check_in" readonly="True" string="Device Type"/>
+                                    <field name="user_os_check_in" readonly="True" string="Operating System"/>
+                                    <field name="browser_name_check_in" readonly="True" string="Browser"/>
+                                    <field name="device_type_in" readonly="True" string="Device Category"/>
+                                </group>
+                            </group>
+                            <field name="show_checkout" invisible="1"/>
+                        </page>
+                        <page string="📍 Check Out Location" name="checkout_geo"
+                              invisible="not show_checkout">
+                            <group>
+                                <group string="Location">
+                                    <field name="out_ip_address" readonly="True" string="IP Address"/>
+                                    <field name="city_check_out" readonly="True" string="City"/>
+                                    <field name="code_country_out" readonly="True" string="Country"/>
+                                    <div class="o_form_label fw-bold">📍 GPS Coordinates (Out)</div>
+                                    <div>
+                                        <span invisible="not out_latitude">
+                                            <field name="out_latitude" readonly="True" nolabel="1"/>,
+                                            <field name="out_longitude" readonly="True" nolabel="1"/>
+                                        </span>
+                                        <span invisible="out_latitude" class="text-muted">No GPS coordinates</span>
+                                    </div>
+                                </group>
+                                <group string="Device">
+                                    <field name="type_disp_check_out" readonly="True" string="Device Type"/>
+                                    <field name="user_os_check_out" readonly="True" string="Operating System"/>
+                                    <field name="browser_name_check_out" readonly="True" string="Browser"/>
+                                    <field name="device_type_out" readonly="True" string="Device Category"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Vista lista: columnas útiles de geolocalización -->
+        <record id="view_attendance_tree_inherit" model="ir.ui.view">
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='check_out']" position="after">
+                    <field name="in_ip_address" optional="hide" string="IP (In)"/>
+                    <field name="city_check_in" optional="hide" string="City (In)"/>
+                    <field name="type_disp_check_in" optional="hide" string="Device"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Vista formulario del log de asistencia: mejorado -->
+        <record model="ir.ui.view" id="hr_employee_log_form">
+            <field name="name">hr.employee.log.form</field>
+            <field name="model">hr.employee.log</field>
+            <field name="arch" type="xml">
+                <form string="Employee Attendance Log">
+                    <header>
+                        <button name="create_map" string="🗺 Generate Map" type="object"
+                                class="btn-primary" data-hotkey="m"
+                                invisible="state == 'processed'"
+                                help="Generate a map showing the location of this attendance check"/>
+                        <button name="compare_create_map" string="🗺 Compare with Previous" type="object"
+                                class="btn-primary" data-hotkey="c"
+                                invisible="state != 'processed'"
+                                help="Compare this location with the previous attendance"/>
+                        <button name="set_draft" string="Reset" type="object"
+                                class="btn-secondary" data-hotkey="d"
+                                invisible="state != 'processed'"/>
+                        <field name="state" widget="statusbar" statusbar_visible="not_processed,processed"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Name" default_focus="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="employee_id" options="{'no_open': True, 'no_create': True}" required="True"/>
+                                <field name="attendance_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="check_in" readonly="True" invisible="check_type == 'anoon'"/>
+                                <field name="check_out" readonly="True" invisible="check_type == 'mning'"/>
+                                <field name="check_type" invisible="1"/>
+                                <field name="show_checkout" invisible="1"/>
+                            </group>
+                        </group>
+                        <group string="Location Details">
+                            <group>
+                                <field name="location_ip_check_in" readonly="True" string="IP Address"/>
+                                <field name="city_check_in" readonly="True" string="City"/>
+                                <field name="code_country_in" readonly="True" string="Country"/>
+                            </group>
+                            <group>
+                                <field name="device_type_in" readonly="True" string="Device Type"/>
+                                <field name="user_os_check_in" readonly="True" string="OS"/>
+                                <field name="browser_name_check_in" readonly="True" string="Browser"/>
+                            </group>
+                        </group>
+                        <field name="data_map" widget="html" string="Location Map"/>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista lista del log -->
+        <record model="ir.ui.view" id="hr_employee_log_tree">
+            <field name="name">hr.employee.log.tree</field>
+            <field name="model">hr.employee.log</field>
+            <field name="arch" type="xml">
+                <list string="Employee Attendance Log"
+                      decoration-success="state == 'processed'"
+                      decoration-muted="state == 'not_processed'">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="check_in" invisible="check_type == 'anoon'"/>
+                    <field name="check_out" invisible="check_type == 'mning'"/>
+                    <field name="location_ip_check_in" string="IP"/>
+                    <field name="device_type_in" string="Device"/>
+                    <field name="city_check_in" string="City"/>
+                    <field name="code_country_in" string="Country"/>
+                    <field name="state" widget="badge"
+                           decoration-success="state == 'processed'"
+                           decoration-warning="state == 'not_processed'"/>
+                    <field name="check_type" column_invisible="True"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Vista búsqueda del log -->
+        <record model="ir.ui.view" id="hr_employee_log_search">
+            <field name="name">hr.employee.log.search</field>
+            <field name="model">hr.employee.log</field>
+            <field name="arch" type="xml">
+                <search string="Employee Attendance Log">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <separator/>
+                    <filter string="Not Processed" domain="[('state', '=', 'not_processed')]" name="not_processed"/>
+                    <filter string="Processed (Map ready)" domain="[('state', '=', 'processed')]" name="processed"/>
+                    <separator/>
+                    <group>
+                        <filter string="State" name="state" context="{'group_by': 'state'}"/>
+                        <filter string="Employee" name="employee" context="{'group_by': 'employee_id'}"/>
+                        <filter string="Check-in Date" name="check_in" context="{'group_by': 'check_in:day'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Vista pivot del log -->
+        <record id="hr_employee_log_view_pivot" model="ir.ui.view">
+            <field name="name">hr.employee.log.pivot</field>
+            <field name="model">hr.employee.log</field>
+            <field name="arch" type="xml">
+                <pivot string="Attendance Log" display_quantity="true">
+                    <field name="employee_id"/>
+                    <field name="check_in" type="col" interval="day"/>
+                </pivot>
+            </field>
+        </record>
+
+        <!-- Acciones y menús -->
+        <record id="act_hr_employee_log" model="ir.actions.act_window">
+            <field name="name">Attendance Geo Logs</field>
+            <field name="res_model">hr.employee.log</field>
+            <field name="view_mode">list,pivot,form</field>
+            <field name="search_view_id" ref="hr_employee_log_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No geolocation logs yet.
+                </p>
+                <p>Geolocation logs are created automatically when employees check in or out.</p>
+            </field>
+        </record>
+
+        <menuitem name="Geo Logs" id="hr_employee_log_menu_root"
+                  parent="hr_attendance.menu_hr_attendance_root"
+                  groups="hr.group_hr_manager" sequence="20"/>
+        <menuitem name="Attendance Geo Logs" id="hr_employee_log_menu_log"
+                  sequence="1" parent="hr_employee_log_menu_root"
+                  groups="hr.group_hr_manager"
+                  action="act_hr_employee_log"/>
+    </data>
+</odoo>

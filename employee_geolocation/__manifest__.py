@@ -1,7 +1,7 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    This module copyright (C) 2026 Todooweb
+#    This module copyright (C) 2023 Todooweb
 #    (<http://www.todooweb.com>).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,34 +20,32 @@
 ##############################################################################
 
 {
-    'name': 'DooRules AI Connector',
+    'name': '[Attendance] Employee geolocation',
     'version': '19.0.1.0.0',
-    'category': 'Administration',
-    'summary': 'Connector for DooRules AI Rules Engine',
-    'description': """
-        This module adds a systray icon to quickly access DooRules AI
-        for configuring rules based on the current Odoo context.
-    """,
-    'license': 'LGPL-3',
+    'category': 'Human Resources',
+    'summary': """Employee geolocation from attendance control.""",
+    'description': """Employee geolocation from attendance control, every time I check in and out.""",
+    'license': 'AGPL-3',
     'author': "Todooweb (www.todooweb.com)",
     'website': "https://todooweb.com/",
     'contributors': [
         "Equipo Dev <devtodoo@gmail.com>",
         "Edgar Naranjo <edgarnaranjof@gmail.com>",
     ],
-    'support': 'devtodoo@gmail.com',
-    'depends': ['web'],
-    'data': [],
-    'assets': {
-        'web.assets_backend': [
-            'connector_ia_doorules/static/src/systray/doorules_systray.js',
-            'connector_ia_doorules/static/src/systray/doorules_systray.xml',
-        ],
+    'external_dependencies': {
+        'python': ['geocoder', 'device_detector', 'folium'],
     },
-    'images': ['static/description/screenshot_ia.png'],
+    'support': 'devtodoo@gmail.com',
+    'depends': ['base', 'hr', 'hr_attendance'],
+    'data': [
+        'security/ir.model.access.csv',
+        'security/employee_geolocation_security.xml',
+        'views/hr_attendance_view.xml'
+    ],
+    'images': ['static/description/screenshot_locatization.png'],
     'installable': True,
     'auto_install': False,
     'application': False,
-    'price': 4.99,
+    'price': 45.99,
     'currency': 'EUR',
 }

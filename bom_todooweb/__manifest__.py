@@ -1,7 +1,7 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    This module copyright (C) 2026 Todooweb
+#    This module copyright (C) 2024 Todooweb
 #    (<http://www.todooweb.com>).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,34 +20,31 @@
 ##############################################################################
 
 {
-    'name': 'DooRules AI Connector',
+    'name': 'Bill of materials (Parents & childrens)',
     'version': '19.0.1.0.0',
-    'category': 'Administration',
-    'summary': 'Connector for DooRules AI Rules Engine',
-    'description': """
-        This module adds a systray icon to quickly access DooRules AI
-        for configuring rules based on the current Odoo context.
-    """,
-    'license': 'LGPL-3',
-    'author': "Todooweb (www.todooweb.com)",
+    'summary': 'MRP BoM: Bill of materials (Parents & childrens)',
+    'description': """Bill of materials: Modify the stock of parent products when the stock of the children is modified.""",
+    'license': 'AGPL-3',
+    'author': "ToDOO Web (www.todooweb.com)",
+    'category': 'Manufacturing',
     'website': "https://todooweb.com/",
     'contributors': [
         "Equipo Dev <devtodoo@gmail.com>",
         "Edgar Naranjo <edgarnaranjof@gmail.com>",
     ],
-    'support': 'devtodoo@gmail.com',
-    'depends': ['web'],
-    'data': [],
-    'assets': {
-        'web.assets_backend': [
-            'connector_ia_doorules/static/src/systray/doorules_systray.js',
-            'connector_ia_doorules/static/src/systray/doorules_systray.xml',
-        ],
-    },
-    'images': ['static/description/screenshot_ia.png'],
+    'support': 'devtodoo@gmail.com',    
+    'depends': ['base', 'stock', 'mrp'],
+    'data': [
+        'views/mrp_bom_views.xml'
+    ],
+    'images': [
+       'static/description/screenshot_bom.png'
+    ],
+    'live_test_url': 'https://cutt.ly/bcTOKcl',
+    'tests': True,
     'installable': True,
-    'auto_install': False,
     'application': False,
-    'price': 4.99,
+    'auto_install': False,
+    'price': 15.99,
     'currency': 'EUR',
 }

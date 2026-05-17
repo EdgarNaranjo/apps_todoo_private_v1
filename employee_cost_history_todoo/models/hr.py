@@ -159,7 +159,7 @@ class EmployeeCostHistory(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         env_cost_history = self.env['employee.cost.history']
-        records = super(EmployeeCostHistory, self).create(vals_list)
+        records = super().create(vals_list)
         for record in records:
             employee = record.employee_id
             obj_cost_by_employee = env_cost_history.search([('employee_id', '=', employee.id)])

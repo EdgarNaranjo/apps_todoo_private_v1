@@ -171,7 +171,7 @@ class EmployeeChangePlanning(models.Model):
         for record in self:
             if any(item for item in record.list_ids if item.state == 'processed'):
                 raise UserError(_('This record cannot be deleted, there are elements that have already been processed.'))
-        res = super(EmployeeChangePlanning, self).unlink()
+        res = super().unlink()
         return res
 
     def update_dates(self, planning, list_actions):
@@ -244,7 +244,7 @@ class Employee(models.Model):
                         })
             if list_field:
                 history_env.create(list_field)
-        return super(Employee, self).write(vals)
+        return super().write(vals)
 
     def action_view_history(self):
         return {
