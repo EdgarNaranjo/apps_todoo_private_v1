@@ -25,7 +25,7 @@ class AccountMove(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         """Inherit the function to link the sale order to the invoice in autocomplete process."""
-        moves = super(AccountMove, self).create(vals_list)
+        moves = super().create(vals_list)
         for move in moves:
             if move.reversed_entry_id:
                 continue
@@ -38,7 +38,7 @@ class AccountMove(models.Model):
         return moves
 
     def write(self, vals):
-        res = super(AccountMove, self).write(vals)
+        res = super().write(vals)
         for rec in self:
             if rec.reversed_entry_id:
                 continue

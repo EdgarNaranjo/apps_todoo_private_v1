@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+		<record id="report_customer_filter_print" model="ir.actions.report">
+            <field name="name">Customer Statement Filters</field>
+            <field name="model">customer.model.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">account_statement_todoo.report_custom_statement_wizard</field>
+            <field name="report_file">account_statement_todoo.report_custom_statement_wizard</field>
+        </record>
+
+        <record id="report_supplier_filter_print" model="ir.actions.report">
+            <field name="name">Supplier Statement Filters</field>
+            <field name="model">customer.model.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">account_statement_todoo.report_supplier_statement_wizard</field>
+            <field name="report_file">account_statement_todoo.report_supplier_statement_wizard</field>
+        </record>
+    </data>
+</odoo>
