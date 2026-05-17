@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Smart button en stock.picking mostrando facturas automáticas -->
+    <record id="view_picking_form_inherit_auto_invoice" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit.auto.invoice</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button"
+                    type="object"
+                    name="action_view_auto_invoices"
+                    icon="fa-file-invoice"
+                    invisible="auto_invoice_count == 0">
+                    <field name="auto_invoice_count" widget="statinfo" string="Invoices"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Settings form -->
+    <record id="res_config_settings_view_form_inherit" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.automatic.invoice.delivered</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='invoicing_settings']" position="after">
+                <block title="Automatic Invoice Delivered" id="automatic_invoice_delivered_block">
+                    <setting string="Automatic Invoice on Delivery"
+                        help="Automatically create and post an invoice when a delivery order is validated for products with delivery billing policy.">
+                        <field name="is_automatic_invoice_delivered"/>
+                        <label for="is_automatic_invoice_delivered"/>
+                        <div class="text-muted">
+                            Create and post the invoice automatically after validating the delivery
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

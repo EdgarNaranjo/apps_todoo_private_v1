@@ -11,7 +11,7 @@ class Project(models.Model):
         """"
         Inherit the standard function to add smart button in project overview
         """
-        buttons = super(Project, self)._get_stat_buttons()
+        buttons = super()._get_stat_buttons()
         buttons.append({
             'icon': 'tasks',
             'text': _lt('Analytics'),
