@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="raps_mail_activity_view_form_popup" model="ir.ui.view">
+            <field name="name">raps.mail.activity.view.form.popup</field>
+            <field name="model">mail.activity</field>
+            <field name="inherit_id" ref="mail.mail_activity_view_form_popup"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="not_show_channel" invisible="1"/>
+                    <!-- Canal de origen: visible cuando la actividad viene de un canal -->
+                    <field name="mail_channel_id"
+                           invisible="not_show_channel"
+                           options="{'no_create': True, 'no_open': True}"
+                           string="Origin Channel"
+                           help="This activity was created from a channel. Other channel members also received a copy."/>
+                    <!-- Info banner cuando la actividad es de un canal -->
+                    <div class="alert alert-info py-1 px-2 mb0 mt4"
+                         invisible="not mail_channel_id"
+                         role="alert">
+                        <i class="fa fa-users me-1"/>
+                        Activity shared with all members of channel
+                        <strong><field name="mail_channel_id" readonly="1" nolabel="1" class="d-inline"/></strong>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,38 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <template id="my_report_saleorder_document_inherit_sale_management" inherit_id="sale_management.report_saleorder_document_inherit_sale_management">
-            <xpath expr="//table[@name='table_optional_products']" position="replace">
-                <table name="table_optional_products" class="table table-sm">
-                    <thead>
-                        <tr>
-                            <th name="th_option_name" class="text-start">Description</th>
-                            <th name="th_option_quantity" class="text-end">Uds.</th>
-                            <th name="th_option_priceunit" class="text-end">Price</th>
-                            <th name="th_option_discount" class="text-end">Disc.</th>
-                            <th name="th_option_price_subtotal" class="text-end">Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody class="sale_tbody">
-                        <tr t-foreach="doc.sale_order_option_ids" t-as="option">
-                            <td name="td_option_name">
-                                <span t-field="option.name"/>
-                            </td>
-                            <td name="td_option_quantity" class="text-end">
-                                <span t-field="option.quantity"/>
-                            </td>
-                            <td name="td_option_price_unit" class="text-end">
-                                <span t-field="option.price_unit" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
-                            </td>
-                            <td name="td_option_discount" class="text-end">
-                                <span t-field="option.discount"/>
-                            </td>
-                            <td name="td_option_price_subtotal" class="text-end">
-                                <span t-field="option.price_subtotal" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!--
+            Extend the sale order PDF report to show Cost and Margin
+            columns. These fields are added by sale_margin to all
+            sale.order.line records (including optional ones with is_optional=True).
+        -->
+        <template
+            id="report_saleorder_optional_margin"
+            inherit_id="sale.report_saleorder_document"
+            name="Sale Order: Margin columns">
+
+            <!-- Add Margin and Cost columns to the header -->
+            <xpath expr="//th[@name='th_subtotal']" position="before">
+                <th name="th_purchase_price" class="text-end" groups="base.group_user">Cost</th>
+                <th name="th_margin" class="text-end" groups="base.group_user">Margin</th>
+            </xpath>
+
+            <!-- Add Margin and Cost cells to each product line -->
+            <xpath expr="//td[@name='td_product_priceunit']" position="after">
+                <td name="td_purchase_price" class="text-end text-nowrap" groups="base.group_user">
+                    <span
+                        t-if="not line.display_type"
+                        t-field="line.purchase_price"
+                        t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                </td>
+                <td name="td_margin" class="text-end text-nowrap" groups="base.group_user">
+                    <span
+                        t-if="not line.display_type and line.price_subtotal != 0"
+                        t-field="line.margin_percent"
+                        t-options='{"widget": "percentage"}'/>
+                </td>
             </xpath>
         </template>
     </data>

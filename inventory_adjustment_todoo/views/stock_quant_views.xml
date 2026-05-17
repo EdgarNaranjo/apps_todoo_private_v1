@@ -1,0 +1,39 @@
+<odoo>
+    <data>
+        <!--Inherit stock.quant list view — campos de ajuste en fecha pasada-->
+        <record id="view_stock_quant_tree_roto_inherit" model="ir.ui.view">
+            <field name="name">stock.quant.tree.roto.inherit</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_tree_inventory_editable"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='inventory_date']" position="before">
+                    <field name="past_inventory_quantity"
+                        optional="hide"
+                        string="Past Qty"
+                        decoration-warning="past_inventory_quantity &gt; 0"/>
+                    <field name="past_inventory_date"
+                        optional="hide"
+                        string="Past Date"
+                        decoration-warning="past_inventory_date != False"
+                        decoration-danger="past_inventory_date != False and past_inventory_quantity == 0"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--Inherit stock.move.line form view-->
+        <record id="view_stock_move_line_form_roto_inherit" model="ir.ui.view">
+            <field name="name">stock.move.line.form.roto.inherit</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_move_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='lot_id']" position="after">
+                    <separator string="Backdated Adjustment"/>
+                    <field name="past_inventory_date"
+                        help="Date of the original inventory (must be in the past)"/>
+                    <field name="past_inventory_quantity"
+                        help="Quantity recorded on the past inventory date"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
