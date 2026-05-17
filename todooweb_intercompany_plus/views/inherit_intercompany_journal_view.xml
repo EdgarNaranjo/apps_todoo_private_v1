@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+        <!-- View inherit Form account.move-->
+        <record id="view_move_form_inherit_intercompany" model="ir.ui.view">
+            <field name="name">account.move.form.inherit.intercompany</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_open_doc_intercompany" class="oe_stat_button" icon="fa-copy" type="object" invisible="intercompany_count = 0">
+                        <field name="intercompany_count" widget="statinfo" string="Doc. intercompany"/>
+                    </button>
+                    <button name="action_open_doc_intercompany" class="oe_stat_button" icon="fa-copy" type="object" invisible="intercompany_related = 0">
+                        <field name="intercompany_related" widget="statinfo" string="Doc. related"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="action_setting_type_journal_accounting" model="ir.actions.act_window">
+            <field name="name">Type journal</field>
+            <field name="res_model">setting.type.journal</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a type journal!
+                </p>
+            </field>
+            <field name="context">{'search_default_type_intercompany': 1}</field>
+        </record>
+
+        <menuitem id="account_type_journal_accounting_elogia_menu" name="Type journal" action="action_setting_type_journal_accounting"
+                  parent="account.account_invoicing_menu" sequence="99"/>
+    </data>
+</odoo>
