@@ -313,21 +313,21 @@ class RepairOrder(models.Model):
                 record.duration = f'{days}d-{hours}h-{minutes}m'
 
     def action_validate(self):
-        res = super(RepairOrder, self).action_validate()
+        res = super().action_validate()
         if self.filtered(lambda e: not e.check_in):
             raise UserError(_("Repair must be confirmed before generate 'incoming operation'.\n "
                               "Go to the 'Action' section and 'Generate incoming picking' of the product to be repaired."))
         return res
 
     def action_repair_start(self):
-        res = super(RepairOrder, self).action_repair_start()
+        res = super().action_repair_start()
         if self.filtered(lambda e: not e.check_in):
             raise UserError(_("Repair must be confirmed before generate 'incoming operation'.\n "
                               "Go to the 'Action' section and 'Generate incoming picking' of the product to be repaired."))
         return res
 
     def action_repair_end(self):
-        res = super(RepairOrder, self).action_repair_end()
+        res = super().action_repair_end()
         if self.filtered(lambda e: not e.check_out):
             raise UserError(_("Repair must be finished before generate 'outgoing operation'.\n "
                               "Go to the 'Action' section and 'Generate outgoing picking' of the product to be repaired."))

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 from odoo import api, fields, models, tools, SUPERUSER_ID, _
 from odoo.addons.base.models.res_partner import _tz_get
@@ -111,7 +110,7 @@ class HrDepartureWizard(models.TransientModel):
     _inherit = 'hr.departure.wizard'
 
     def action_register_departure(self):
-        res = super(HrDepartureWizard, self).action_register_departure()
+        res = super().action_register_departure()
         obj_report_ids = self.env['hr.leave.attendance.report'].search([('employee_id', '=', self.employee_id.id)])
         obj_report_ids.unlink()
         return res

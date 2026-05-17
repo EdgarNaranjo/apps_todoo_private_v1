@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form_inherit_provision" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.provision</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="40"/>
+            <field name="inherit_id" ref="purchase.res_config_settings_view_form_purchase"/>
+            <field name="arch" type="xml">
+                <xpath expr="//block[@name='invoicing_settings_container']" position="after">
+                    <block title="Purchase Forecast (Procurement Provision)"
+                           name="purchase_prevision_container">
+                        <setting string="Look-back period (months)"
+                            help="Number of past months to analyze confirmed sale lines. The average quantity sold per month × the multiplier = suggested minimum stock.">
+                            <span>
+                                <field name="set_month" class="o_light_label"/> months
+                            </span>
+                            <div class="text-muted mt8">
+                                Odoo will look at confirmed sales from the last
+                                <strong><field name="set_month" readonly="1" nolabel="1"/></strong> months
+                                to calculate purchase forecast.
+                            </div>
+                        </setting>
+                        <setting string="Safety multiplier"
+                            help="Multiply the average monthly sales by this factor to get the suggested minimum stock level. E.g. a value of 5 means 5× the monthly average.">
+                            <field name="value_multiple" class="o_light_label"/>
+                            <div class="text-muted mt8">
+                                Min. stock = (avg. monthly sales × <strong><field name="value_multiple" readonly="1" nolabel="1"/></strong>)
+                            </div>
+                        </setting>
+                    </block>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

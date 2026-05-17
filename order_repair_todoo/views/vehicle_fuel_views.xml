@@ -68,7 +68,7 @@
                 <field name="name" />
                 <field name="vehicle_type_id" />
                 <field name="vehicle_brand_ids"/>
-                <group expand="1" string="Group By">
+                <group>
                     <filter
                         string="Name"
                         name="name"

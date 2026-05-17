@@ -52,7 +52,7 @@
                 <separator/>
                 <filter string="On holiday" name="holiday" domain="[('on_holiday', '=', True)]" help="On holiday"/>
                 <filter string="On attendance" name="attendance" domain="[('on_attendance', '=', True)]" help="On attendance"/>
-                <group expand="0" string="Group By">
+                <group>
                     <filter name="groupby_job_id" string="Job Position" context="{'group_by': 'job_id'}"/>
                     <filter name="groupby_company_id" string="Company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
                     <filter name="groupby_department_id" context="{'group_by': 'department_id'}"/>

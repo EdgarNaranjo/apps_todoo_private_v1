@@ -16,7 +16,7 @@ class PurchaseOrder(models.Model):
     def button_draft(self):
         for po in self:
             po.write({'cancel_reason_id': False})
-        return super(PurchaseOrder, self).button_draft()
+        return super().button_draft()
 
     def button_cancel(self):
         for record in self:
@@ -25,7 +25,7 @@ class PurchaseOrder(models.Model):
                     body=_('Order \"%s\" canceled with reason: \"%s\"') % (
                         record.name,
                         record.cancel_reason_id.name))
-        return super(PurchaseOrder, self).button_cancel()
+        return super().button_cancel()
 
 
 class PurchaseOrderCancelReason(models.Model):

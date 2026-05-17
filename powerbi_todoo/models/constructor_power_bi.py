@@ -155,7 +155,7 @@ class ConstructorPowerBiData(models.Model):
         sequence = self.env['ir.sequence']
         for vals in vals_list:
             vals['name'] = sequence.next_by_code('constructor.power.bi.data')
-        records = super(ConstructorPowerBiData, self).create(vals_list)
+        records = super().create(vals_list)
         for res in records:
             if not self:
                 obj_create_item = self.get_fields_by_model_id(res)
@@ -164,7 +164,7 @@ class ConstructorPowerBiData(models.Model):
         return records
 
     def write(self, vals):
-        res = super(ConstructorPowerBiData, self).write(vals)
+        res = super().write(vals)
         if 'model_id' in vals:
             for record in self.filtered(lambda r: r.type_query == 'simple'):
                 record.field_ids.unlink()
@@ -176,7 +176,7 @@ class ConstructorPowerBiData(models.Model):
     def copy_data(self, default=None):
         name = _("%s (copy)", self.description)
         default = dict(default or {}, description=name)
-        return super(ConstructorPowerBiData, self).copy_data(default)
+        return super().copy_data(default)
 
     @api.depends('model_id', 'domain')
     def _get_count_lines(self):
@@ -222,7 +222,7 @@ class ConstructorPowerBiData(models.Model):
         powerbi_lines = env_powerbi_lines.search([('power_bi_id', 'in', self.ids)])
         if powerbi_lines:
             powerbi_lines.unlink()
-        return super(ConstructorPowerBiData, self).unlink()
+        return super().unlink()
 
     def get_domain_by_data(self):
         val_domain = self.domain
@@ -436,7 +436,7 @@ class PowerBiSetting(models.Model):
         seq = self.env['ir.sequence']
         for vals in vals_list:
             vals['name'] = seq.next_by_code('power.bi.setting')
-        requests = super(PowerBiSetting, self).create(vals_list)
+        requests = super().create(vals_list)
         active_power_bi = env_power_id.search([('state', '=', 'done'), ('active', '=', True)])
         if active_power_bi:
             line_items = []
@@ -462,7 +462,7 @@ class PowerBiSetting(models.Model):
             record.state = 'active'
 
     def unlink(self):
-        res = super(PowerBiSetting, self).unlink()
+        res = super().unlink()
         if self.line_ids:
             self.line_ids.unlink()
         return res
@@ -596,7 +596,7 @@ class PowerBiLine(models.Model):
         for vals in vals_list:
             if 'power_bi_id' in vals:
                 vals['size_data'] = env_bi.browse(vals['power_bi_id']).data_many
-        return super(PowerBiLine, self).create(vals_list)
+        return super().create(vals_list)
 
     @api.constrains('last_date_update')
     def check_update_last_date_update(self):

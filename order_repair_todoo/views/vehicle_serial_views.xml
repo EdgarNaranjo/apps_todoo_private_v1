@@ -61,7 +61,7 @@
             <search>
                 <field name="name" />
                 <field name="vehicle_model_id" />
-                <group expand="1" string="Group By">
+                <group>
                     <filter
                         string="Name"
                         name="name"
