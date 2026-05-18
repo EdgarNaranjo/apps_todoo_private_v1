@@ -21,7 +21,7 @@
 
 {
     'name': 'Bill of materials (Parents & childrens)',
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.0.1',
     'summary': 'MRP BoM: Bill of materials (Parents & childrens)',
     'description': """Bill of materials: Modify the stock of parent products when the stock of the children is modified.""",
     'license': 'AGPL-3',

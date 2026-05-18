@@ -78,8 +78,9 @@ class StockQuant(models.Model):
 
     def write(self, vals):
         result = super().write(vals)
-        if self.product_id and self.quantity > 0:
-            obj_bom_line = self.env['mrp.bom.line'].search([('product_id', '=', self.product_id.id)])
-            if obj_bom_line:
-                self.do_create_parent(obj_bom_line)
+        for record in self:
+            if record.product_id and record.quantity > 0:
+                obj_bom_line = self.env['mrp.bom.line'].search([('product_id', '=', record.product_id.id)])
+                if obj_bom_line:
+                    record.do_create_parent(obj_bom_line)
         return result

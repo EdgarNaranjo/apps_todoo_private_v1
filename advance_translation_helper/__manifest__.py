@@ -21,7 +21,7 @@
 
 {
     'name': '[Advanced] Tool Translation: File ".po"',
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.0.1',
     'category': 'Extra Tools',
     'summary': """Translate base odoo file '.po' with the help of Google Translate.""",
     'description': """Translate the base odoo file '.po' with the help of Google Translate, in all necessary languages.""",

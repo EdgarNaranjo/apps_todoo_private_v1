@@ -21,7 +21,7 @@
 
 {
     'name': 'Helpdesk',
-    'version': '19.0.1.0.1',
+    'version': '19.0.1.0.2',
     'category': 'Helpdesk',
     'summary': """Helpdesk Pro: Support, tickets, issues, bugs.""",
     'description': """Improvement to the Helpdesk Tool: support, tickets, issues, bugs.""",
@@ -35,9 +35,9 @@
     'support': 'devtodoo@gmail.com',
     'depends': ['base', 'contacts', 'project', 'website', 'web', 'portal', 'hr_timesheet'],
     'data': [
-        'data/website_helpdesk.xml',
         'security/helpdesk_security.xml',
         'security/ir.model.access.csv',
+        'data/website_helpdesk.xml',
         'views/res_partner_views.xml',
         'views/helpdesk_ticket_templates.xml',
         'views/helpdesk_ticket_stage_views.xml',

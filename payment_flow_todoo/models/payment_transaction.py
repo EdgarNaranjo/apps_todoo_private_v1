@@ -3,9 +3,8 @@
 
 import logging
 
-from odoo import fields, models
+from odoo import fields, models, _
 from odoo.exceptions import ValidationError
-from odoo.tools.translate import _
 
 _logger = logging.getLogger(__name__)
 

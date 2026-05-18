@@ -37,6 +37,6 @@ class Project(models.Model):
             "name": "Analytics",
             'views': [(self.env.ref('analytic.view_account_analytic_line_tree').id, 'list'),
                       (self.env.ref('analytic.view_account_analytic_line_form').id, 'form')],
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
         }
         return result

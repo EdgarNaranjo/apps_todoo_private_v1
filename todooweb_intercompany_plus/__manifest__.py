@@ -3,7 +3,7 @@
 
 {
     'name': "Accounting: Intercompany journal",
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.0.1',
     'category': 'Extra Tools',
     'summary': """Accounting: Journal configurator in intercompany sales""",
     'description': """Journal configurator in intercompany sales and purchase. Journals: Intercompany.""",

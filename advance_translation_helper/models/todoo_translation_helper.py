@@ -158,7 +158,7 @@ class ToolTranslationHelper(models.TransientModel):
                     cont_position += 1
                     concat_value = 'msgstr ' + val_item + '\n'
                     if line in all_lines[cont_file - 1]:
-                        all_lines[cont_file - 1] = unidecode(all_lines[cont_file - 1].replace(line, concat_value), 'utf-8')
+                        all_lines[cont_file - 1] = unidecode(all_lines[cont_file - 1].replace(line, concat_value))
         with open(archivo_po, "w") as file_write:
             file_write.writelines(all_lines)
         file_data.close()
@@ -171,8 +171,6 @@ class ToolTranslationHelper(models.TransientModel):
         attachment = {
             'name': archivo_txt.split('/')[-1],
             'res_model': 'text.translations.helper',
-            # 'datas_fname': archivo_txt.split('/')[-1],
-            'db_datas': bin_data,
             'datas': bin_data,
             'file_size': len(bin_data),
             'mimetype': 'text/plain',
@@ -210,6 +208,7 @@ class TextTranslationsHelper(models.Model):
     attachment_count = fields.Integer(compute='_compute_todo_attachment')
     attachment_ids = fields.One2many('ir.attachment', 'helper_id', 'Attachments')
 
+    @api.depends('attachment_ids')
     def _compute_todo_attachment(self):
         for obj_helper in self:
             obj_helper.attachment_count = len(obj_helper.attachment_ids)
@@ -219,7 +218,6 @@ class TextTranslationsHelper(models.Model):
             'type': 'ir.actions.act_window',
             'name': 'Text Translations',
             'res_model': 'ir.attachment',
-            'view_mode': 'kanban,tree,form',
-            'view_type': 'form',
+            'view_mode': 'kanban,list,form',
             'domain': [('id', 'in', self.attachment_ids.ids)]
         }

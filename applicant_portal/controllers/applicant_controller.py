@@ -12,7 +12,7 @@ from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.exceptions import ValidationError, AccessError, MissingError, UserError, AccessDenied
 from odoo.http import content_disposition, Controller, request, route
 
-from odoo.tools.translate import _
+from odoo import _
 
 
 class WebsiteAccount(CustomerPortal):

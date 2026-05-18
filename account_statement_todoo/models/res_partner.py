@@ -12,13 +12,11 @@ _logger = logging.getLogger(__name__)
 class StockModelWzard(models.TransientModel):
     _name = 'customer.model.wizard'
     _description = 'Customer Model Wizard'
-    _description = 'Customer Model Wizard'
     _rec_name = 'state_invoice'
 
     @api.depends('invoice_filters_ids', 'supplier_filters_ids')
     def _get_amounts_and_date_amount(self):
-        user_id = self._uid
-        company = self.env['res.users'].browse(user_id).company_id
+        company = self.env.company
         current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         for wizard in self:
             amount_due = amount_overdue = 0.0
@@ -58,7 +56,6 @@ class StockModelWzard(models.TransientModel):
     total = fields.Float(string="Total", compute="compute_total")
     type = fields.Char('Type')
 
-    @api.depends('start_date', 'end_date', 'state_invoice')
     @api.onchange('start_date', 'end_date', 'state_invoice')
     def onchage_get_invoice_filters(self):
         for wizard in self:
@@ -72,7 +69,7 @@ class StockModelWzard(models.TransientModel):
                 wizard.supplier_filters_ids = obj_invoice_sup_all
             if self.start_date and self.end_date:
                 if wizard.start_date > wizard.end_date:
-                    raise ValidationError('La fecha fin "%s" no puede ser menor que la fecha de inicio  "%s".' % (wizard.end_date, wizard.start_date))
+                    raise ValidationError(_('La fecha fin "%s" no puede ser menor que la fecha de inicio "%s".') % (wizard.end_date, wizard.start_date))
                 if wizard.invoice_filters_ids:
                     obj_invoice_date_id = wizard.invoice_filters_ids.filtered(lambda e: wizard.start_date <= e.invoice_date <= wizard.end_date)
                     if obj_invoice_date_id:
@@ -170,8 +167,7 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     def _get_amounts_and_date_amount(self):
-        user_id = self._uid
-        company = self.env['res.users'].browse(user_id).company_id
+        company = self.env.company
         current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         for partner in self:
@@ -202,7 +198,6 @@ class ResPartner(models.Model):
         view = self.env.ref('account_statement_todoo.customer_model_wizard_form')
         return {
             'name': _('Print Invoice Customer'),
-            'view_type': 'form',
             'view_mode': 'form',
             'target': 'new',
             'res_model': 'customer.model.wizard',
@@ -220,7 +215,6 @@ class ResPartner(models.Model):
         view = self.env.ref('account_statement_todoo.customer_model_wizard_form')
         return {
             'name': _('Print Invoice Vendor'),
-            'view_type': 'form',
             'view_mode': 'form',
             'target': 'new',
             'res_model': 'customer.model.wizard',

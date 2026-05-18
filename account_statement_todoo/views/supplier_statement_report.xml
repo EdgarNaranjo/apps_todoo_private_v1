@@ -40,18 +40,13 @@
 							<tbody>
 								<tr>
                                     <td></td>
-                                    <td>
-                                    	<b>Initial Balance</b>
-                                    </td>
-                                    <td>
-                                    </td>
+                                    <td><b>Initial Balance</b></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td class="text-right">
                                         <b><span t-esc="0.0" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></b>
                                     </td>
-
                                 </tr>
                                 <t t-set="grand_total" t-value="0.0" />
                               	<t t-set="bal" t-value="0.0" />
@@ -84,12 +79,7 @@
 								</tr>
 								<tr>
                                     <td></td>
-                                    <td>
-                                    	<b>Ending Balance</b>
-                                    </td>
-                                    <td>
-
-                                    </td>
+                                    <td><b>Ending Balance</b></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -99,12 +89,8 @@
                                     </td>
                                 </tr>
 								<tr>
-									<td class="text-right">
-									</td>
-									<td>
-									</td>
-									<td>
-									</td>
+									<td></td>
+									<td></td>
 									<td></td>
 									<td class="text-right">
 										<span t-esc="i" />

@@ -3,7 +3,7 @@
 
 {
     'name': "Scheduled Employee Changes",
-    'version': "19.0.1.0.0",
+    'version': "19.0.1.0.1",
     'summary': """Scheduled Changes to employee's record by a RH Manager.""",
     'description': """[Automation] Scheduled changes to employee's record: Company, Department, Job by a RH Manager.""",
     'license': 'LGPL-3',

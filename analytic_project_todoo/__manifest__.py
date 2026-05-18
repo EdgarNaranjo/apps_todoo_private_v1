@@ -20,7 +20,7 @@
 
 {
     'name': "[Extended] Analytic Projects",
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.0.1',
     'summary': """Analytic items from the "Project Overview" view.""",
     'description': """This module add Analytic items to the "Project Overview" view.""",
     'license': 'LGPL-3',

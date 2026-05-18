@@ -67,6 +67,7 @@ class AccountMove(models.Model):
             'domain': domain,
         }
 
+    @api.depends('auto_invoice_id')
     def get_count_doc_intercompany(self):
         for record in self:
             if hasattr(record, 'auto_invoice_id'):

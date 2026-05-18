@@ -3,7 +3,7 @@
 
 {
     'name': 'Automatic Invoice Delivered',
-    'version': "19.0.1.0.0",
+    'version': "19.0.1.0.1",
     'summary': """Generate invoices automatically if deliveries are validated.""",
     'description': """This module automatically generates and posts invoices when deliveries are validated.""",
     'license': 'LGPL-3',
@@ -20,19 +20,12 @@
         'base',
         'sale_management',
         'stock',
-        'account'
-    ],
-    'data': ['views/res_config_settings_views.xml'],
-    'depends': [
-        'base',
-        'sale_management',
-        'stock',
         'account',
     ],
+    'data': ['views/res_config_settings_views.xml'],
     'images': [
        'static/description/screenshot_invoice.png'
     ],
-    'tests': True,
     'installable': True,
     'application': False,
     'auto_install': False,

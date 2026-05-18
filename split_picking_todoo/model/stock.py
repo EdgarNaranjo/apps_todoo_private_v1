@@ -7,7 +7,7 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-class FirstPickingWizard(models.Model):
+class FirstPickingWizard(models.TransientModel):
     _name = 'first.picking.wizard'
     _description = 'First Picking Wizard'
     _rec_name = 'move_lines'
@@ -34,7 +34,6 @@ class PartPickingWizard(models.TransientModel):
     first_part_ids = fields.Many2many('first.picking.wizard', 'firs_wizard_picking_rel', 'firs_id', 'picking_id', 'First Parts')
     quantity_all = fields.Integer("Partin en")
 
-    @api.depends('picking_ids')
     @api.onchange('picking_ids')
     def onchange_default_picking(self):
         list_first = []
@@ -82,7 +81,7 @@ class PartPickingWizard(models.TransientModel):
                 list_fault.append(first)
         if list_fault:
             raise ValidationError(
-                "With the current system you can start with up to 6 Delivery Notes. Specify the Delivery Note No. for each line.")
+                _('With the current system you can start with up to 6 Delivery Notes. Specify the Delivery Note No. for each line.'))
         for quantity, items in quantity_lists.items():
             obj_create_picking = self.create_picking(picking, items)
             if obj_create_picking:
@@ -149,7 +148,6 @@ class Stock(models.Model):
         }
         view = self.env.ref('split_picking_todoo.part_picking_wizard_form2')
         return {
-            'view_type': 'form',
             'view_mode': 'form',
             'target': 'new',
             'res_model': 'part.picking.wizard',

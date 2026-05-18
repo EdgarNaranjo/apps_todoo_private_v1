@@ -21,7 +21,7 @@
 
 {
     'name': 'Lang by country',
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.0.1',
     'category': 'Extra Tools',
     'summary': """Set language for contact and related user.""",
     'description': """Set language for the contact and related user from the selected country.""",

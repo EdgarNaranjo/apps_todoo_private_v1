@@ -16,12 +16,13 @@ class SessionUsersLog(models.Model):
     status_inactive = fields.Selection(related='user_id.status_inactive', store=True)
     time_inactive = fields.Char(related='user_id.time_inactive', store=True)
 
-    @api.model
-    def create(self, vals):
-        if self.search_count([('user_id', '=', vals.get('user_id'))]):
-            _logger.warning("A session already exists for user ID %s", vals.get('user_id'))
-            raise UserError(_('A session already exists for this user.'))
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if self.search_count([('user_id', '=', vals.get('user_id'))]):
+                _logger.warning("A session already exists for user ID %s", vals.get('user_id'))
+                raise UserError(_('A session already exists for this user.'))
+        return super().create(vals_list)
 
     def activity_update_inactive(self):
         inactivity_group = self.env.ref('status_user_advance_todoo.group_notification_inactivity').users

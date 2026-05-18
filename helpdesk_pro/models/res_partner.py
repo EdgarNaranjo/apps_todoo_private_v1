@@ -49,8 +49,7 @@ class Partner(models.Model):
     def action_view_helpdesk_tickets(self):
         return {
             "name": self.name,
-            "view_type": "form",
-            "view_mode": "tree,form",
+            "view_mode": "list,form",
             "res_model": "helpdesk.ticket",
             "type": "ir.actions.act_window",
             "domain": [("partner_id", "child_of", self.id)],

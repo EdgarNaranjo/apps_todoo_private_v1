@@ -1,7 +1,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import tools, models, fields, api, _
-from odoo.exceptions import UserError, AccessError
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 
 
 class AnalyticLine(models.Model):

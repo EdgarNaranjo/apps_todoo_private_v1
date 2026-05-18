@@ -3,7 +3,7 @@
 
 {
     'name': "Employee Cost History",
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.0.1',
     'category': 'Human Resources/Employees',
     'summary': 'Allows to update employee costs and track change history.',
     'description': 'Cost History: Allows to update employee costs and track change history.',

@@ -1,7 +1,7 @@
 ##############################################################################
 {
     'name': 'Stock Picking Split',
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.0.1',
     'category': 'Warehouse',
     'summary': 'This module allows to split a stock.picking',
     'description': """With this module you can split a "stock.picking" as many times as necessary, reducing it to a stock.move.""",

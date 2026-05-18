@@ -9,7 +9,7 @@ except ImportError:
     raise ImportError('Module `xlsxwriter` cannot be loaded! (hint: verify addons-path)')
 
 from odoo import models, fields, api, tools, _
-from odoo.exceptions import UserError, AccessError
+from odoo.exceptions import UserError, AccessError, ValidationError
 
 import logging
 
@@ -135,6 +135,7 @@ class ConstructorPowerBiData(models.Model):
         }
         return dic_return
 
+    @api.depends('document_id')
     def get_count_doc(self):
         for record in self:
             record.doc_count = 1 if record.document_id else 0
@@ -294,7 +295,6 @@ class ConstructorPowerBiData(models.Model):
         categorie_created = self.env.ref('powerbi_todoo.documents_power_bi_tag00')
         categorie_updated = self.env.ref('powerbi_todoo.documents_power_bi_tag01')
         attachment_dict = {
-            'db_datas': file_excel,
             'datas': file_excel,
             'name': filename}
         if constructor_id.document_id:
@@ -472,7 +472,7 @@ class PowerBiSetting(models.Model):
         for record in self:
             if record.qty_partition and record.qty_partition != 'all':
                 if (len(record.line_ids) / int(record.qty_partition)) < 1:
-                    raise UserError(
+                    raise ValidationError(
                         _('Option "{}" is not a valid value for this Configuration.').format(record.qty_partition))
 
     @api.model
@@ -529,7 +529,6 @@ class PowerBiSetting(models.Model):
             'name': 'Update records manually',
             'res_model': 'update.file.csv.wizard',
             'view_mode': 'form',
-            'view_type': 'form',
             'target': 'new',
             'context': {'origin_view': 'wizard_filter',
                         'default_setting_id': self.id,
@@ -540,7 +539,6 @@ class PowerBiSetting(models.Model):
     def update_attachment(self, file_excel, filename, bi_id, limit_store):
         env_attachment = self.env['ir.attachment']
         attachment_dict = {
-            'db_datas': file_excel,
             'datas': file_excel,
             'name': filename
         }

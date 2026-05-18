@@ -4,8 +4,6 @@
 from odoo import models, fields, tools, api, _
 from odoo.exceptions import UserError
 from odoo.tools.misc import clean_context
-
-
 from datetime import date
 
 
@@ -59,7 +57,7 @@ class Employee(models.Model):
         action = self.env["ir.actions.actions"]._for_xml_id("hr_timesheet.timesheet_action_all")
         action.update({
             'context': {'create': False},
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('id', 'in', self.history_analytic_ids.ids), ('is_changed_cost', '=', True)]
         })
         return action
@@ -169,7 +167,7 @@ class EmployeeCostHistory(models.Model):
             record.onchange_employee_id()
             employee.hourly_cost = value_update
             if current_cost != value_update:
-                employee.message_post(body='Employee cost updated: {}'.format(round(value_update, 2)))
+                employee.message_post(body=_('Employee cost updated: %s') % round(value_update, 2))
             employee.calc_history_cost(record)
         return records
 

@@ -1,6 +1,6 @@
 {
     'name': "Not Delete Line Validate",
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.0.1',
     'summary': 'Do not delete analytic lines once they are validated.',
     'description': """Do not delete analytic lines once they are validated.""",
     'license': 'LGPL-3',

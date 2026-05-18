@@ -22,16 +22,17 @@ from odoo.tests import tagged
 @tagged('post_install', '-at_install')
 class TestAccountStatementTodoo(TransactionCase):
 
-    def setUp(self):
-        super().setUp()
-        self.partner = self.env['res.partner'].create({
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.partner = cls.env['res.partner'].create({
             'name': 'Statement Test Customer',
             'customer_rank': 1,
         })
-        self.journal = self.env['account.journal'].search([
+        cls.journal = cls.env['account.journal'].search([
             ('type', '=', 'sale')
         ], limit=1)
-        self.account = self.env['account.account'].search([
+        cls.account = cls.env['account.account'].search([
             ('account_type', '=', 'asset_receivable')
         ], limit=1)
 

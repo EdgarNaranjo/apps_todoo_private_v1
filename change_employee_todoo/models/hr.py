@@ -1,8 +1,8 @@
 # Copyright 2025-TODAY Todooweb (www.todooweb.com)
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
-from odoo import models, fields, tools, api, _
-from odoo.exceptions import UserError
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError, ValidationError
 
 from datetime import date
 import random
@@ -56,14 +56,12 @@ class ListActionChange(models.Model):
 
     planning_id = fields.Many2one('employee.change.planning', 'Employee Change', ondelete='cascade')
     employee_id = fields.Many2one('hr.employee', related='planning_id.employee_id', string='Employee')
-    effective_date = fields.Date('Effective date', states={'not_processed': [('readonly', False)],
-                                                           'processed': [('readonly', True)]}, default=fields.Date.today())
+    effective_date = fields.Date('Effective date', default=fields.Date.today())
     last_date = fields.Date('Last date')
     type_model = fields.Selection([
         ('employee', 'Employee')
     ], string='Model', default='employee', required=True,
-        help="Type model to update in Contract or Employee History", states={'not_processed': [('readonly', False)],
-                                                                             'processed': [('readonly', True)]})
+        help="Type model to update in Contract or Employee History")
     state = fields.Selection([
         ('not_processed', 'Not processed'),
         ('processed', 'Processed'),
@@ -81,12 +79,13 @@ class ListActionChange(models.Model):
     sequence = fields.Integer('Sequence', default=_default_sequence_number)
     model_id = fields.Integer('Model id')
 
-    @api.constrains('state', 'planning_id', 'planning_id.list_ids')
-    def onchange_state_planning(self):
-        for record in self:
-            if record.state == 'processed':
+    def write(self, vals):
+        res = super().write(vals)
+        if 'state' in vals and vals['state'] == 'processed':
+            for record in self:
                 if not any(item for item in record.planning_id.list_ids if item.state == 'not_processed'):
                     record.planning_id.state = 'processed'
+        return res
 
     @api.onchange('field_id')
     def _onchange_field_id(self):
@@ -127,10 +126,10 @@ class ListActionChange(models.Model):
         for record in self:
             env_model = self.env[record.field_id.relation]
             if not record.field_value:
-                raise UserError(_('At least one value is required in the column "Change Value".'))
+                raise ValidationError(_('At least one value is required in the column "Change Value".'))
             else:
                 if len(record.field_value) > 1:
-                    raise UserError(_('To save the records you must have a single value in the column "Change Value".'))
+                    raise ValidationError(_('To save the records you must have a single value in the column "Change Value".'))
                 else:
                     model_id = env_model.search([(self.env[record.field_id.relation]._rec_name, '=', record.field_value[0].name)], limit=1)
                     record.model_id = model_id.id
@@ -161,7 +160,6 @@ class EmployeeChangePlanning(models.Model):
             'name': 'Apply changes for {}' .format(self.employee_id.name),
             'res_model': 'apply.change.wizard',
             'view_mode': 'form',
-            'view_type': 'form',
             'target': 'new',
             'context': {'origin_view': 'wizard_filter',
                         'default_list_action_ids': self.list_ids.filtered(lambda e: e.state != 'processed').ids}
@@ -219,6 +217,7 @@ class Employee(models.Model):
     change_ids = fields.One2many('employee.change.planning', 'employee_id', string='Employee Change')
     count_changes = fields.Integer('Changes', compute='_calc_count_changes')
 
+    @api.depends('change_ids')
     def _calc_count_changes(self):
         for obj_employee in self:
             obj_employee.count_changes = len(obj_employee.change_ids) if obj_employee.change_ids else 0
@@ -252,7 +251,6 @@ class Employee(models.Model):
             'name': 'History',
             'res_model': 'employee.history',
             'view_mode': 'list,form',
-            'view_type': 'form',
             'target': 'new',
             'domain': [('employee_id', '=', self.id)]
         }
@@ -263,7 +261,6 @@ class Employee(models.Model):
             'name': 'Changes',
             'res_model': 'employee.change.planning',
             'view_mode': 'list,form',
-            'view_type': 'form',
             'domain': [('employee_id', '=', self.id)],
             'context': {'default_employee_id': self.id},
         }

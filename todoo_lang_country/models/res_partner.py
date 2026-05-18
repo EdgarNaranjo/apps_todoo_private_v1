@@ -74,33 +74,40 @@ DICT_LANG = {
 class Partner(models.Model):
     _inherit = "res.partner"
 
-    @api.constrains('country_id')
-    def _constrain_language(self):
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        for record in records:
+            if record.country_id:
+                record._apply_lang_from_country()
+        return records
+
+    def write(self, vals):
+        res = super().write(vals)
+        if 'country_id' in vals:
+            for record in self:
+                if record.country_id:
+                    record._apply_lang_from_country()
+        return res
+
+    def _apply_lang_from_country(self):
+        """Set partner language based on country and install it if needed."""
         env_lang = self.env['res.lang']
         env_install = self.env['base.language.install']
-        records_by_country = {}
-        for record in self:
-            if record.country_id:
-                country_id = record.country_id.id
-                if country_id not in records_by_country:
-                    records_by_country[country_id] = []
-                records_by_country[country_id].append(record)
-        for country_id, country_records in records_by_country.items():
-            country = country_records[0].country_id
-            if country.code in DICT_LANG:
-                lang = DICT_LANG[country.code]
-                obj_lang_id = env_lang.search([('code', '=', lang)], limit=1)
-                if obj_lang_id:
-                    if not obj_lang_id.active:
-                        lang_install = env_install.create({'lang_ids': obj_lang_id.ids, 'overwrite': True})
-                        lang_install.lang_install()
-                        val_lang = lang_install.first_lang_id.code
-                    else:
-                        val_lang = obj_lang_id.code
+        country = self.country_id
+        if country.code in DICT_LANG:
+            lang = DICT_LANG[country.code]
+            obj_lang_id = env_lang.search([('code', '=', lang)], limit=1)
+            if obj_lang_id:
+                if not obj_lang_id.active:
+                    lang_install = env_install.create({'lang_ids': obj_lang_id.ids, 'overwrite': True})
+                    lang_install.lang_install()
+                    val_lang = lang_install.first_lang_id.code
                 else:
-                    val_lang = 'en_US'
+                    val_lang = obj_lang_id.code
             else:
                 val_lang = 'en_US'
-            for record in country_records:
-                record.lang = val_lang
-                record.message_post(body=f"Lang: {val_lang}")
+        else:
+            val_lang = 'en_US'
+        self.lang = val_lang
+        self.message_post(body=_('Lang: %s') % val_lang)

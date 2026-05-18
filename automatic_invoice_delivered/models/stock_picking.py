@@ -66,13 +66,9 @@ class StockPicking(models.Model):
                         invoice_created.invoice_date = pick.date_done
                         invoice_created.action_post()
                         invoice_created.message_post(
-                            body=_('Automatic invoice created from picking {}').format(
-                                pick._get_html_link()
-                            )
+                            body=_('Automatic invoice created from picking %s') % pick._get_html_link()
                         )
                         pick.sale_id.message_post(
-                            body=_('Automatic invoice created from picking {}').format(
-                                pick._get_html_link()
-                            )
+                            body=_('Automatic invoice created from picking %s') % pick._get_html_link()
                         )
         return res

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
 	<data>
 		<template id="report_customer_filter_print_inner">
 			<t t-call="web.external_layout">
@@ -40,16 +40,12 @@
 							<tbody>
 								<tr>
                                     <td></td>
-                                    <td>
-                                    	<strong>Initial Balance</strong>
-                                    </td>
-                                    <td>
-                                    </td>
+                                    <td><strong>Initial Balance</strong></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td class="text-right">
-                                        <stong><span t-esc="0.0" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></stong>
+                                        <strong><span t-esc="0.0" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></strong>
                                     </td>
                                 </tr>
                                 <t t-set="grand_total" t-value="0.0" />
@@ -84,11 +80,7 @@
 								</tr>
 								<tr>
                                     <td></td>
-                                    <td>
-                                    	<strong>Ending Balance</strong>
-                                    </td>
-                                    <td>
-                                    </td>
+                                    <td><strong>Ending Balance</strong></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -97,14 +89,9 @@
                                     </td>
                                 </tr>
 								<tr>
-									<td class="text-right">
-									</td>
-									<td>
-									</td>
-									<td>
-									</td>
-									<td>
-									</td>
+									<td></td>
+									<td></td>
+									<td></td>
 									<td class="text-right">
 										<span t-esc="i" />
 									</td>
@@ -182,4 +169,4 @@
 			</t>
 		</template>
 	</data>
-</openerp>
+</odoo>

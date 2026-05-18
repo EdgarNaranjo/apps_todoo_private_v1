@@ -18,9 +18,10 @@
 
 {
     'name': 'Status Session Users',
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.0.1',
     'category': 'Tools',
     'description': """Status Session Users. Inactive, Active. Online or Offline""",
+    'summary': 'Status Session Users — Online / Offline tracking for internal users.',
     'author': "ToDOO Web (www.todooweb.com)",
     'support': 'devtodoo@gmail.com',
     'website': "https://todooweb.com/",
