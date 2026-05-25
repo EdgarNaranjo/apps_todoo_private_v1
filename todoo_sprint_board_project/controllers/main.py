@@ -28,12 +28,13 @@ class SprintBoardController(http.Controller):
         1. If type_id.code is set: code in ('ERR','BUG','ERROR','DEFECTO')
         2. If code is empty: type_id.name contains .error. or .bug..
         """
-        if not task.type_id:
+        type_id = getattr(task, 'type_id', None)
+        if not type_id:
             return False
-        code = (task.type_id.code or "").strip().upper()
+        code = (type_id.code or "").strip().upper() if hasattr(type_id, 'code') else ""
         if code:
             return code in ("ERR", "BUG", "ERROR", "DEFECTO", "DEFECT")
-        name = (task.type_id.name or "").lower()
+        name = (type_id.name or "").lower()
         return "error" in name or "bug" in name
 
     # ── Rutas autenticadas ─────────────────────────────────────────────────
@@ -286,8 +287,8 @@ class SprintBoardController(http.Controller):
         tasks_data = [
             {
                 "id": t.id, "name": t.name,
-                "type_code": t.type_id.code if t.type_id else "",
-                "type_name": t.type_id.name if t.type_id else "",
+                "type_code": getattr(t, 'type_id', None) and t.type_id.code or "",
+                "type_name": t.type_id.name if getattr(t, 'type_id', None) else "",
                 "sp": int(t.estimate_effort) if t.estimate_effort and t.estimate_effort != "00" else 0,
                 "state": t.state,
                 "priority": t.priority,
@@ -402,7 +403,7 @@ class SprintBoardController(http.Controller):
             {
                 "name":    t.name,
                 "sp":      int(t.estimate_effort) if t.estimate_effort and t.estimate_effort != "00" else 0,
-                "type":    t.type_id.name if t.type_id else "",
+                "type":    t.type_id.name if getattr(t, 'type_id', None) else "",
                 "is_bug":  SprintBoardController._is_bug(t),
                 "state":   t.state,
                 "blocked": bool(t.write_date and (datetime.utcnow() - t.write_date).days >= 2 and t.state == "01_in_progress"),

@@ -1,6 +1,6 @@
 {
     'name': 'Sprint Board',
-    'version': '19.0.2.0.0',
+    'version': '19.0.2.1.0',
     'category': 'Project/Project',
     'summary': 'Visual sprint dashboard with KPIs, AI analysis and kiosk mode',
     'description': """
@@ -19,8 +19,6 @@
     'support': 'devtodoo@gmail.com',
     'depends': [
         'project',
-        'project_department',  # OCA: https://github.com/OCA/project
-        'project_type',        # OCA: https://github.com/OCA/project
         'mail',
     ],
     'data': [

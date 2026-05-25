@@ -32,46 +32,58 @@ class TestSprintBoardAnalytics(TransactionCase):
 
     # ── _is_bug_task ──────────────────────────────────────────────────────
 
+    def _has_project_type(self):
+        """True si el módulo OCA project_type está instalado."""
+        return 'project.type' in self.env
+
     def _make_type(self, name, code=""):
         return self.env["project.type"].create({"name": name, "code": code, "task_ok": True})
 
     def test_ANAL01_is_bug_by_code_ERR(self):
+        if not self._has_project_type():
+            self.skipTest("project_type OCA module not installed")
         t = self.env["project.task"].create({
             "name": "Bug via code", "project_id": self.project.id,
             "type_id": self._make_type("Error", code="ERR").id,
         })
-        from odoo.addons.sprint_board_project.models.sprint_board import SprintBoard
+        from odoo.addons.todoo_sprint_board_project.models.sprint_board import SprintBoard
         self.assertTrue(SprintBoard._is_bug_task(t))
 
     def test_ANAL02_is_bug_by_name_error(self):
+        if not self._has_project_type():
+            self.skipTest("project_type OCA module not installed")
         t = self.env["project.task"].create({
             "name": "Fix something", "project_id": self.project.id,
             "type_id": self._make_type("Error de sistema", code="").id,
         })
-        from odoo.addons.sprint_board_project.models.sprint_board import SprintBoard
+        from odoo.addons.todoo_sprint_board_project.models.sprint_board import SprintBoard
         self.assertTrue(SprintBoard._is_bug_task(t))
 
     def test_ANAL03_is_bug_by_name_bug(self):
+        if not self._has_project_type():
+            self.skipTest("project_type OCA module not installed")
         t = self.env["project.task"].create({
             "name": "Fix something", "project_id": self.project.id,
             "type_id": self._make_type("Critical bug", code="").id,
         })
-        from odoo.addons.sprint_board_project.models.sprint_board import SprintBoard
+        from odoo.addons.todoo_sprint_board_project.models.sprint_board import SprintBoard
         self.assertTrue(SprintBoard._is_bug_task(t))
 
     def test_ANAL04_not_bug_for_feature(self):
+        if not self._has_project_type():
+            self.skipTest("project_type OCA module not installed")
         t = self.env["project.task"].create({
             "name": "New feature", "project_id": self.project.id,
             "type_id": self._make_type("Feature", code="FEAT").id,
         })
-        from odoo.addons.sprint_board_project.models.sprint_board import SprintBoard
+        from odoo.addons.todoo_sprint_board_project.models.sprint_board import SprintBoard
         self.assertFalse(SprintBoard._is_bug_task(t))
 
     def test_ANAL05_not_bug_without_type(self):
         t = self.env["project.task"].create({
             "name": "Sin tipo", "project_id": self.project.id,
         })
-        from odoo.addons.sprint_board_project.models.sprint_board import SprintBoard
+        from odoo.addons.todoo_sprint_board_project.models.sprint_board import SprintBoard
         self.assertFalse(SprintBoard._is_bug_task(t))
 
     # ── _compute_health ───────────────────────────────────────────────────
