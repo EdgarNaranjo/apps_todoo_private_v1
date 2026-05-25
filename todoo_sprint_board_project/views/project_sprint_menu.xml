@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_project_scrum_root"
+              name="Scrum"
+              parent="project.menu_main_pm"
+              sequence="15"/>
+
+    <menuitem id="menu_project_sprint"
+              name="Sprints"
+              parent="menu_project_scrum_root"
+              action="action_project_sprint"
+              sequence="10"/>
+
+    <menuitem id="menu_report_sprint_sp"
+              name="Scrum: SP Velocity"
+              parent="project.menu_project_report"
+              action="action_report_sprint_sp"
+              sequence="20"/>
+
+    <menuitem id="menu_report_sprint_tasks"
+              name="Scrum: Task Velocity"
+              parent="project.menu_project_report"
+              action="action_report_sprint_tasks"
+              sequence="21"/>
+
+    <menuitem id="menu_sprint_burndown"
+              name="Scrum: Burndown Chart"
+              parent="project.menu_project_report"
+              action="action_sprint_burndown"
+              sequence="22"/>
+
+    <menuitem id="menu_project_scrum_config"
+              name="Configuration"
+              parent="menu_project_scrum_root"
+              sequence="100"/>
+</odoo>

@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+
+    <!-- Helper: single task row -->
+    <t t-name="sprint_board_project.TaskRow">
+        <div class="d-flex align-items-center gap-2 px-3 py-2 border-bottom sprint-task-row">
+            <t t-if="task.is_priority or task.priority === '1'">
+                <i class="fa fa-star text-warning" style="font-size:.72rem"/>
+            </t>
+            <t t-else="">
+                <span style="width:13px;display:inline-block"/>
+            </t>
+            <span class="rounded-circle flex-shrink-0"
+                  t-att-style="'width:7px;height:7px;background:'+dotColor+';display:inline-block'"/>
+            <a t-att-href="task.url" target="_blank"
+               class="flex-grow-1 text-decoration-none text-body text-truncate small"
+               style="min-width:0">
+                <t t-if="task.project_name">
+                    <span class="text-muted fw-semibold me-1" style="font-size:.78rem;white-space:nowrap">(<t t-esc="task.project_name"/>)</span>
+                </t><t t-esc="task.name"/>
+            </a>
+            <t t-if="task.type_name">
+                <span class="badge small" t-att-style="'background:'+typeBg+';color:'+typeColor">
+                    <t t-esc="task.type_name"/>
+                </span>
+            </t>
+            <t t-if="task.sp">
+                <span class="badge bg-primary-subtle text-primary small"><t t-esc="task.sp"/> SP</span>
+            </t>
+            <t t-else="">
+                <span class="badge bg-warning-subtle text-warning small">No SP</span>
+            </t>
+            <!-- Urgent deadline badge -->
+            <t t-if="task.deadline_days != null and task.deadline_days &lt;= 3">
+                <span t-att-class="'badge small ' + (task.deadline_days &lt; 0 ? 'bg-danger text-white' : 'bg-orange-subtle text-danger')">
+                    <i class="fa fa-clock me-1"/>
+                    <t t-if="task.deadline_days &lt; 0">Overdue</t>
+                    <t t-elif="task.deadline_days === 0">Today</t>
+                    <t t-else=""><t t-esc="task.deadline_days"/>d</t>
+                </span>
+            </t>
+            <!-- Blocked badge -->
+            <t t-if="task.blocked_days">
+                <span class="badge small bg-warning-subtle text-warning border border-warning"
+                      t-att-title="'Blocked for ' + task.blocked_days + ' days in In Progress'">
+                    <i class="fa fa-triangle-exclamation me-1"/>⚠️ <t t-esc="task.blocked_days"/>d
+                </span>
+            </t>
+            <!-- Assignee avatars (max 3) -->
+            <div class="d-flex">
+                <t t-foreach="task.assignees.slice(0,3)" t-as="u" t-key="u.id">
+                    <span t-att-title="u.name"
+                          class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold flex-shrink-0"
+                          style="width:22px;height:22px;font-size:.58rem;background:#6366f1;border:2px solid #fff;margin-left:-4px">
+                        <t t-esc="u.initials"/>
+                    </span>
+                </t>
+                <t t-if="task.assignees.length === 0">
+                    <span class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+                          style="width:22px;height:22px;background:#e2e8f0;color:#94a3b8;font-size:.65rem">
+                        <i class="fa fa-user"/>
+                    </span>
+                </t>
+            </div>
+            <span t-att-class="'badge small text-center ' + (task.is_closed ? 'bg-success-subtle text-success' : task.state === '01_in_progress' ? 'bg-warning-subtle text-warning' : task.state === '02_changes_requested' ? 'bg-orange-subtle text-danger' : task.state === '04_waiting_normal' ? 'bg-light text-muted border' : 'bg-light text-muted border')"
+                 style="min-width:110px">
+                <t t-if="task.is_closed">Done</t>
+                <t t-elif="task.state === '01_in_progress'">In Progress</t>
+                <t t-elif="task.state === '02_changes_requested'">Changes</t>
+                <t t-elif="task.state === '04_waiting_normal'">Waiting</t>
+                <t t-else="">Pending</t>
+            </span>
+        </div>
+    </t>
+
+    <!-- Main Dashboard -->
+    <t t-name="sprint_board_project.SprintBoardDashboard">
+        <div class="o_sprint_board_dashboard d-flex flex-column h-100">
+            <t t-if="state.loading">
+                <div class="d-flex align-items-center justify-content-center h-100">
+                    <i class="fa fa-spinner fa-spin fa-2x text-muted"/>
+                </div>
+            </t>
+            <t t-else="">
+                <!-- Topbar -->
+                <div class="d-flex align-items-center gap-2 px-3 py-2 bg-white border-bottom flex-wrap">
+                    <button class="btn btn-light btn-sm border" t-on-click="() => props.onBack()">
+                        <i class="fa fa-arrow-left me-1"/>List
+                    </button>
+                    <div class="d-flex flex-column ms-1">
+                        <span class="fw-bold d-flex align-items-center gap-2">
+                            <i class="fa fa-rocket" style="color:#6366f1"/>
+                            <t t-esc="state.sprint.name"/>
+                        </span>
+                        <span class="text-muted small">
+                            <t t-esc="state.sprint.start_date"/> → <t t-esc="state.sprint.end_date"/>
+                            <span class="badge bg-primary-subtle text-primary ms-2">
+                                <t t-esc="state.sprint.days_left"/> days left
+                            </span>
+                            <t t-if="state.board.state === 'open' and state.health and state.health.status !== 'unknown'">
+                                <span class="badge ms-1"
+                                      t-att-style="'background:' + healthBg + ';color:' + healthColor">
+                                    <t t-if="state.health.status === 'on_track'"><i class="fa fa-circle-check me-1"/></t>
+                                    <t t-elif="state.health.status === 'at_risk'"><i class="fa fa-triangle-exclamation me-1"/></t>
+                                    <t t-else=""><i class="fa fa-circle-xmark me-1"/></t>
+                                    <t t-esc="state.health.label"/>
+                                </span>
+                            </t>
+                        </span>
+                    </div>
+                    <div class="ms-auto d-flex gap-2 align-items-center">
+                        <t t-if="state.board.state === 'closed'">
+                            <span class="badge bg-secondary">
+                                <i class="fa fa-lock me-1"/>Closed on
+                                <t t-esc="formatDate(state.board.date_closed)"/>
+                            </span>
+                        </t>
+                        <t t-elif="state.board.can_edit">
+                            <button class="btn btn-outline-secondary btn-sm" t-on-click="onActivateKiosk">
+                                <i class="fa fa-tv me-1"/>Kiosk
+                            </button>
+                            <button class="btn btn-outline-danger btn-sm" t-on-click="onCloseBoard">
+                                <i class="fa fa-flag-checkered me-1"/>Close board
+                            </button>
+                        </t>
+                    </div>
+                </div>
+
+                <!-- Closed board banner -->
+                <t t-if="state.board.state === 'closed'">
+                    <div class="alert alert-warning rounded-0 border-0 border-bottom m-0 py-2 px-3 small">
+                        <i class="fa fa-lock me-2"/>Board closed on
+                        <strong><t t-esc="formatDate(state.board.date_closed)"/></strong>.
+                        Read-only view. The AI will not generate new recommendations.
+                    </div>
+                </t>
+
+                <!-- Floating AI headline -->
+                <t t-if="state.headline or state.headlineLoading">
+                    <div class="text-center px-4 pt-3 pb-1 bg-white">
+                        <t t-if="state.headlineLoading">
+                            <span class="text-muted" style="font-size:.78rem">
+                                <i class="fa fa-spinner fa-spin me-1"/>Analysing sprint...
+                            </span>
+                        </t>
+                        <t t-else="">
+                            <span style="font-family:Georgia,'Times New Roman',serif;
+                                         font-size:1.05rem;font-style:italic;
+                                         color:#374151;letter-spacing:.01em;
+                                         line-height:1.5">
+                                <i class="fa fa-quote-left me-2" style="color:#e0e7ff;font-size:.75rem;vertical-align:middle"/>
+                                <t t-esc="state.headline"/>
+                                <i class="fa fa-quote-right ms-2" style="color:#e0e7ff;font-size:.75rem;vertical-align:middle"/>
+                            </span>
+                        </t>
+                    </div>
+                </t>
+
+                <!-- KPI Cards -->
+                <div class="row g-3 p-3 bg-light border-bottom m-0">
+                    <div class="col-6 col-lg-3">
+                        <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                            <div style="height:3px;background:linear-gradient(90deg,#6366f1,#8b5cf6)"/>
+                            <div class="card-body py-2">
+                                <div class="text-muted small fw-semibold text-uppercase mb-1">Sprint tasks</div>
+                                <div class="fw-bold" style="font-size:2rem;color:#6366f1">
+                                    <t t-esc="state.kpis.total_tasks"/>
+                                </div>
+                                <div class="progress my-1" style="height:4px">
+                                    <div class="progress-bar"
+                                         t-att-style="'width:'+state.kpis.pct+'%;background:linear-gradient(90deg,#6366f1,#8b5cf6)'"/>
+                                </div>
+                                <div class="text-muted small">
+                                    <t t-esc="state.kpis.done_tasks"/> completed · <t t-esc="state.kpis.pct"/>%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                            <div style="height:3px;background:linear-gradient(90deg,#10b981,#059669)"/>
+                            <div class="card-body py-2">
+                                <div class="text-muted small fw-semibold text-uppercase mb-1">Completed</div>
+                                <div class="fw-bold" style="font-size:2rem;color:#10b981">
+                                    <t t-esc="state.kpis.done_tasks"/>
+                                </div>
+                                <div class="text-muted small"><t t-esc="state.kpis.pct"/>% of sprint</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                            <div style="height:3px;background:linear-gradient(90deg,#f59e0b,#d97706)"/>
+                            <div class="card-body py-2">
+                                <div class="text-muted small fw-semibold text-uppercase mb-1">Story Points</div>
+                                <div class="fw-bold" style="font-size:2rem;color:#f59e0b">
+                                    <t t-esc="state.kpis.total_sp"/>
+                                </div>
+                                <div class="text-muted small">
+                                    <t t-esc="state.kpis.done_sp"/> done ·
+                                    <t t-esc="state.kpis.pending_sp"/> pend.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                            <div style="height:3px;background:#64748b"/>
+                            <div class="card-body py-2">
+                                <div class="text-muted small fw-semibold text-uppercase mb-1">Days left</div>
+                                <div class="fw-bold" style="font-size:2rem;color:#64748b">
+                                    <t t-esc="state.sprint.days_left"/>
+                                </div>
+                                <div class="text-muted small">Closes <t t-esc="state.sprint.end_date"/></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2-column layout -->
+                <div class="sb-main-layout">
+
+                    <!-- Left panel: tasks -->
+                    <div class="flex-grow-1 overflow-y-auto p-3 bg-light">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-header bg-white d-flex align-items-center gap-2 flex-wrap">
+                                <span class="fw-bold small">
+                                    <i class="fa fa-list-check me-1 text-muted"/>
+                                    Sprint tasks
+                                </span>
+                                <span class="badge bg-light text-muted border small">
+                                    <t t-esc="state.tasks.length"/> tasks · <t t-esc="state.kpis.total_sp"/> SP
+                                </span>
+                                <t t-if="assignableDepts.length > 1">
+                                    <select class="form-select form-select-sm ms-1" style="width:auto;font-size:.75rem"
+                                            t-on-change="onDeptFilterChange">
+                                        <option value="">Department</option>
+                                        <t t-foreach="assignableDepts" t-as="d" t-key="d.id">
+                                            <option t-att-value="d.id" t-att-selected="state.filterDeptId === d.id">
+                                                <t t-esc="d.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </t>
+                                <t t-if="assignableProjects.length > 1">
+                                    <select class="form-select form-select-sm ms-1" style="width:auto;font-size:.75rem"
+                                            t-on-change="onProjectFilterChange">
+                                        <option value="">Project</option>
+                                        <t t-foreach="assignableProjects" t-as="p" t-key="p.name">
+                                            <option t-att-value="p.name" t-att-selected="state.filterProjectId === p.name">
+                                                <t t-esc="p.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </t>
+                                <t t-if="assignableUsers.length">
+                                    <select class="form-select form-select-sm ms-1" style="width:auto;font-size:.75rem"
+                                            t-on-change="onUserFilterChange">
+                                        <option value="">All users</option>
+                                        <t t-foreach="assignableUsers" t-as="u" t-key="u.id">
+                                            <option t-att-value="u.id" t-att-selected="state.filterUserId === u.id">
+                                                <t t-esc="u.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </t>
+                                <t t-if="state.board.can_edit and state.board.state === 'open'">
+                                    <button class="btn btn-sm ms-auto"
+                                            style="background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d"
+                                            t-att-disabled="state.aiOrderLoading"
+                                            t-on-click="onAiOrder">
+                                        <i t-att-class="'fa me-1 ' + (state.aiOrderLoading ? 'fa-spinner fa-spin' : 'fa-wand-magic-sparkles')"/>
+                                        <t t-if="state.aiOrderLoading">Sorting...</t>
+                                        <t t-else="">Sort with AI</t>
+                                    </button>
+                                </t>
+                            </div>
+                            <div class="card-body p-0">
+                                <!-- Priority -->
+                                <t t-if="priorityTasks.length">
+                                    <div class="d-flex align-items-center gap-2 px-3 py-1 border-bottom bg-warning-subtle">
+                                        <i class="fa fa-star text-warning small"/>
+                                        <span class="small fw-bold text-warning text-uppercase" style="letter-spacing:.07em">Priority</span>
+                                        <hr class="flex-grow-1 m-0 border-warning"/>
+                                    </div>
+                                    <t t-foreach="priorityTasks" t-as="task" t-key="task.id">
+                                        <t t-call="sprint_board_project.TaskRow">
+                                            <t t-set="dotColor"  t-value="'#f59e0b'"/>
+                                            <t t-set="typeBg"    t-value="'#fef3c7'"/>
+                                            <t t-set="typeColor" t-value="'#d97706'"/>
+                                        </t>
+                                    </t>
+                                </t>
+                                <!-- Bugs -->
+                                <t t-if="bugTasks.length">
+                                    <div class="d-flex align-items-center gap-2 px-3 py-1 border-bottom bg-danger-subtle">
+                                        <i class="fa fa-bug text-danger small"/>
+                                        <span class="small fw-bold text-danger text-uppercase" style="letter-spacing:.07em">Bugs</span>
+                                        <hr class="flex-grow-1 m-0 border-danger"/>
+                                    </div>
+                                    <t t-foreach="bugTasks" t-as="task" t-key="task.id">
+                                        <t t-call="sprint_board_project.TaskRow">
+                                            <t t-set="dotColor"  t-value="'#ef4444'"/>
+                                            <t t-set="typeBg"    t-value="'#fee2e2'"/>
+                                            <t t-set="typeColor" t-value="'#dc2626'"/>
+                                        </t>
+                                    </t>
+                                </t>
+                                <!-- In Progress -->
+                                <t t-if="inProgressTasks.length">
+                                    <div class="d-flex align-items-center gap-2 px-3 py-1 border-bottom" style="background:#eff6ff">
+                                        <i class="fa fa-bolt small" style="color:#6366f1"/>
+                                        <span class="small fw-bold text-uppercase" style="letter-spacing:.07em;color:#6366f1">In Progress</span>
+                                        <hr class="flex-grow-1 m-0"/>
+                                    </div>
+                                    <t t-foreach="inProgressTasks" t-as="task" t-key="task.id">
+                                        <t t-call="sprint_board_project.TaskRow">
+                                            <t t-set="dotColor"  t-value="'#6366f1'"/>
+                                            <t t-set="typeBg"    t-value="'#ede9fe'"/>
+                                            <t t-set="typeColor" t-value="'#7c3aed'"/>
+                                        </t>
+                                    </t>
+                                </t>
+                                <!-- Pending -->
+                                <t t-if="pendingTasks.length">
+                                    <div class="d-flex align-items-center gap-2 px-3 py-1 border-bottom bg-light">
+                                        <i class="fa fa-clock text-muted small"/>
+                                        <span class="small fw-bold text-muted text-uppercase" style="letter-spacing:.07em">Pending</span>
+                                        <hr class="flex-grow-1 m-0"/>
+                                    </div>
+                                    <t t-foreach="pendingTasks" t-as="task" t-key="task.id">
+                                        <t t-call="sprint_board_project.TaskRow">
+                                            <t t-set="dotColor"  t-value="'#cbd5e1'"/>
+                                            <t t-set="typeBg"    t-value="'#f1f5f9'"/>
+                                            <t t-set="typeColor" t-value="'#64748b'"/>
+                                        </t>
+                                    </t>
+                                </t>
+                                <!-- Completed -->
+                                <t t-if="doneTasks.length">
+                                    <div class="d-flex align-items-center gap-2 px-3 py-1 border-bottom bg-success-subtle">
+                                        <i class="fa fa-circle-check text-success small"/>
+                                        <span class="small fw-bold text-success text-uppercase" style="letter-spacing:.07em">Completed</span>
+                                        <hr class="flex-grow-1 m-0"/>
+                                    </div>
+                                    <t t-foreach="doneTasks" t-as="task" t-key="task.id">
+                                        <div class="opacity-50">
+                                            <t t-call="sprint_board_project.TaskRow">
+                                                <t t-set="dotColor"  t-value="'#10b981'"/>
+                                                <t t-set="typeBg"    t-value="'#d1fae5'"/>
+                                                <t t-set="typeColor" t-value="'#065f46'"/>
+                                            </t>
+                                        </div>
+                                    </t>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right panel -->
+                    <div class="sb-side-panel">
+
+                        <!-- Story Points -->
+                        <div class="mb-3">
+                            <div class="text-muted small fw-bold text-uppercase mb-2" style="letter-spacing:.07em">
+                                <i class="fa fa-chart-bar me-1 text-muted"/>Story Points
+                            </div>
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <div class="bg-light rounded text-center p-2">
+                                        <div class="fw-bold" style="color:#6366f1"><t t-esc="state.kpis.total_sp"/></div>
+                                        <div class="text-muted" style="font-size:.62rem;text-transform:uppercase">Total</div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="bg-light rounded text-center p-2">
+                                        <div class="fw-bold text-warning"><t t-esc="state.kpis.pending_sp"/></div>
+                                        <div class="text-muted" style="font-size:.62rem;text-transform:uppercase">Pend.</div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="bg-light rounded text-center p-2">
+                                        <div class="fw-bold text-success"><t t-esc="state.kpis.done_sp"/></div>
+                                        <div class="text-muted" style="font-size:.62rem;text-transform:uppercase">Done</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Distribution by type -->
+                        <t t-if="typeDistribution.length">
+                            <div class="mb-3">
+                                <div class="text-muted small fw-bold text-uppercase mb-2" style="letter-spacing:.07em">
+                                    <i class="fa fa-tag me-1 text-muted"/>Distribution by type
+                                </div>
+                                <div class="d-flex rounded overflow-hidden mb-2" style="height:5px;gap:1px">
+                                    <t t-foreach="typeDistribution" t-as="td" t-key="td.name || td.code || td_index">
+                                        <div t-att-style="'width:'+td.pct+'%;background:'+td.color"/>
+                                    </t>
+                                </div>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <t t-foreach="typeDistribution" t-as="td" t-key="td.name || td.code || td_index">
+                                        <div class="d-flex align-items-center gap-1" style="font-size:.68rem;color:#64748b">
+                                            <span class="rounded-1 flex-shrink-0"
+                                                  t-att-style="'width:7px;height:7px;background:'+td.color"/>
+                                            <t t-esc="td.name"/> (<t t-esc="td.count"/>)
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+
+                        <!-- Sprint objectives -->
+                        <t t-if="state.objectives.length">
+                            <div class="mb-3">
+                                <div class="text-muted small fw-bold text-uppercase mb-2" style="letter-spacing:.07em">
+                                    <i class="fa fa-bullseye me-1 text-muted"/>Sprint objectives
+                                </div>
+                                <t t-foreach="sortedObjectives" t-as="obj" t-key="obj.id">
+                                    <div class="bg-light rounded p-2 mb-2">
+                                        <div class="d-flex align-items-center gap-2 mb-1">
+                                            <i t-att-class="'fa small ' + (obj.state === 'achieved' || obj.completion_rate >= 100 ? 'fa-circle-check text-success' : obj.state === 'not_achieved' || obj.state === 'failed' ? 'fa-circle-xmark text-danger' : 'fa-circle text-warning')"/>
+                                            <span class="small flex-grow-1 text-truncate text-body">
+                                                <t t-esc="obj.name"/>
+                                            </span>
+                                            <t t-if="obj.task_count === 0">
+                                                <t t-if="obj.state === 'achieved' or obj.completion_rate >= 100">
+                                                    <span class="badge small bg-success-subtle text-success">100%</span>
+                                                </t>
+                                                <t t-elif="state.board.state === 'open' and state.board.can_edit">
+                                                    <button class="btn btn-outline-success btn-sm py-0 px-2"
+                                                            style="font-size:.72rem"
+                                                            title="Mark as achieved"
+                                                            t-on-click="() => onAchieveObjective(obj.id)">
+                                                        <i class="fa fa-check"/>
+                                                    </button>
+                                                </t>
+                                            </t>
+                                            <t t-if="obj.task_count > 0">
+                                                <span t-att-class="'badge small ' + (obj.completion_rate >= 100 ? 'bg-success-subtle text-success' : obj.completion_rate > 0 ? 'bg-warning-subtle text-warning' : 'bg-light text-muted border')">
+                                                    <t t-esc="obj.completion_rate"/>%
+                                                </span>
+                                            </t>
+                                        </div>
+                                        <t t-if="obj.task_count > 0">
+                                            <div class="progress" style="height:3px">
+                                                <div class="progress-bar bg-success" t-att-style="'width:'+obj.completion_rate+'%'"/>
+                                            </div>
+                                            <div class="text-muted mt-1" style="font-size:.67rem">
+                                                <t t-esc="obj.completed_task_count"/> of <t t-esc="obj.task_count"/> tasks
+                                            </div>
+                                        </t>
+                                        <t t-else="">
+                                            <div class="progress" style="height:3px">
+                                                <div class="progress-bar bg-success" t-att-style="'width:'+(obj.state === 'achieved' ? 100 : 0)+'%'"/>
+                                            </div>
+                                            <div class="text-muted mt-1" style="font-size:.67rem">No tasks</div>
+                                        </t>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+
+                        <!-- Prediction (open boards only) -->
+                        <t t-if="state.board.state === 'open' and state.prediction">
+                            <div class="mb-3">
+                                <div class="text-muted small fw-bold text-uppercase mb-2" style="letter-spacing:.07em">
+                                    <i class="fa fa-chart-line me-1 text-muted"/>Prediction
+                                </div>
+                                <div class="rounded p-2 border"
+                                     t-att-style="'background:' + (state.prediction.will_complete ? '#f0fdf4' : '#fef9c3') + ';border-color:' + (state.prediction.will_complete ? '#bbf7d0' : '#fde68a')">
+                                    <div class="d-flex align-items-center gap-2 mb-1">
+                                        <span class="fw-bold" style="font-size:1.3rem"
+                                              t-att-style="'color:' + (state.prediction.will_complete ? '#059669' : '#d97706')">
+                                            <t t-esc="state.prediction.pct_chance"/>%
+                                        </span>
+                                        <span class="small"
+                                              t-att-style="'color:' + (state.prediction.will_complete ? '#166534' : '#92400e')">
+                                            chance to complete on time
+                                        </span>
+                                    </div>
+                                    <div class="text-muted" style="font-size:.72rem">
+                                        <t t-if="state.prediction.will_complete">
+                                            At current pace you will complete
+                                            <strong><t t-esc="state.prediction.projected_done"/>/<t t-esc="state.prediction.total_tasks"/></strong> tasks
+                                        </t>
+                                        <t t-else="">
+                                            Will close with <strong><t t-esc="state.prediction.pending"/> pending</strong>.
+                                            Velocity: <t t-esc="state.prediction.velocity"/> tasks/day
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+
+                        <!-- Comparison vs previous sprints -->
+                        <t t-if="state.comparison and state.comparison.vs_avg.sprint_count >= 2">
+                            <div class="mb-3">
+                                <div class="text-muted small fw-bold text-uppercase mb-2" style="letter-spacing:.07em">
+                                    <i class="fa fa-chart-bar me-1 text-muted"/>Comparison
+                                </div>
+                                <div class="row g-2 align-items-stretch">
+                                    <div class="col-6 d-flex">
+                                        <div class="bg-light border rounded p-2 text-center w-100 d-flex flex-column justify-content-between">
+                                            <div class="text-muted" style="font-size:.65rem;text-transform:uppercase">vs prev. sprint</div>
+                                            <div t-att-class="'fw-bold small ' + (state.comparison.vs_prev.velocity_delta >= 0 ? 'text-success' : 'text-danger')">
+                                                <i t-att-class="'fa fa-xs ' + (state.comparison.vs_prev.velocity_delta >= 0 ? 'fa-arrow-up' : 'fa-arrow-down')"/>
+                                                <t t-esc="Math.abs(state.comparison.vs_prev.velocity_delta)"/>%
+                                            </div>
+                                            <div class="text-muted" style="font-size:.62rem">velocity</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 d-flex">
+                                        <div class="bg-light border rounded p-2 text-center w-100 d-flex flex-column justify-content-between">
+                                            <div class="text-muted" style="font-size:.65rem;text-transform:uppercase">vs avg. (<t t-esc="state.comparison.vs_avg.sprint_count"/> sprints)</div>
+                                            <div t-att-class="'fw-bold small ' + (state.comparison.vs_avg.velocity_delta >= 0 ? 'text-success' : 'text-danger')">
+                                                <i t-att-class="'fa fa-xs ' + (state.comparison.vs_avg.velocity_delta >= 0 ? 'fa-arrow-up' : 'fa-arrow-down')"/>
+                                                <t t-esc="Math.abs(state.comparison.vs_avg.velocity_delta)"/>%
+                                            </div>
+                                            <div class="text-muted" style="font-size:.62rem">velocity</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+
+                        <!-- AI Analysis -->
+                        <div class="mb-3">
+                            <div class="text-muted small fw-bold text-uppercase mb-2" style="letter-spacing:.07em">
+                                <i class="fa fa-wand-magic-sparkles me-1 text-muted"/>AI Analysis
+                                <t t-if="state.aiLoading">
+                                    <i class="fa fa-spinner fa-spin ms-2 text-muted small"/>
+                                </t>
+                            </div>
+                            <t t-if="state.recommendations.length === 0 and !state.aiLoading">
+                                <div class="text-muted small py-2 text-center">No recommendations yet.</div>
+                            </t>
+                            <t t-foreach="state.recommendations" t-as="rec" t-key="'rec-' + rec_index">
+                                <div t-att-class="'rounded p-2 mb-2 border ' + (rec.feedback === 'negative' ? 'bg-light border-light opacity-50' : rec_index === 0 ? 'bg-success-subtle border-success-subtle' : rec_index === 1 ? 'bg-ia-old border-light' : 'bg-light border-light opacity-75')">
+                                    <div t-att-class="'small fw-semibold mb-1 ' + (rec_index === 0 ? 'text-success' : rec_index === 1 ? 'text-ia-old' : 'text-muted')"
+                                         style="font-size:.68rem">
+                                        <i t-att-class="'me-1 ' + (rec_index >= 2 ? 'fa fa-circle text-muted' : 'fa fa-circle-dot')"/>
+                                        <t t-esc="rec.trigger"/>
+                                        <t t-if="rec_index >= 2">
+                                            <span class="ms-1" style="font-size:.62rem;opacity:.6">— read</span>
+                                        </t>
+                                    </div>
+                                    <div t-att-class="'small ' + (rec_index === 0 ? 'text-success-emphasis' : rec_index === 1 ? 'text-ia-old-body' : 'text-muted')"
+                                         style="line-height:1.5">
+                                        <t t-esc="rec.text"/>
+                                    </div>
+                                    <t t-if="state.board.can_edit and rec.id">
+                                        <div class="d-flex justify-content-end gap-1 mt-1">
+                                            <button t-att-class="'btn btn-xs px-1 py-0 rounded ' + (rec.feedback === 'positive' ? 'btn-success' : 'btn-light border')"
+                                                    style="font-size:.72rem"
+                                                    t-att-data-rec-index="rec_index"
+                                                    t-att-data-feedback="'positive'"
+                                                    t-on-click="onFeedback"
+                                                    title="Useful">
+                                                <i class="fa fa-thumbs-up"/>
+                                            </button>
+                                            <button t-att-class="'btn btn-xs px-1 py-0 rounded ' + (rec.feedback === 'negative' ? 'btn-danger' : 'btn-light border')"
+                                                    style="font-size:.72rem"
+                                                    t-att-data-rec-index="rec_index"
+                                                    t-att-data-feedback="'negative'"
+                                                    t-on-click="onFeedback"
+                                                    title="Not useful">
+                                                <i class="fa fa-thumbs-down"/>
+                                            </button>
+                                        </div>
+                                    </t>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Retrospective modal (on board close) -->
+                <t t-if="state.showRetroModal">
+                    <div class="modal show d-block" style="background:rgba(0,0,0,.6)">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h6 class="modal-title fw-bold">
+                                        <i class="fa fa-flag-checkered text-success me-2"/>Close board — Sprint retrospective
+                                    </h6>
+                                </div>
+                                <div class="modal-body">
+                                    <t t-if="state.retroLoading">
+                                        <div class="d-flex align-items-center gap-2 py-3 text-muted">
+                                            <i class="fa fa-spinner fa-spin"/>
+                                            Generating sprint summary with AI...
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <p class="text-muted small mb-2">
+                                            <i class="fa fa-wand-magic-sparkles me-1" style="color:#6366f1"/>
+                                            The AI has generated this summary. Edit before closing.
+                                            It will be used as context for the next sprint.
+                                        </p>
+                                        <textarea class="form-control" rows="6"
+                                                  placeholder="WELL: ...&#10;IMPROVE: ...&#10;NEXT: ..."
+                                                  t-model="state.retroText"
+                                                  style="font-size:.82rem;font-family:monospace;line-height:1.6"/>
+                                    </t>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-light border" t-on-click="closeRetroModal"
+                                            t-att-disabled="state.retroLoading">
+                                        Cancel
+                                    </button>
+                                    <button class="btn btn-outline-secondary"
+                                            t-att-disabled="state.retroLoading"
+                                            t-on-click="confirmClose">
+                                        Close without retrospective
+                                    </button>
+                                    <button class="btn btn-success"
+                                            t-att-disabled="state.retroLoading or !state.retroText"
+                                            t-on-click="confirmClose">
+                                        <i class="fa fa-flag-checkered me-1"/>Save and close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- Kiosk modal -->
+                <t t-if="state.showKioskModal">
+                    <div class="modal show d-block" style="background:rgba(0,0,0,.5)">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h6 class="modal-title fw-bold">
+                                        <i class="fa fa-tv me-2"/>Kiosk active
+                                    </h6>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="alert alert-success small py-2">
+                                        <i class="fa fa-circle-check me-1"/>Auto-refresh every 30 seconds
+                                    </div>
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control" readonly="1"
+                                               t-att-value="state.kioskUrl"/>
+                                        <button class="btn btn-outline-secondary" t-on-click="onCopyKioskUrl">
+                                            <i class="fa fa-copy"/>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary btn-sm"
+                                            t-on-click="() => state.showKioskModal = false">
+                                        Close
+                                    </button>
+                                    <a t-att-href="state.kioskUrl" target="_blank"
+                                       class="btn btn-primary btn-sm">
+                                        <i class="fa fa-tv me-1"/>View kiosk
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- Negative feedback modal -->
+                <t t-if="state.showFeedbackModal">
+                    <div class="modal show d-block" style="background:rgba(0,0,0,.5)">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header py-2 px-3">
+                                    <h6 class="modal-title fw-bold">
+                                        <i class="fa fa-thumbs-down text-danger me-2"/>Why wasn't it useful?
+                                    </h6>
+                                </div>
+                                <div class="modal-body px-3 py-2">
+                                    <p class="text-muted small mb-2">
+                                        Your feedback helps the AI improve future recommendations.
+                                        You can leave it blank.
+                                    </p>
+                                    <textarea class="form-control form-control-sm"
+                                              rows="3"
+                                              placeholder="E.g.: Too generic, we already knew this, does not apply to our context..."
+                                              t-model="state.feedbackReason"/>
+                                </div>
+                                <div class="modal-footer py-2 px-3 d-flex gap-2 justify-content-end">
+                                    <button class="btn btn-light btn-sm border" t-on-click="closeFeedbackModal">
+                                        Cancel
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" t-on-click="confirmNegativeFeedback">
+                                        <i class="fa fa-thumbs-down me-1"/>Send feedback
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </div>
+    </t>
+</templates>

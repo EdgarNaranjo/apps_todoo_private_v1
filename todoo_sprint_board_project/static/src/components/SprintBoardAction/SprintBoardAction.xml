@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+    <t t-name="sprint_board_project.SprintBoardAction">
+        <div class="o_sprint_board h-100">
+            <t t-if="state.view === 'loading'">
+                <div class="d-flex align-items-center justify-content-center h-100">
+                    <i class="fa fa-spinner fa-spin fa-2x text-muted"/>
+                </div>
+            </t>
+            <t t-elif="state.view === 'list'">
+                <SprintBoardList onOpenBoard.bind="openBoard"/>
+            </t>
+            <t t-elif="state.view === 'dashboard'">
+                <SprintBoardDashboard boardId="state.boardId" onBack.bind="backToList"/>
+            </t>
+        </div>
+    </t>
+</templates>

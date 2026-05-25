@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Sprint List View -->
+    <record id="view_project_sprint_list" model="ir.ui.view">
+        <field name="name">project.sprint.list</field>
+        <field name="model">project.sprint</field>
+        <field name="arch" type="xml">
+            <list string="Sprints" decoration-danger="not active" decoration-muted="state == 'closed'">
+                <field name="name"/>
+                <field name="state"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="task_count"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Sprint Form View -->
+    <record id="view_project_sprint_form" model="ir.ui.view">
+        <field name="name">project.sprint.form</field>
+        <field name="model">project.sprint</field>
+        <field name="arch" type="xml">
+            <form string="Sprint">
+                <header>
+                    <button name="action_set_in_progress" type="object" string="Start"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_set_closed" type="object" string="Close Sprint"
+                            class="btn-secondary" invisible="state != 'in_progress'"/>
+                    <button name="action_set_draft" type="object" string="Reopen"
+                            class="btn-secondary" invisible="state != 'closed'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,closed"/>
+                </header>
+                <sheet>
+                    <field name="active" invisible="1"/>
+                    <widget name="web_ribbon" title="Closed" bg_color="bg-danger"
+                            invisible="state != 'closed'"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-warning"
+                            invisible="active"/>
+                    <h1>
+                        <field name="name" readonly="1"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="start_date" widget="datetime"
+                                   readonly="state == 'in_progress'"/>
+                            <field name="project_ids" widget="many2many_tags"
+                                   readonly="state == 'in_progress'"/>
+                        </group>
+                        <group>
+                            <field name="end_date" widget="datetime"
+                                   readonly="state == 'in_progress'"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Sprint description, goals, notes..."/>
+                    <separator string="Sprint Objectives"/>
+                    <field name="objective_ids">
+                        <list string="Objectives" editable="bottom"
+                              decoration-success="state == 'achieved'"
+                              decoration-danger="state == 'not_achieved'"
+                              decoration-muted="state == 'pending'">
+                            <field name="sequence" widget="handle"/>
+                            <field name="name"/>
+                            <field name="task_ids" widget="many2many_tags"
+                                   domain="[('sprint_id', '=', parent.id)]"
+                                   options="{'no_create': True}"/>
+                            <field name="task_count" string="Tasks"/>
+                            <field name="completed_task_count" string="Completed"/>
+                            <field name="completion_rate" string="%" widget="percentage"/>
+                            <field name="state" widget="badge"
+                                   decoration-success="state == 'achieved'"
+                                   decoration-danger="state == 'not_achieved'"
+                                   decoration-warning="state == 'pending'"/>
+                            <field name="notes" optional="hide"/>
+                        </list>
+                        <form string="Objective">
+                            <header>
+                                <button name="action_set_achieved" type="object"
+                                        string="Mark as Achieved" class="btn-success"
+                                        invisible="state == 'achieved'"/>
+                                <button name="action_set_not_achieved" type="object"
+                                        string="Not Achieved" class="btn-danger"
+                                        invisible="state == 'not_achieved'"/>
+                                <button name="action_set_pending" type="object"
+                                        string="Pending" class="btn-secondary"
+                                        invisible="state == 'pending'"/>
+                                <field name="state" widget="statusbar"
+                                       statusbar_visible="pending,achieved,not_achieved"/>
+                            </header>
+                            <sheet>
+                                <group>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="task_ids" widget="many2many_tags"
+                                               domain="[('sprint_id', '=', parent.id)]"
+                                               options="{'no_create': True}"/>
+                                    </group>
+                                    <group>
+                                        <field name="completion_rate" widget="percentage"/>
+                                        <field name="task_count"/>
+                                        <field name="completed_task_count"/>
+                                    </group>
+                                </group>
+                                <field name="notes" placeholder="Scrum Master notes..."/>
+                            </sheet>
+                        </form>
+                    </field>
+
+                    <separator name="separator_tasks" string="Sprint Tasks"/>
+                    <field name="task_ids" mode="list" readonly="1">
+                        <list string="Tasks">
+                            <field name="name"/>
+                            <field name="project_id"/>
+                            <field name="stage_id"/>
+                            <field name="estimate_effort"/>
+                            <field name="real_effort"/>
+                        </list>
+                    </field>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Sprint Search View -->
+    <record id="view_project_sprint_search" model="ir.ui.view">
+        <field name="name">project.sprint.search</field>
+        <field name="model">project.sprint</field>
+        <field name="arch" type="xml">
+            <search string="Search Sprints">
+                <field name="name"/>
+                <field name="project_ids"/>
+                <separator/>
+                <filter string="Active" name="active_filter" domain="[('active', '=', True)]"/>
+                <filter string="Archived" name="inactive_filter" domain="[('active', '=', False)]"/>
+                <separator/>
+                <filter string="Planned" name="state_draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="In Progress" name="state_in_progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter string="Closed" name="state_closed" domain="[('state', '=', 'closed')]"/>
+                <separator/>
+                <filter string="Upcoming" name="upcoming" domain="[('start_date', '&gt;', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="Current" name="current" domain="[('start_date', '&lt;=', context_today().strftime('%Y-%m-%d')), ('end_date', '&gt;=', context_today().strftime('%Y-%m-%d'))]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="By Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="By Project" name="group_project" context="{'group_by': 'project_ids'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Sprint Window Action -->
+    <record id="action_project_sprint" model="ir.actions.act_window">
+        <field name="name">Sprints</field>
+        <field name="res_model">project.sprint</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active_filter': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new sprint
+            </p>
+            <p>
+                Sprints organise tasks into fixed time periods.
+                Each sprint has a start date and an end date.
+            </p>
+        </field>
+    </record>
+</odoo>

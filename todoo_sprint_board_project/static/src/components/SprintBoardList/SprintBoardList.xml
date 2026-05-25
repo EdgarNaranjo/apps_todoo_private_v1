@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+    <t t-name="sprint_board_project.SprintBoardList">
+        <div class="o_sprint_board_list d-flex flex-column h-100">
+
+            <!-- Toolbar -->
+            <div class="d-flex align-items-center gap-2 px-3 py-2 bg-white border-bottom flex-wrap">
+                <t t-if="state.isEditor">
+                    <button class="btn btn-primary btn-sm flex-shrink-0" t-on-click="onCreateBoard">
+                        <i class="fa fa-plus me-1"/> Create board
+                    </button>
+                </t>
+                <div class="d-flex align-items-center gap-2 flex-grow-1 justify-content-center flex-wrap">
+                    <label class="text-muted small fw-semibold mb-0">Status</label>
+                    <select class="form-select form-select-sm" style="width:auto" t-on-change="onStateChange">
+                        <option value="all">All</option>
+                        <option value="open" selected="1">Active</option>
+                        <option value="closed">Closed</option>
+                    </select>
+                    <div class="vr"/>
+                    <label class="text-muted small fw-semibold mb-0">Period</label>
+                    <select class="form-select form-select-sm" style="width:auto" t-on-change="onPeriodChange">
+                        <option value="sprint" selected="1">This sprint</option>
+                        <option value="week">Last week</option>
+                        <option value="month">Last month</option>
+                        <option value="quarter">Last quarter</option>
+                        <option value="year">Last year</option>
+                        <option value="all_time">All time</option>
+                        <option value="range">Date range...</option>
+                    </select>
+                    <t t-if="state.showRangePicker">
+                        <div class="d-flex align-items-center gap-1 border rounded-2 px-2 py-1 bg-white"
+                             style="font-size:.8rem">
+                            <i class="fa fa-calendar text-muted" style="font-size:.72rem"/>
+                            <DateTimeInput type="'date'"
+                                           value="dateFromValue"
+                                           onChange="onDateFromChange"
+                                           placeholder="'From'"/>
+                            <span class="text-muted px-2">→</span>
+                            <DateTimeInput type="'date'"
+                                           value="dateToValue"
+                                           onChange="onDateToChange"
+                                           placeholder="'To'"/>
+                        </div>
+                    </t>
+                    <button class="btn btn-primary btn-sm" t-on-click="onApply">
+                        <i class="fa fa-check me-1"/> Apply
+                    </button>
+                    <button class="btn btn-light btn-sm border" t-on-click="onClear">
+                        <i class="fa fa-times me-1"/> Clear
+                    </button>
+                </div>
+                <span class="text-muted small flex-shrink-0"><t t-esc="state.total"/> boards</span>
+            </div>
+
+            <!-- Global KPIs -->
+            <t t-if="state.kpis">
+                <div class="row g-0 border-bottom bg-white m-0">
+                    <div t-att-class="'col-6 col-lg-3 border-end p-3 d-flex gap-3 align-items-center kpi-clickable' + (state.kpiFilter === 'active' ? ' kpi-active' : '')"
+                         data-kpi-filter="active" t-on-click="onKpiClick" style="cursor:pointer">
+                        <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
+                             style="width:42px;height:42px;background:#eef2ff">
+                            <i class="fa fa-rocket" style="color:#6366f1;font-size:1.1rem"/>
+                        </div>
+                        <div>
+                            <div class="fw-bold" style="font-size:1.6rem;color:#6366f1;line-height:1">
+                                <t t-esc="state.kpis.active_boards"/>
+                            </div>
+                            <div class="text-muted small">Active boards</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3 border-end p-3 d-flex gap-3 align-items-center">
+                        <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
+                             style="width:42px;height:42px;background:#fef3c7">
+                            <i class="fa fa-chart-bar" style="color:#d97706;font-size:1.1rem"/>
+                        </div>
+                        <div>
+                            <div class="fw-bold" style="font-size:1.6rem;color:#d97706;line-height:1">
+                                <t t-esc="state.kpis.pending_sp"/>
+                            </div>
+                            <div class="text-muted small">Pending SP</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3 border-end p-3 d-flex gap-3 align-items-center">
+                        <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
+                             style="width:42px;height:42px;background:#d1fae5">
+                            <i class="fa fa-circle-check" style="color:#059669;font-size:1.1rem"/>
+                        </div>
+                        <div>
+                            <div class="fw-bold" style="font-size:1.6rem;color:#059669;line-height:1">
+                                <t t-esc="state.kpis.completion_pct"/>%
+                            </div>
+                            <div class="text-muted small">
+                                <t t-esc="state.kpis.done_tasks"/>/<t t-esc="state.kpis.total_tasks"/> tasks
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3 p-3 d-flex gap-2 align-items-center">
+                        <div t-att-class="'d-flex gap-2 align-items-center flex-grow-1 rounded-2 p-2 kpi-clickable' + (state.kpiFilter === 'bugs' ? ' kpi-active' : '')"
+                             data-kpi-filter="bugs" t-on-click="onKpiClick" style="cursor:pointer">
+                            <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
+                                 t-att-style="'width:36px;height:36px;background:' + (state.kpis.bug_count > 0 ? '#fee2e2' : '#f1f5f9')">
+                                <i class="fa fa-bug"
+                                   t-att-style="'font-size:1rem;color:' + (state.kpis.bug_count > 0 ? '#dc2626' : '#94a3b8')"/>
+                            </div>
+                            <div>
+                                <div class="fw-bold" style="font-size:1.4rem;line-height:1"
+                                     t-att-style="'color:' + (state.kpis.bug_count > 0 ? '#dc2626' : '#94a3b8')">
+                                    <t t-esc="state.kpis.bug_count"/>
+                                </div>
+                                <div class="text-muted small">Bugs</div>
+                            </div>
+                        </div>
+                        <t t-if="state.kpis.at_risk">
+                            <div class="vr"/>
+                            <div t-att-class="'d-flex gap-2 align-items-center flex-grow-1 rounded-2 p-2 kpi-clickable' + (state.kpiFilter === 'at_risk' ? ' kpi-active' : '')"
+                                 data-kpi-filter="at_risk" t-on-click="onKpiClick" style="cursor:pointer">
+                                <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
+                                     style="width:36px;height:36px;background:#fff7ed">
+                                    <i class="fa fa-triangle-exclamation" style="font-size:1rem;color:#ea580c"/>
+                                </div>
+                                <div>
+                                    <div class="fw-bold" style="font-size:1.4rem;color:#ea580c;line-height:1">
+                                        <t t-esc="state.kpis.at_risk"/>
+                                    </div>
+                                    <div class="text-muted small">At risk</div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </t>
+
+            <!-- Main content -->
+            <div class="flex-grow-1 overflow-auto p-3 bg-light">
+
+                <!-- Banner: active sprints without board -->
+                <t t-if="state.suggestedSprints.length">
+                    <div class="mb-3 p-3 rounded-3 border" style="background:#f5f3ff;border-color:#c4b5fd!important">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <i class="fa fa-rocket" style="color:#6366f1"/>
+                            <span class="fw-bold small" style="color:#4f46e5">
+                                <t t-if="state.suggestedSprints.length === 1">Active sprint without board</t>
+                                <t t-else=""><t t-esc="state.suggestedSprints.length"/> active sprints without board</t>
+                            </span>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2">
+                            <t t-foreach="state.suggestedSprints" t-as="sp" t-key="sp.id">
+                                <div class="d-flex align-items-center justify-content-between gap-3 px-3 py-2 rounded-3 flex-grow-1"
+                                     style="background:white;border:1px solid #e9d5ff;min-width:220px">
+                                    <div>
+                                        <div class="fw-semibold small text-dark"><t t-esc="sp.name"/></div>
+                                        <div class="text-muted" style="font-size:.72rem">
+                                            <t t-esc="sp.task_count"/> tasks
+                                            <t t-if="sp.end_date">
+                                                · ends on <t t-esc="sp.end_date"/>
+                                            </t>
+                                        </div>
+                                    </div>
+                                    <t t-if="state.isEditor">
+                                        <button class="btn btn-sm fw-semibold flex-shrink-0"
+                                                style="background:#6366f1;color:#fff;font-size:.75rem"
+                                                t-on-click="() => onCreateBoardForSprint(sp.id)">
+                                            <i class="fa fa-plus me-1"/>Create board
+                                        </button>
+                                    </t>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+
+                <t t-if="state.loading">
+                    <div class="d-flex justify-content-center py-5">
+                        <i class="fa fa-spinner fa-spin fa-2x text-muted"/>
+                    </div>
+                </t>
+                <t t-elif="state.boards.length === 0">
+                    <div class="d-flex justify-content-center py-5">
+                        <div class="card border-0 shadow-sm p-4 text-center" style="max-width:380px">
+                            <i class="fa fa-rocket fa-3x mb-3" style="color:#6366f1"/>
+                            <h5 class="fw-bold">No boards match this filter</h5>
+                            <p class="text-muted small mb-0">
+                                <t t-if="state.isEditor">Use the <strong>+ Create board</strong> button above to create one.</t>
+                                <t t-else="">No boards you are part of match this filter.</t>
+                            </p>
+                        </div>
+                    </div>
+                </t>
+                <t t-else="">
+                    <!-- Active -->
+                    <t t-if="activeBoards.length">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <span class="text-muted small fw-bold text-uppercase" style="letter-spacing:.07em">Active</span>
+                            <hr class="flex-grow-1 m-0"/>
+                        </div>
+                        <div class="row g-3 mb-4">
+                            <t t-foreach="activeBoards" t-as="board" t-key="board.id">
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <div class="card h-100 border-0 shadow-sm"
+                                         t-att-style="'border-top:3px solid '+cardAccentColor(board)+'!important;cursor:pointer'"
+                                         t-att-data-board-id="board.id" t-on-click="onBoardCardClick">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-start gap-2 mb-3">
+                                                <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
+                                                     style="width:36px;height:36px;background:#eef2ff;font-size:1rem">🚀</div>
+                                                <div class="flex-grow-1 min-w-0">
+                                                    <div class="fw-bold text-truncate"><t t-esc="board.sprint_name"/></div>
+                                                    <div class="text-muted small">
+                                                        <i class="fa fa-calendar me-1"/>
+                                                        <t t-esc="board.start_date"/> → <t t-esc="board.end_date"/>
+                                                    </div>
+                                                </div>
+                                                <span class="badge bg-success-subtle text-success small fw-bold">
+                                                    <i class="fa fa-bolt me-1"/>Active
+                                                </span>
+                                            </div>
+                                            <div class="d-flex justify-content-between mb-1">
+                                                <span class="text-muted small">
+                                                    <t t-esc="board.done_tasks"/> of <t t-esc="board.total_tasks"/>
+                                                </span>
+                                                <strong class="small" style="color:#6366f1">
+                                                    <t t-esc="board.pct"/>%
+                                                </strong>
+                                            </div>
+                                            <div class="progress mb-3" style="height:4px">
+                                                <div class="progress-bar" role="progressbar"
+                                                     t-att-style="'width:'+board.pct+'%;background:linear-gradient(90deg,#6366f1,#8b5cf6)'"/>
+                                            </div>
+                                            <div class="row g-1">
+                                                <div class="col-3">
+                                                    <div class="bg-light rounded text-center p-1">
+                                                        <div class="fw-bold small" style="color:#6366f1">
+                                                            <t t-esc="board.total_sp"/>
+                                                        </div>
+                                                        <div class="text-muted" style="font-size:.6rem;text-transform:uppercase">SP total</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="bg-light rounded text-center p-1">
+                                                        <div class="fw-bold small text-warning">
+                                                            <t t-esc="board.pending_sp"/>
+                                                        </div>
+                                                        <div class="text-muted" style="font-size:.6rem;text-transform:uppercase">SP pend.</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="bg-light rounded text-center p-1">
+                                                        <div class="fw-bold small text-danger">
+                                                            <t t-esc="board.bug_count"/>
+                                                        </div>
+                                                        <div class="text-muted" style="font-size:.6rem;text-transform:uppercase">Bugs</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="bg-light rounded text-center p-1">
+                                                        <div class="fw-bold small text-secondary">
+                                                            <t t-esc="board.days_left"/>
+                                                        </div>
+                                                        <div class="text-muted" style="font-size:.6rem;text-transform:uppercase">Days</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer bg-transparent d-flex justify-content-between py-2">
+                                            <span class="text-muted small">Created by <t t-esc="board.creator_name"/></span>
+                                            <span class="small fw-semibold" style="color:#6366f1">
+                                                View board <i class="fa fa-arrow-right ms-1"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+
+                    <!-- Closed -->
+                    <t t-if="closedBoards.length">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <span class="text-muted small fw-bold text-uppercase" style="letter-spacing:.07em">Closed</span>
+                            <hr class="flex-grow-1 m-0"/>
+                        </div>
+                        <div class="row g-3">
+                            <t t-foreach="closedBoards" t-as="board" t-key="board.id">
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <div class="card h-100 border-0 shadow-sm opacity-75"
+                                         style="border-top:3px solid #64748b!important;cursor:pointer"
+                                         t-att-data-board-id="board.id" t-on-click="onBoardCardClick">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-start gap-2 mb-2">
+                                                <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
+                                                     style="width:36px;height:36px;background:#f1f5f9;font-size:1rem">🔒</div>
+                                                <div class="flex-grow-1 min-w-0">
+                                                    <div class="fw-bold text-muted text-truncate">
+                                                        <t t-esc="board.sprint_name"/>
+                                                    </div>
+                                                    <div class="text-muted small">
+                                                        <t t-esc="board.start_date"/> → <t t-esc="board.end_date"/>
+                                                    </div>
+                                                </div>
+                                                <span class="badge bg-secondary-subtle text-secondary small">Closed</span>
+                                            </div>
+                                            <div class="progress" style="height:4px">
+                                                <div class="progress-bar bg-secondary" role="progressbar"
+                                                     t-att-style="'width:'+board.pct+'%'"/>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer bg-transparent d-flex justify-content-between py-2">
+                                            <span class="text-muted small">Closed on <t t-esc="board.date_closed"/></span>
+                                            <span class="small text-muted">
+                                                View history <i class="fa fa-arrow-right ms-1"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                </t>
+            </div>
+
+            <!-- Pagination -->
+            <t t-if="state.total > state.perPage">
+                <div class="d-flex align-items-center justify-content-between px-3 py-2 bg-white border-top flex-wrap gap-2">
+                    <span class="text-muted small">
+                        Showing
+                        <t t-esc="(state.page-1)*state.perPage+1"/>–<t t-esc="Math.min(state.page*state.perPage,state.total)"/>
+                        of <t t-esc="state.total"/> boards
+                    </span>
+                    <div class="d-flex gap-1">
+                        <button class="btn btn-light btn-sm border" t-att-disabled="state.page === 1" t-on-click="onPagePrev">
+                            <i class="fa fa-chevron-left"/>
+                        </button>
+                        <t t-foreach="Array.from({length: totalPages}, (_, i) => i+1)" t-as="p" t-key="p">
+                            <button t-att-class="'btn btn-sm border ' + (p === state.page ? 'btn-primary' : 'btn-light')"
+                                    t-att-data-page="p" t-on-click="onPageClick">
+                                <t t-esc="p"/>
+                            </button>
+                        </t>
+                        <button class="btn btn-light btn-sm border" t-att-disabled="state.page === totalPages" t-on-click="onPageNext">
+                            <i class="fa fa-chevron-right"/>
+                        </button>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="text-muted small">Per page:</span>
+                        <select class="form-select form-select-sm" style="width:auto" t-on-change="onPerPageChange">
+                            <option value="12">12</option>
+                            <option value="24">24</option>
+                            <option value="48">48</option>
+                        </select>
+                    </div>
+                </div>
+            </t>
+
+            <!-- ═══════════════════════════════════════════
+                 MODAL: CREATE BOARD
+            ════════════════════════════════════════════ -->
+            <t t-if="state.showCreateModal">
+                <div class="modal show d-block" style="background:rgba(15,23,42,.55);backdrop-filter:blur(3px)">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content border-0 shadow-lg rounded-3 overflow-hidden">
+
+                            <div class="modal-header border-bottom px-4 py-3" style="background:#fff">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center"
+                                         style="width:34px;height:34px;background:#eef2ff;font-size:.9rem">🚀</div>
+                                    <div>
+                                        <h6 class="modal-title fw-bold mb-0">New Board</h6>
+                                        <div class="text-muted" style="font-size:.74rem">Select a sprint and configure access</div>
+                                    </div>
+                                </div>
+                                <button class="btn-close" t-on-click="closeCreateModal"/>
+                            </div>
+
+                            <div class="modal-body px-4 py-3" style="background:#fff">
+
+                                <div class="mb-3">
+                                    <label class="text-muted fw-bold text-uppercase mb-2 d-block" style="font-size:.68rem;letter-spacing:.06em">Sprint to display</label>
+                                    <t t-if="state.sprints.length === 0">
+                                        <div class="text-muted small py-2"><i class="fa fa-spinner fa-spin me-2"/>Loading sprints...</div>
+                                    </t>
+                                    <t t-foreach="state.sprints" t-as="sprint" t-key="sprint.id">
+                                        <div t-att-class="'d-flex align-items-center gap-3 p-3 rounded-3 mb-2 border cursor-pointer sprint-opt ' + (state.selectedSprintId === sprint.id ? 'sprint-opt-selected' : '') + (sprint.task_count === 0 || sprint.open_task_count === 0 ? ' opacity-60' : '')"
+                                             t-att-data-sprint-id="sprint.id"
+                                             t-on-click="onSelectSprintClick">
+                                            <span t-att-style="sprintDotStyle(sprint)"/>
+                                            <div class="flex-grow-1 min-w-0">
+                                                <div class="fw-semibold text-truncate small"><t t-esc="sprint.name"/></div>
+                                                <div class="text-muted" style="font-size:.71rem">
+                                                    <i class="fa fa-calendar me-1"/>
+                                                    <t t-esc="sprint.start_date"/> → <t t-esc="sprint.end_date"/>
+                                                    · <t t-esc="sprint.task_count"/> tasks
+                                                </div>
+                                                <t t-if="sprint.task_count === 0">
+                                                    <div class="d-flex align-items-center gap-1 mt-1" style="font-size:.68rem;color:#b45309">
+                                                        <i class="fa fa-triangle-exclamation"/>
+                                                        No tasks — add tasks to the sprint first
+                                                    </div>
+                                                </t>
+                                                <t t-elif="sprint.open_task_count === 0">
+                                                    <div class="d-flex align-items-center gap-1 mt-1" style="font-size:.68rem;color:#b45309">
+                                                        <i class="fa fa-lock"/>
+                                                        All tasks are closed
+                                                    </div>
+                                                </t>
+                                            </div>
+                                            <span t-att-class="sprintBadgeClass(sprint)"
+                                                  t-att-style="sprintBadgeStyle(sprint)">
+                                                <i t-att-class="sprintIconClass(sprint)"/>
+                                                <t t-if="sprint.state === 'in_progress'">In progress</t>
+                                                <t t-else="">Planned</t>
+                                            </span>
+                                        </div>
+                                    </t>
+                                </div>
+
+                                <t t-if="state.selectedSprintId">
+                                    <t t-if="state.taskError">
+                                        <div class="alert alert-warning py-2 px-3 mb-2 small d-flex align-items-center gap-2">
+                                            <i class="fa fa-triangle-exclamation text-warning"/>
+                                            <t t-esc="state.taskError"/>
+                                        </div>
+                                    </t>
+
+                                    <t t-if="state.selectedSprintId">
+                                        <div class="mb-2">
+                                            <label class="text-muted fw-bold text-uppercase mb-2 d-block" style="font-size:.68rem;letter-spacing:.06em">
+                                                <i class="fa fa-users me-1"/>Responsible
+                                                <t t-if="state.responsibleIds.length">
+                                                    <span class="badge bg-primary-subtle text-primary ms-1"><t t-esc="state.responsibleIds.length"/></span>
+                                                </t>
+                                            </label>
+                                            <div class="sb-tags-box" t-ref="responsibleSelectWrap"
+                                                 t-on-click="focusResponsibleSearch">
+                                                <t t-foreach="selectedResponsibles" t-as="u" t-key="u.id">
+                                                    <span class="sb-tag">
+                                                        <span class="sb-tag-avatar"><t t-esc="u.name[0].toUpperCase()"/></span>
+                                                        <span t-esc="u.name"/>
+                                                        <i class="fa fa-times sb-tag-remove"
+                                                           t-att-data-user-id="u.id"
+                                                           t-on-click.stop="removeResponsible"/>
+                                                    </span>
+                                                </t>
+                                                <input type="text"
+                                                       t-ref="responsibleSearchInput"
+                                                       class="sb-search-inline"
+                                                       placeholder="Search responsible..."
+                                                       t-att-value="state.userSearch"
+                                                       t-on-input="onResponsibleSearchInput"
+                                                       t-on-focus="onResponsibleSearchFocus"
+                                                       t-on-blur="onResponsibleSearchBlur"
+                                                       autocomplete="off"/>
+                                            </div>
+                                            <t t-if="state.dropdownOpen">
+                                                <div class="sb-dropdown" t-att-style="dropdownStyle">
+                                                    <t t-if="dropdownHint">
+                                                        <div class="sb-dropdown-hint">
+                                                            <i class="fa fa-info-circle me-1"/><t t-esc="dropdownHint"/>
+                                                        </div>
+                                                        <div class="sb-dropdown-sep"/>
+                                                    </t>
+                                                    <t t-if="filteredUsers.length">
+                                                        <t t-foreach="filteredUsers" t-as="u" t-key="u.id">
+                                                            <div t-att-class="'sb-dropdown-item' + (isResponsibleSelected(u.id) ? ' sb-dropdown-item--selected' : '')"
+                                                                 t-att-data-user-id="u.id"
+                                                                 t-on-mousedown.prevent="onToggleResponsible">
+                                                                <i t-att-class="isResponsibleSelected(u.id) ? 'fa fa-check-square' : 'fa fa-square-o'"/>
+                                                                <div class="sb-dropdown-avatar"><t t-esc="u.name[0].toUpperCase()"/></div>
+                                                                <span t-esc="u.name"/>
+                                                            </div>
+                                                        </t>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <div class="sb-dropdown-empty">No results for "<t t-esc="state.userSearch"/>"</div>
+                                                    </t>
+                                                </div>
+                                            </t>
+                                            <div class="text-muted mt-1" style="font-size:.69rem">
+                                                <i class="fa fa-circle-info me-1"/>Pre-filled with project managers of sprint projects.
+                                            </div>
+                                        </div>
+                                    </t>
+                                </t>
+
+                                <!-- Previous sprint retrospective -->
+                                <t t-if="state.prevRetrospective">
+                                    <t t-set="parsedPrev" t-value="parsePrevRetro(state.prevRetrospective)"/>
+                                    <div class="mt-3 rounded-3 border p-3" style="background:#fafafa">
+                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                            <i class="fa fa-clock-rotate-left" style="color:#6366f1"/>
+                                            <span class="fw-bold small">Previous sprint retrospective</span>
+                                            <span class="text-muted small ms-1">(<t t-esc="state.prevRetroSprint"/>)</span>
+                                            <div class="form-check form-switch ms-auto mb-0">
+                                                <input class="form-check-input" type="checkbox"
+                                                       t-att-checked="state.includeRetro"
+                                                       t-on-change="(ev) => state.includeRetro = ev.target.checked"/>
+                                                <label class="form-check-label text-muted small">Include</label>
+                                            </div>
+                                        </div>
+                                        <t t-if="state.includeRetro">
+                                            <t t-if="parsedPrev.summary">
+                                                <div class="text-muted small mb-1"
+                                                     t-att-style="state.retroExpanded ? '' : 'display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden'">
+                                                    <t t-esc="parsedPrev.summary"/>
+                                                </div>
+                                                <button class="btn btn-link btn-sm p-0 mb-2 text-decoration-none"
+                                                        style="font-size:.72rem;color:#6366f1"
+                                                        t-on-click="() => state.retroExpanded = !state.retroExpanded">
+                                                    <i t-att-class="'fa me-1 ' + (state.retroExpanded ? 'fa-chevron-up' : 'fa-chevron-down')"/>
+                                                    <t t-if="state.retroExpanded">Read less</t>
+                                                    <t t-else="">Read more</t>
+                                                </button>
+                                            </t>
+                                            <t t-if="parsedPrev.blocks.length">
+                                                <div class="rounded border p-2 small" style="background:white">
+                                                    <t t-foreach="parsedPrev.blocks" t-as="b" t-key="b.key">
+                                                        <div class="d-flex gap-2 mb-1">
+                                                            <span class="flex-shrink-0"><t t-esc="b.icon"/></span>
+                                                            <span class="fw-bold flex-shrink-0"
+                                                                  t-att-class="b.key === 'BIEN:' ? 'text-success' : b.key === 'MEJORAR:' ? 'text-warning' : 'text-primary'"
+                                                                  style="font-size:.72rem">
+                                                                <t t-esc="b.label"/>:
+                                                            </span>
+                                                            <span class="text-muted" style="font-size:.78rem"><t t-esc="b.text"/></span>
+                                                        </div>
+                                                    </t>
+                                                </div>
+                                            </t>
+                                            <t t-elif="!parsedPrev.summary">
+                                                <div class="text-muted small"
+                                                     t-att-style="'font-size:.78rem;line-height:1.6;white-space:pre-wrap;' + (state.retroExpanded ? '' : 'display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden')">
+                                                    <t t-esc="state.prevRetrospective"/>
+                                                </div>
+                                                <button class="btn btn-link btn-sm p-0 mt-1 text-decoration-none"
+                                                        style="font-size:.72rem;color:#6366f1"
+                                                        t-on-click="() => state.retroExpanded = !state.retroExpanded">
+                                                    <i t-att-class="'fa me-1 ' + (state.retroExpanded ? 'fa-chevron-up' : 'fa-chevron-down')"/>
+                                                    <t t-if="state.retroExpanded">Read less</t>
+                                                    <t t-else="">Read more</t>
+                                                </button>
+                                            </t>
+                                            <div class="text-muted mt-2" style="font-size:.69rem">
+                                                <i class="fa fa-circle-info me-1"/>The AI will use this as context for the new sprint.
+                                            </div>
+                                        </t>
+                                    </div>
+                                </t>
+
+                            </div>
+
+                            <div class="modal-footer border-top px-4 py-3" style="background:#fff">
+                                <button class="btn btn-light border" t-on-click="closeCreateModal">
+                                    <i class="fa fa-times me-1"/>Cancel
+                                </button>
+                                <button class="btn btn-primary"
+                                        t-att-disabled="!state.selectedSprintId or state.modalLoading or !!state.taskError"
+                                        t-on-click="confirmCreateBoard">
+                                    <i t-att-class="'fa me-1 ' + (state.modalLoading ? 'fa-spinner fa-spin' : 'fa-rocket')"/>
+                                    <t t-if="state.modalLoading">Creating...</t>
+                                    <t t-else="">Create board</t>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </t>
+
+        </div>
+    </t>
+</templates>
