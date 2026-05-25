@@ -279,8 +279,8 @@ class SprintBoardController(http.Controller):
         tasks_data = [
             {
                 "id": t.id, "name": t.name,
-                "type_code": t.type_id.code if t.type_id else "",
-                "type_name": t.type_id.name if t.type_id else "",
+                "type_code": getattr(t, 'type_id', False) and t.type_id.code or "",
+                "type_name": getattr(t, 'type_id', False) and t.type_id.name or "",
                 "sp": int(t.estimate_effort) if t.estimate_effort and t.estimate_effort != "00" else 0,
                 "state": t.state,
                 "priority": t.priority,
@@ -395,7 +395,7 @@ class SprintBoardController(http.Controller):
             {
                 "name":    t.name,
                 "sp":      int(t.estimate_effort) if t.estimate_effort and t.estimate_effort != "00" else 0,
-                "type":    t.type_id.name if t.type_id else "",
+                "type":    getattr(t, 'type_id', False) and t.type_id.name or "",
                 "is_bug":  SprintBoardController._is_bug(t),
                 "state":   t.state,
                 "blocked": bool(t.write_date and (datetime.utcnow() - t.write_date).days >= 2 and t.state == "01_in_progress"),

@@ -1,6 +1,6 @@
 {
     'name': 'Sprint Board',
-    'version': '17.0.2.1.0',
+    'version': '17.0.2.1.1',
     'category': 'Project/Project',
     'summary': 'Visual sprint dashboard with KPIs, AI analysis and kiosk mode',
     'description': """
@@ -20,7 +20,7 @@
     'depends': [
         'project',
         'project_department',  # OCA: https://github.com/OCA/project
-        'project_type',        # OCA: https://github.com/OCA/project
+        # 'project_type' is optional (OCA) — not available for 17.0; accessed via getattr guards
         'mail',
     ],
     'data': [

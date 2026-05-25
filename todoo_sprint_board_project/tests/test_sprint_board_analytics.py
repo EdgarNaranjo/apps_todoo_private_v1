@@ -33,9 +33,18 @@ class TestSprintBoardAnalytics(TransactionCase):
     # ── _is_bug_task ──────────────────────────────────────────────────────
 
     def _make_type(self, name, code=""):
+        """Create a project.type only if project_type (OCA) is installed."""
+        if 'project.type' not in self.env:
+            return self.env['project.task'].browse()  # empty recordset — type_id stays unset
         return self.env["project.type"].create({"name": name, "code": code, "task_ok": True})
 
+    def _skip_if_no_project_type(self):
+        """Skip type-based tests when project_type OCA module is absent."""
+        if 'project.type' not in self.env:
+            self.skipTest("project_type (OCA) not installed — skipping type-dependent test")
+
     def test_ANAL01_is_bug_by_code_ERR(self):
+        self._skip_if_no_project_type()
         t = self.env["project.task"].create({
             "name": "Bug via code", "project_id": self.project.id,
             "type_id": self._make_type("Error", code="ERR").id,
@@ -44,6 +53,7 @@ class TestSprintBoardAnalytics(TransactionCase):
         self.assertTrue(SprintBoard._is_bug_task(t))
 
     def test_ANAL02_is_bug_by_name_error(self):
+        self._skip_if_no_project_type()
         t = self.env["project.task"].create({
             "name": "Fix something", "project_id": self.project.id,
             "type_id": self._make_type("Error de sistema", code="").id,
@@ -52,6 +62,7 @@ class TestSprintBoardAnalytics(TransactionCase):
         self.assertTrue(SprintBoard._is_bug_task(t))
 
     def test_ANAL03_is_bug_by_name_bug(self):
+        self._skip_if_no_project_type()
         t = self.env["project.task"].create({
             "name": "Fix something", "project_id": self.project.id,
             "type_id": self._make_type("Critical bug", code="").id,
@@ -60,6 +71,7 @@ class TestSprintBoardAnalytics(TransactionCase):
         self.assertTrue(SprintBoard._is_bug_task(t))
 
     def test_ANAL04_not_bug_for_feature(self):
+        self._skip_if_no_project_type()
         t = self.env["project.task"].create({
             "name": "New feature", "project_id": self.project.id,
             "type_id": self._make_type("Feature", code="FEAT").id,

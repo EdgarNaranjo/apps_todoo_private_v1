@@ -50,12 +50,14 @@ class SprintBoard(models.Model):
         1. If type_id.code is set: code in ('ERR','BUG','ERROR','DEFECTO')
         2. If code is empty: type_id.name contains .error. or .bug..
         """
-        if not task.type_id:
+        # project_type (OCA) is optional — guard with getattr
+        type_id = getattr(task, 'type_id', False)
+        if not type_id:
             return False
-        code = (task.type_id.code or "").strip().upper()
+        code = (type_id.code or "").strip().upper()
         if code:
             return code in ("ERR", "BUG", "ERROR", "DEFECTO", "DEFECT")
-        name = (task.type_id.name or "").lower()
+        name = (type_id.name or "").lower()
         return "error" in name or "bug" in name
 
     @api.model_create_multi
@@ -197,7 +199,8 @@ class SprintBoard(models.Model):
             return elapsed if elapsed >= threshold else None
 
         def serialize_task(t):
-            type_code = t.type_id.code if t.type_id else ""
+            _type_id = getattr(t, 'type_id', False)
+            type_code = _type_id.code if _type_id else ""
             # Days until deadline (None if not set)
             deadline_days = None
             if t.date_deadline:
@@ -215,12 +218,12 @@ class SprintBoard(models.Model):
                 "is_priority": bool(t.priority and t.priority != "0"),
                 "is_closed": t.state in closed_states,
                 "is_bug": SprintBoard._is_bug_task(t),
-                "type_name": t.type_id.name if t.type_id else "",
+                "type_name": _type_id.name if _type_id else "",
                 "type_code": type_code,
                 "sp": sp(t),
                 "deadline_days": deadline_days,  # None = no date, <0 = overdue, >=0 = days remaining
-                "department_id":   t.project_department_id.id   if t.project_department_id else None,
-                "department_name": t.project_department_id.name if t.project_department_id else None,
+                "department_id":   getattr(t, 'project_department_id', False) and t.project_department_id.id   or None,
+                "department_name": getattr(t, 'project_department_id', False) and t.project_department_id.name or None,
                 "blocked_days": _blocked_days(t),
                 "assignees": [
                     {"id": u.id, "name": u.name, "initials": (u.name or "?")[:2].upper()}
