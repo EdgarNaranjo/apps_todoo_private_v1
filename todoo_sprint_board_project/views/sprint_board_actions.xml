@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Accion cliente que carga el componente OWL raiz -->
+    <record id="action_sprint_board" model="ir.actions.client">
+        <field name="name">Board</field>
+        <field name="tag">sprint_board_project.SprintBoardAction</field>
+        <field name="target">current</field>
+    </record>
+
+    <!-- Menu principal de Proyecto — Sprint Board como primer item (sequence=1) -->
+    <menuitem
+        id="menu_sprint_board_root"
+        name="Board"
+        parent="project.menu_main_pm"
+        action="action_sprint_board"
+        sequence="0"
+        groups="todoo_sprint_board_project_19.group_sprint_board_viewer,todoo_sprint_board_project_19.group_sprint_board_editor"/>
+</odoo>

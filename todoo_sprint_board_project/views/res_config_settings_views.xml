@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_sprint_board" model="ir.ui.view">
+        <field name="name">res.config.settings.sprint_board</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="project.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='project']" position="inside">
+                <block title="AI Board" id="sprint_board_ai"
+                       groups="todoo_sprint_board_project_19.group_sprint_board_editor">
+                    <setting id="sprint_board_ai_provider_setting"
+                             help="AI provider used to sort tasks and generate analysis in active boards.">
+                        <field name="sprint_board_ai_provider"/>
+                    </setting>
+                    <setting id="sprint_board_ai_api_key_setting"
+                             help="API Key for the AI provider."
+                             invisible="sprint_board_ai_provider == 'ollama'">
+                        <field name="sprint_board_ai_api_key" password="True"/>
+                    </setting>
+                    <setting id="sprint_board_ai_url_setting"
+                             help="Base URL for Ollama or Custom provider. E.g.: http://localhost:11434"
+                             invisible="sprint_board_ai_provider not in ['ollama', 'custom']">
+                        <field name="sprint_board_ai_url"/>
+                    </setting>
+                    <setting id="sprint_board_ai_model_setting"
+                             help="Exact name of the primary model to use with the selected provider.">
+                        <field name="sprint_board_ai_model"/>
+                        <div class="content-group">
+                            <div class="text-muted mt4" style="font-size:.8rem"
+                                 invisible="not sprint_board_ai_model_hint">
+                                <i class="fa fa-lightbulb-o me-1"/>
+                                Suggested: <field name="sprint_board_ai_model_hint" readonly="1"
+                                                  class="o_field_text_inline"/>
+                            </div>
+                        </div>
+                    </setting>
+                    <setting id="sprint_board_ai_model_fallback_setting"
+                             help="Fallback model. If the primary model fails, this one will be tried instead.">
+                        <field name="sprint_board_ai_model_fallback"/>
+                        <div class="content-group">
+                            <div class="text-muted mt4" style="font-size:.8rem"
+                                 invisible="not sprint_board_ai_model_hint">
+                                <i class="fa fa-lightbulb-o me-1"/>
+                                Suggested: <field name="sprint_board_ai_model_hint" readonly="1"
+                                                  class="o_field_text_inline"/>
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>
