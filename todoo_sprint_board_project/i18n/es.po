@@ -1,0 +1,826 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* todoo_sprint_board_project
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-25 00:00+0000\n"
+"PO-Revision-Date: 2026-05-25 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# ── res.config.settings ──────────────────────────────────────────────────────
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_res_config_settings__sprint_board_ai_provider
+msgid "AI Provider"
+msgstr "Proveedor IA"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_res_config_settings__sprint_board_ai_api_key
+msgid "API Key"
+msgstr "Clave API"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_res_config_settings__sprint_board_ai_model
+msgid "Primary Model"
+msgstr "Modelo principal"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_res_config_settings__sprint_board_ai_model_fallback
+msgid "Fallback Model"
+msgstr "Modelo de respaldo"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,help:todoo_sprint_board_project.field_res_config_settings__sprint_board_ai_model_fallback
+msgid "If the primary model fails, this one will be tried instead."
+msgstr "Si el modelo principal falla, se intentará con este."
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_res_config_settings__sprint_board_ai_url
+msgid "Base URL (Ollama/Custom)"
+msgstr "URL base (Ollama/Custom)"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,help:todoo_sprint_board_project.field_res_config_settings__sprint_board_ai_url
+msgid "Only for Ollama or custom providers. E.g.: http://localhost:11434"
+msgstr "Solo para Ollama o proveedores custom. Ej: http://localhost:11434"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_res_config_settings__sprint_board_ai_model_hint
+msgid "Available Models"
+msgstr "Modelos disponibles"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,help:todoo_sprint_board_project.field_res_config_settings__sprint_board_ai_model_hint
+msgid "Recommended models for the selected provider."
+msgstr "Modelos recomendados para el proveedor seleccionado."
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.res_config_settings_view_sprint_board
+msgid "AI Board"
+msgstr "Board IA"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.res_config_settings_view_sprint_board
+msgid "AI provider used to sort tasks and generate analysis in active boards."
+msgstr "Proveedor de IA para ordenar tareas y generar análisis en boards activos."
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.res_config_settings_view_sprint_board
+msgid "API Key for the AI provider."
+msgstr "Clave API del proveedor de IA."
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.res_config_settings_view_sprint_board
+msgid "Base URL for Ollama or Custom provider. E.g.: http://localhost:11434"
+msgstr "URL base para Ollama o proveedor Custom. Ej: http://localhost:11434"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.res_config_settings_view_sprint_board
+msgid "Exact name of the primary model to use with the selected provider."
+msgstr "Nombre exacto del modelo principal a utilizar con el proveedor seleccionado."
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.res_config_settings_view_sprint_board
+msgid "Fallback model. If the primary model fails, this one will be tried instead."
+msgstr "Modelo de respaldo. Si el modelo principal falla, se intentará con este."
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.res_config_settings_view_sprint_board
+msgid "Suggested:"
+msgstr "Sugeridos:"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields.selection,name:todoo_sprint_board_project.selection__res_config_settings__sprint_board_ai_provider__custom
+msgid "Custom / Other"
+msgstr "Custom / Otro"
+
+# ── sprint.board ─────────────────────────────────────────────────────────────
+
+#. module: todoo_sprint_board_project
+#: model:ir.model,name:todoo_sprint_board_project.model_sprint_board
+msgid "Board"
+msgstr "Board"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_sprint_board__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_sprint_board__creator_id
+msgid "Creator"
+msgstr "Creador"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_sprint_board__responsible_ids
+msgid "Editors"
+msgstr "Editores"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_sprint_board__viewer_ids
+msgid "Viewers"
+msgstr "Lectores"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_sprint_board__state
+msgid "State"
+msgstr "Estado"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields.selection,name:todoo_sprint_board_project.selection__sprint_board__state__open
+msgid "Open"
+msgstr "Abierto"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields.selection,name:todoo_sprint_board_project.selection__sprint_board__state__closed
+msgid "Closed"
+msgstr "Cerrado"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_sprint_board__date_closed
+msgid "Close Date"
+msgstr "Fecha de cierre"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_sprint_board__ai_task_order
+msgid "AI Order (JSON)"
+msgstr "Orden IA (JSON)"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_sprint_board__kiosk_active
+msgid "Kiosk Active"
+msgstr "Kiosk activo"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_sprint_board__retrospective
+msgid "Retrospective"
+msgstr "Retrospectiva"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,help:todoo_sprint_board_project.field_sprint_board__retrospective
+msgid "Sprint summary generated by AI and edited by the team. Used as context for the next sprint."
+msgstr "Resumen del sprint generado por IA y editado por el equipo. Se usa como contexto en el siguiente sprint."
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_sprint_board__recommendation_ids
+msgid "AI Recommendations"
+msgstr "Recomendaciones IA"
+
+#. module: todoo_sprint_board_project
+#. odoo-python
+#: code:addons/todoo_sprint_board_project/models/sprint_board.py:0
+#, python-format
+msgid "New Board"
+msgstr "Nuevo board"
+
+#. module: todoo_sprint_board_project
+#. odoo-python
+#: code:addons/todoo_sprint_board_project/models/sprint_board.py:0
+#, python-format
+msgid "Board \u2014 %s"
+msgstr "Board \u2014 %s"
+
+#. module: todoo_sprint_board_project
+#. odoo-python
+#: code:addons/todoo_sprint_board_project/models/sprint_board.py:0
+#, python-format
+msgid "An active board already exists for this sprint (%s). Close it before creating a new one."
+msgstr "Ya existe un board activo para este sprint (%s). Ciérralo antes de crear uno nuevo."
+
+#. module: todoo_sprint_board_project
+#. odoo-python
+#: code:addons/todoo_sprint_board_project/models/sprint_board.py:0
+#, python-format
+msgid "This board is already closed."
+msgstr "Este board ya está cerrado."
+
+#. module: todoo_sprint_board_project
+#. odoo-python
+#: code:addons/todoo_sprint_board_project/models/sprint_board.py:0
+#, python-format
+msgid "No active Board found for today (%s). Do you want to create one?"
+msgstr "No hay ningún Board activo para hoy (%s). ¿Quieres crear uno?"
+
+# ── sprint.board.recommendation ──────────────────────────────────────────────
+
+#. module: todoo_sprint_board_project
+#: model:ir.model,name:todoo_sprint_board_project.model_sprint_board_recommendation
+msgid "Board AI Recommendation"
+msgstr "Recomendación IA del Board"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_sprint_board_recommendation__text
+msgid "Text"
+msgstr "Texto"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields.selection,name:todoo_sprint_board_project.selection__sprint_board_recommendation__feedback__positive
+msgid "Useful"
+msgstr "Útil"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields.selection,name:todoo_sprint_board_project.selection__sprint_board_recommendation__feedback__negative
+msgid "Not Useful"
+msgstr "No útil"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_sprint_board_recommendation__feedback_uid
+msgid "Rated By"
+msgstr "Valorado por"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_sprint_board_recommendation__feedback_reason
+msgid "Feedback Reason"
+msgstr "Motivo del feedback"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,help:todoo_sprint_board_project.field_sprint_board_recommendation__feedback_reason
+msgid "Why this recommendation was not useful (helps improve the AI)"
+msgstr "Por qué esta recomendación no fue útil (ayuda a mejorar la IA)"
+
+# ── project.sprint ────────────────────────────────────────────────────────────
+
+#. module: todoo_sprint_board_project
+#: model:ir.model,name:todoo_sprint_board_project.model_project_sprint
+msgid "Project Sprint"
+msgstr "Sprint de Proyecto"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint__name
+msgid "Sprint Name"
+msgstr "Nombre del Sprint"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint__start_date
+msgid "Start Date"
+msgstr "Fecha de Inicio"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint__end_date
+msgid "End Date"
+msgstr "Fecha de Fin"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint__color
+msgid "Color"
+msgstr "Color"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,help:todoo_sprint_board_project.field_project_sprint__color
+msgid "Color for the Kanban view"
+msgstr "Color para la vista Kanban"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint__project_ids
+msgid "Projects"
+msgstr "Proyectos"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,help:todoo_sprint_board_project.field_project_sprint__project_ids
+msgid "Projects associated with this sprint"
+msgstr "Proyectos asociados a este sprint"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint__task_ids
+msgid "Tasks"
+msgstr "Tareas"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,help:todoo_sprint_board_project.field_project_sprint__task_ids
+msgid "Tasks included in this sprint"
+msgstr "Tareas incluidas en este sprint"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint__task_count
+msgid "Task Count"
+msgstr "Número de Tareas"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,help:todoo_sprint_board_project.field_project_sprint__task_count
+msgid "Total number of tasks in the sprint"
+msgstr "Número total de tareas en el sprint"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,help:todoo_sprint_board_project.field_project_sprint__active
+msgid "Mark as inactive to archive the sprint"
+msgstr "Marcar como inactivo para archivar el sprint"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint__objective_ids
+msgid "Objectives"
+msgstr "Objetivos"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint__achieved_objective_count
+msgid "Achieved Objectives"
+msgstr "Objetivos conseguidos"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint__state
+msgid "State"
+msgstr "Estado"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,help:todoo_sprint_board_project.field_project_sprint__state
+msgid "Closed sprints do not appear in the sprint selector of tasks."
+msgstr "Sprints cerrados no aparecen en el selector de sprint de las tareas."
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields.selection,name:todoo_sprint_board_project.selection__project_sprint__state__draft
+msgid "Planned"
+msgstr "Planificado"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields.selection,name:todoo_sprint_board_project.selection__project_sprint__state__in_progress
+msgid "In Progress"
+msgstr "En Curso"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields.selection,name:todoo_sprint_board_project.selection__project_sprint__state__closed
+msgid "Closed"
+msgstr "Cerrado"
+
+#. module: todoo_sprint_board_project
+#. odoo-python
+#: code:addons/todoo_sprint_board_project/models/project_sprint.py:0
+#, python-format
+msgid "The 'End Date' must be after the 'Start Date'."
+msgstr "La 'Fecha de Fin' debe ser posterior a la 'Fecha de Inicio'."
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_form
+msgid "Start"
+msgstr "Iniciar"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_form
+msgid "Close Sprint"
+msgstr "Cerrar Sprint"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_form
+msgid "Reopen"
+msgstr "Reabrir"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_form
+msgid "Closed"
+msgstr "Cerrado"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_form
+msgid "Sprint Objectives"
+msgstr "Objetivos del Sprint"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_form
+msgid "Mark as Achieved"
+msgstr "Marcar conseguido"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_form
+msgid "Not Achieved"
+msgstr "No conseguido"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_form
+msgid "Pending"
+msgstr "Pendiente"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_form
+msgid "Scrum Master notes..."
+msgstr "Notas del Scrum Master..."
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_form
+msgid "Sprint Tasks"
+msgstr "Tareas del Sprint"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_search
+msgid "Search Sprints"
+msgstr "Buscar Sprints"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_search
+msgid "Active"
+msgstr "Activos"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_search
+msgid "Archived"
+msgstr "Archivados"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_search
+msgid "Planned"
+msgstr "Planificados"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_search
+msgid "In Progress"
+msgstr "En Curso"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_search
+msgid "Closed"
+msgstr "Cerrados"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_search
+msgid "Upcoming"
+msgstr "Próximos"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_search
+msgid "Current"
+msgstr "En Curso"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_search
+msgid "By Status"
+msgstr "Por Estado"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_project_sprint_search
+msgid "By Project"
+msgstr "Por Proyecto"
+
+#. module: todoo_sprint_board_project
+#: model:ir.actions.act_window,name:todoo_sprint_board_project.action_project_sprint
+msgid "Sprints"
+msgstr "Sprints"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.actions.act_window,help:todoo_sprint_board_project.action_project_sprint
+msgid "Create a new sprint"
+msgstr "Crear un nuevo sprint"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.actions.act_window,help:todoo_sprint_board_project.action_project_sprint
+msgid "Sprints organise tasks into fixed time periods. Each sprint has a start date and an end date."
+msgstr "Los sprints organizan tareas en períodos de tiempo definidos. Cada sprint tiene una fecha de inicio y fin."
+
+# ── project.sprint.objective ──────────────────────────────────────────────────
+
+#. module: todoo_sprint_board_project
+#: model:ir.model,name:todoo_sprint_board_project.model_project_sprint_objective
+msgid "Sprint Objective"
+msgstr "Objetivo del Sprint"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint_objective__name
+msgid "Objective"
+msgstr "Objetivo"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint_objective__task_ids
+msgid "Tasks"
+msgstr "Tareas"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint_objective__notes
+msgid "Notes"
+msgstr "Notas"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint_objective__task_count
+msgid "Total Tasks"
+msgstr "Total de tareas"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint_objective__completed_task_count
+msgid "Completed Tasks"
+msgstr "Tareas completadas"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint_objective__completion_rate
+msgid "% Completed"
+msgstr "% Completado"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint_objective__state
+msgid "State"
+msgstr "Estado"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields.selection,name:todoo_sprint_board_project.selection__project_sprint_objective__state__pending
+msgid "Pending"
+msgstr "Pendiente"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields.selection,name:todoo_sprint_board_project.selection__project_sprint_objective__state__achieved
+msgid "Achieved"
+msgstr "Conseguido"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields.selection,name:todoo_sprint_board_project.selection__project_sprint_objective__state__not_achieved
+msgid "Not Achieved"
+msgstr "No conseguido"
+
+# ── project.sprint.burndown.line ──────────────────────────────────────────────
+
+#. module: todoo_sprint_board_project
+#: model:ir.model,name:todoo_sprint_board_project.model_project_sprint_burndown_line
+msgid "Sprint Burndown Line"
+msgstr "Línea de Burndown del Sprint"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint_burndown_line__date
+msgid "Date"
+msgstr "Fecha"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint_burndown_line__line_type
+msgid "Line"
+msgstr "Línea"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields.selection,name:todoo_sprint_board_project.selection__project_sprint_burndown_line__line_type__actual
+msgid "Actual"
+msgstr "Real"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields.selection,name:todoo_sprint_board_project.selection__project_sprint_burndown_line__line_type__ideal
+msgid "Ideal"
+msgstr "Ideal"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint_burndown_line__remaining_sp
+msgid "Remaining SP"
+msgstr "SP Restantes"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_sprint_burndown_line__remaining_tasks
+msgid "Remaining Tasks"
+msgstr "Tareas Restantes"
+
+# ── report.sprint.summary ─────────────────────────────────────────────────────
+
+#. module: todoo_sprint_board_project
+#: model:ir.model,name:todoo_sprint_board_project.model_report_sprint_summary
+msgid "Sprint Velocity Report"
+msgstr "Informe de Velocidad de Sprint"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_report_sprint_summary__start_date
+msgid "Start"
+msgstr "Inicio"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_report_sprint_summary__state
+msgid "State"
+msgstr "Estado"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_report_sprint_summary__metric_category
+msgid "Category"
+msgstr "Categoría"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_report_sprint_summary__line_label
+msgid "Metric"
+msgstr "Métrica"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_report_sprint_summary__value
+msgid "Value"
+msgstr "Valor"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields.selection,name:todoo_sprint_board_project.selection__report_sprint_summary__metric_category__tasks
+msgid "Tasks"
+msgstr "Tareas"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_report_sprint_pivot
+msgid "Sprint Velocity"
+msgstr "Velocidad de Sprint"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_report_sprint_sp_graph
+msgid "Estimated vs Actual SP"
+msgstr "SP Estimados vs Reales"
+
+#. module: todoo_sprint_board_project
+#: model:ir.actions.act_window,name:todoo_sprint_board_project.action_report_sprint_sp
+msgid "Velocity: Story Points"
+msgstr "Velocidad: Story Points"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_report_sprint_tasks_graph
+msgid "Planned vs Completed Tasks"
+msgstr "Tareas Planificadas vs Completadas"
+
+#. module: todoo_sprint_board_project
+#: model:ir.actions.act_window,name:todoo_sprint_board_project.action_report_sprint_tasks
+msgid "Velocity: Tasks"
+msgstr "Velocidad: Tareas"
+
+#. module: todoo_sprint_board_project
+#: model:ir.actions.act_window,name:todoo_sprint_board_project.action_sprint_burndown
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_sprint_burndown_graph
+msgid "Burndown Chart"
+msgstr "Gráfico Burndown"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_report_sprint_search
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_sprint_burndown_search
+msgid "Search"
+msgstr "Buscar"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_report_sprint_search
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_sprint_burndown_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_report_sprint_search
+msgid "Status"
+msgstr "Estado"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_sprint_burndown_search
+msgid "Actual"
+msgstr "Real"
+
+#. module: todoo_sprint_board_project
+#: model_terms:ir.ui.view,arch_db:todoo_sprint_board_project.view_sprint_burndown_search
+msgid "Date"
+msgstr "Fecha"
+
+# ── project.task (scrum extension) ────────────────────────────────────────────
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_task__estimate_effort
+msgid "Estimate Effort"
+msgstr "Esfuerzo Estimado"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,help:todoo_sprint_board_project.field_project_task__estimate_effort
+msgid "Estimate effort in Fibonacci numbers."
+msgstr "Esfuerzo estimado en números de Fibonacci."
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_task__real_effort
+msgid "Real Effort"
+msgstr "Esfuerzo Real"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,help:todoo_sprint_board_project.field_project_task__real_effort
+msgid "Real effort in Fibonacci numbers."
+msgstr "Esfuerzo real en números de Fibonacci."
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_task__sprint_id
+msgid "Sprint"
+msgstr "Sprint"
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,help:todoo_sprint_board_project.field_project_task__sprint_id
+msgid "Sprint associated with this task."
+msgstr "Sprint asociado a esta tarea."
+
+#. module: todoo_sprint_board_project
+#: model:ir.model.fields,field_description:todoo_sprint_board_project.field_project_task__objective_ids
+msgid "Sprint Objectives"
+msgstr "Objetivos del sprint"
+
+#. module: todoo_sprint_board_project
+#. odoo-python
+#: code:addons/todoo_sprint_board_project/models/project_task.py:0
+#, python-format
+msgid "Task '%s' cannot be moved to 'In Progress' without a valid estimated effort (greater than 0)."
+msgstr "No se puede mover la tarea '%s' a la etapa 'En Curso' sin especificar un tiempo estimado válido (mayor que 0)."
+
+#. module: todoo_sprint_board_project
+#. odoo-python
+#: code:addons/todoo_sprint_board_project/models/project_task.py:0
+#, python-format
+msgid "Task '%s' cannot be moved to 'In Progress' without a deadline."
+msgstr "No se puede mover la tarea '%s' a la etapa 'En Curso' sin especificar una fecha límite."
+
+#. module: todoo_sprint_board_project
+#. odoo-python
+#: code:addons/todoo_sprint_board_project/models/project_task.py:0
+#, python-format
+msgid "Task '%s' cannot be moved to '%s': estimated effort is missing."
+msgstr "No se puede mover la tarea '%s' a '%s': falta el esfuerzo estimado."
+
+#. module: todoo_sprint_board_project
+#. odoo-python
+#: code:addons/todoo_sprint_board_project/models/project_task.py:0
+#, python-format
+msgid "Task '%s' cannot be moved to '%s': actual effort is missing."
+msgstr "No se puede mover la tarea '%s' a '%s': falta el esfuerzo real."
+
+#. module: todoo_sprint_board_project
+#. odoo-python
+#: code:addons/todoo_sprint_board_project/models/project_task.py:0
+#, python-format
+msgid "Cannot Close Task"
+msgstr "No se puede cerrar la tarea"
+
+#. module: todoo_sprint_board_project
+#. odoo-python
+#: code:addons/todoo_sprint_board_project/models/project_task.py:0
+#, python-format
+msgid "Please fill in %s before moving the task to '%s'."
+msgstr "Debes rellenar %s antes de mover la tarea a '%s'."
+
+#. module: todoo_sprint_board_project
+#. odoo-python
+#: code:addons/todoo_sprint_board_project/models/project_task.py:0
+#, python-format
+msgid "estimated effort"
+msgstr "esfuerzo estimado"
+
+#. module: todoo_sprint_board_project
+#. odoo-python
+#: code:addons/todoo_sprint_board_project/models/project_task.py:0
+#, python-format
+msgid "actual effort"
+msgstr "esfuerzo real"
+
+# ── menus ─────────────────────────────────────────────────────────────────────
+
+#. module: todoo_sprint_board_project
+#: model:ir.ui.menu,name:todoo_sprint_board_project.menu_sprint_board_root
+msgid "Board"
+msgstr "Tablero"
+
+#. module: todoo_sprint_board_project
+#: model:ir.ui.menu,name:todoo_sprint_board_project.menu_project_scrum_root
+msgid "Scrum"
+msgstr "Scrum"
+
+#. module: todoo_sprint_board_project
+#: model:ir.ui.menu,name:todoo_sprint_board_project.menu_project_sprint
+msgid "Sprints"
+msgstr "Sprints"
+
+#. module: todoo_sprint_board_project
+#: model:ir.ui.menu,name:todoo_sprint_board_project.menu_report_sprint_sp
+msgid "Scrum: SP Velocity"
+msgstr "Scrum: Velocidad SP"
+
+#. module: todoo_sprint_board_project
+#: model:ir.ui.menu,name:todoo_sprint_board_project.menu_report_sprint_tasks
+msgid "Scrum: Task Velocity"
+msgstr "Scrum: Velocidad Tareas"
+
+#. module: todoo_sprint_board_project
+#: model:ir.ui.menu,name:todoo_sprint_board_project.menu_sprint_burndown
+msgid "Scrum: Burndown Chart"
+msgstr "Scrum: Gráfico Burndown"
+
+#. module: todoo_sprint_board_project
+#: model:ir.ui.menu,name:todoo_sprint_board_project.menu_project_scrum_config
+msgid "Configuration"
+msgstr "Configuración"
+
+# ── security groups ───────────────────────────────────────────────────────────
+
+#. module: todoo_sprint_board_project
+#: model:res.groups,name:todoo_sprint_board_project.group_sprint_board_viewer
+msgid "Board / Viewer"
+msgstr "Board / Lector"
+
+#. module: todoo_sprint_board_project
+#: model:res.groups,name:todoo_sprint_board_project.group_sprint_board_editor
+msgid "Board / Editor"
+msgstr "Board / Editor"
+
+# ── cron jobs ─────────────────────────────────────────────────────────────────
+
+#. module: todoo_sprint_board_project
+#: model:ir.actions.server,name:todoo_sprint_board_project.ir_cron_sprint_burndown_snapshot_ir_actions_server
+msgid "Sprint: Daily Burndown Snapshot"
+msgstr "Sprint: Snapshot Burndown Diario"
+
+#. module: todoo_sprint_board_project
+#: model:ir.actions.server,name:todoo_sprint_board_project.ir_cron_migrate_sprint_tags_ir_actions_server
+msgid "Migrate Sprint Tags to project.sprint"
+msgstr "Migrar Etiquetas de Sprint a project.sprint"
+
+#. module: todoo_sprint_board_project
+#: model:ir.actions.server,name:todoo_sprint_board_project.cron_notify_missing_board_ir_actions_server
+msgid "Board: Notify Missing Board"
+msgstr "Board: Notificar board ausente"
+

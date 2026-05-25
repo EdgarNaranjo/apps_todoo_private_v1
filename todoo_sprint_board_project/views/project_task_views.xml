@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Campos Scrum en el formulario de tarea -->
+    <record id="view_task_form2_scrum_extend" model="ir.ui.view">
+        <field name="name">project.task.scrum.extend.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <field name="tag_ids" position="after">
+                <field name="estimate_effort"/>
+                <field name="real_effort"/>
+                <field name="sprint_id"/>
+                <field name="objective_ids" widget="many2many_tags"
+                       domain="[('sprint_id', '=', sprint_id)]"
+                       options="{'no_create': True}"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Columnas Scrum en la vista lista de tareas -->
+    <record id="project_task_view_list_scrum_extend" model="ir.ui.view">
+        <field name="name">project.task.view.list.scrum.extend</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.project_task_view_tree_main_base"/>
+        <field name="arch" type="xml">
+            <field name="user_ids" position="after">
+                <field name="sprint_id"/>
+                <field name="estimate_effort"/>
+                <field name="real_effort"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Filtro por sprint y por key en el buscador de tareas -->
+    <record id="view_task_search_scrum_extend" model="ir.ui.view">
+        <field name="name">project.task.search.scrum.extend</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_search_form"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="sprint_id"/>
+            </field>
+        </field>
+    </record>
+</odoo>

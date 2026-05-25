@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title></title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+   </head>
+   <body>
+
+      <!-- Logo + badges -->
+      <section id="sh_module_heading1">
+         <div class="container">
+            <div class="sh_center text-center" style="margin: 2rem 0;">
+               <div class="row align-items-center">
+                  <div class="col-lg-4 col-md-4 col-sm-12" style="text-align: left;">
+                     <img src="logo_todoo.svg" alt="logo" style="width: 65%;">
+                  </div>
+                  <div class="col-lg-8 col-md-8 col-sm-12" style="text-align: right;">
+                     <span class="btn btn-primary" style="background-color:#875A7B;border-color:#875A7B;margin:2px"><i class="fa fa-check" style="margin-right:9px"></i>Odoo sh</span>
+                     <span class="btn btn-primary" style="background-color:#875A7B;border-color:#875A7B;margin:2px"><i class="fa fa-check" style="margin-right:9px"></i>Enterprise</span>
+                     <span class="btn btn-primary" style="background-color:#875A7B;border-color:#875A7B;margin:2px"><i class="fa fa-check" style="margin-right:9px"></i>Community</span>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
+      <!-- Heading -->
+      <section style="padding-top: 50px;">
+         <div class="container">
+            <div class="sh_center text-center">
+               <h4 style="font-size:30px;font-weight:600;color:#875A7B;margin-bottom:10px;">Sprint Board</h4>
+               <h5 style="font-size:20px;font-weight:600;color:#875A7B;margin-bottom:10px;">Visual sprint dashboard with KPIs, AI analysis and kiosk mode</h5>
+               <img src="heading.png" alt="heading" />
+               <p style="color:#777;font-size:18px;margin:0;letter-spacing:1px;margin-top:12px;">
+                  Sprint Board transforms your Odoo project sprints into a real-time visual command centre. See every task at a glance, let the AI sort priorities and generate smart recommendations, track completion with live KPIs, share the board on any screen via kiosk mode, and close each sprint with an AI-generated retrospective - all without leaving Odoo.
+               </p>
+            </div>
+         </div>
+      </section>
+
+      <!-- Dependencies -->
+      <section style="padding-top: 40px;">
+         <div class="container">
+            <div class="sh_center text-center mb-4">
+               <h4 style="font-size:28px;font-weight:600;color:#875A7B;margin-bottom:10px;">Dependencies</h4>
+               <img src="heading.png" alt="heading" />
+            </div>
+            <div class="row justify-content-center">
+               <div class="col-md-4 mb-3">
+                  <div class="shadow rounded p-4 text-center" style="border:1px solid #814968bd;border-bottom:4px solid #814968bd;background-color:#81496808;">
+                     <i class="fa fa-cubes" style="font-size:2rem;color:#875A7B;margin-bottom:10px;display:block;"></i>
+                     <h5 style="font-weight:700;color:#212121;">Odoo Core</h5>
+                     <p style="color:#555;font-size:15px;margin:0;"><code>project</code> &nbsp;&bull;&nbsp; <code>mail</code></p>
+                     <p style="color:#888;font-size:13px;margin-top:6px;">Included in every Odoo installation</p>
+                  </div>
+               </div>
+               <div class="col-md-4 mb-3">
+                  <div class="shadow rounded p-4 text-center" style="border:1px solid #0d6efdbd;border-bottom:4px solid #0d6efdbd;background-color:#0d6efd08;">
+                     <i class="fa fa-github" style="font-size:2rem;color:#0d6efd;margin-bottom:10px;display:block;"></i>
+                     <h5 style="font-weight:700;color:#212121;">OCA - Project</h5>
+                     <p style="color:#555;font-size:15px;margin:0;"><code>project_type</code></p>
+                     <p style="color:#888;font-size:13px;margin-top:6px;">
+                        <a href="https://github.com/OCA/project" target="_blank" style="color:#0d6efd;font-weight:600;">github.com/OCA/project</a>
+                     </p>
+                  </div>
+               </div>
+               <div class="col-md-4 mb-3">
+                  <div class="shadow rounded p-4 text-center" style="border:1px solid #0d6efdbd;border-bottom:4px solid #0d6efdbd;background-color:#0d6efd08;">
+                     <i class="fa fa-github" style="font-size:2rem;color:#0d6efd;margin-bottom:10px;display:block;"></i>
+                     <h5 style="font-weight:700;color:#212121;">OCA - Project</h5>
+                     <p style="color:#555;font-size:15px;margin:0;"><code>project_department</code></p>
+                     <p style="color:#888;font-size:13px;margin-top:6px;">
+                        <a href="https://github.com/OCA/project" target="_blank" style="color:#0d6efd;font-weight:600;">github.com/OCA/project</a>
+                     </p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
+      <!-- AI Provider -->
+      <section style="padding-top: 40px;">
+         <div class="container">
+            <div class="sh_center text-center mb-4">
+               <h4 style="font-size:28px;font-weight:600;color:#875A7B;margin-bottom:10px;">AI Provider - Get a Free API Key</h4>
+               <img src="heading.png" alt="heading" />
+            </div>
+            <div class="row justify-content-center">
+               <div class="col-md-10">
+                  <div class="shadow rounded p-4" style="border:1px solid #f59e0b;border-left:6px solid #f59e0b;background-color:#fefce8;">
+                     <div class="d-flex align-items-center mb-3">
+                        <i class="fa fa-bolt" style="font-size:1.8rem;color:#f59e0b;margin-right:14px;"></i>
+                        <div>
+                           <h5 style="margin:0;font-weight:700;color:#212121;">Groq - Free Cloud API</h5>
+                           <p style="margin:0;color:#888;font-size:14px;">No credit card required &bull; Generous free tier &bull; Ultra-fast inference </p>
+                        </div>
+                        <a href="https://console.groq.com/keys" target="_blank"
+                           class="btn ml-auto"
+                           style="background-color:#f59e0b;color:#fff;font-weight:700;border:none;padding:8px 20px;border-radius:6px;white-space:nowrap;">
+                           <i class="fa fa-key" style="margin-right:6px;"></i> Get Free Key
+                        </a>
+                     </div>
+                     <p style="color:#555;font-size:16px;margin:0;">
+                        Sprint Board uses AI to sort tasks, generate recommendations and write sprint retrospectives.
+                        The easiest way to get started at zero cost is <strong>Groq</strong>: create a free account at
+                        <a href="https://console.groq.com/keys" target="_blank" style="color:#d97706;font-weight:700;">console.groq.com/keys</a>,
+                        generate an API key and paste it in <em>Settings &gt; Project &gt; AI Board</em>.
+                        Groq runs open models like <code>llama-3.3-70b-versatile</code> and <code>mixtral-8x7b-32768</code>
+                        with extremely low latency - no local GPU required.
+                     </p>
+                     <div class="mt-3 p-3 rounded" style="background:#fff;border:1px solid #fde68a;font-size:14px;color:#555;">
+                        <strong style="color:#875A7B;">Alternatives:</strong>&nbsp;
+                        OpenAI, Anthropic, Google Gemini, Mistral and Ollama (fully local) are all supported. Configure the provider, model and API key from the Odoo settings panel.
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
+      <!-- Key Features -->
+      <section style="padding-top: 40px;">
+         <div class="container">
+            <div class="sh_center text-center mb-5">
+               <h4 style="font-size:30px;font-weight:600;color:#875A7B;margin-bottom:10px;">Key Features</h4>
+               <img src="heading.png" alt="heading" />
+            </div>
+            <div class="row">
+               <div class="col-md-4 mb-2">
+                  <div class="sh_icon d-flex align-items-center rounded shadow" style="padding:15px;border:1px solid #814968bd;border-bottom:4px solid #814968bd;background-color:#81496826;">
+                     <span style="color:#212121;font-weight:600;padding-left:10px;">
+                        <i class="fa fa-rocket" style="color:#875A7B;margin-right:8px;"></i>Real-time Sprint Dashboard
+                     </span>
+                  </div>
+               </div>
+               <div class="col-md-4 mb-2">
+                  <div class="sh_icon d-flex align-items-center rounded shadow" style="padding:15px;border:1px solid #814968bd;border-bottom:4px solid #814968bd;background-color:#81496826;">
+                     <span style="color:#212121;font-weight:600;padding-left:10px;">
+                        <i class="fa fa-bar-chart" style="color:#875A7B;margin-right:8px;"></i>Live KPIs &amp; Health Indicator
+                     </span>
+                  </div>
+               </div>
+               <div class="col-md-4 mb-2">
+                  <div class="sh_icon d-flex align-items-center rounded shadow" style="padding:15px;border:1px solid #814968bd;border-bottom:4px solid #814968bd;background-color:#81496826;">
+                     <span style="color:#212121;font-weight:600;padding-left:10px;">
+                        <i class="fa fa-magic" style="color:#875A7B;margin-right:8px;"></i>AI Task Sorting &amp; Recommendations
+                     </span>
+                  </div>
+               </div>
+               <div class="col-md-4 mb-2">
+                  <div class="sh_icon d-flex align-items-center rounded shadow" style="padding:15px;border:1px solid #814968bd;border-bottom:4px solid #814968bd;background-color:#81496826;">
+                     <span style="color:#212121;font-weight:600;padding-left:10px;">
+                        <i class="fa fa-tv" style="color:#875A7B;margin-right:8px;"></i>Kiosk Mode - TV Wall Display
+                     </span>
+                  </div>
+               </div>
+               <div class="col-md-4 mb-2">
+                  <div class="sh_icon d-flex align-items-center rounded shadow" style="padding:15px;border:1px solid #814968bd;border-bottom:4px solid #814968bd;background-color:#81496826;">
+                     <span style="color:#212121;font-weight:600;padding-left:10px;">
+                        <i class="fa fa-flag-checkered" style="color:#875A7B;margin-right:8px;"></i>AI Sprint Retrospective
+                     </span>
+                  </div>
+               </div>
+               <div class="col-md-4 mb-2">
+                  <div class="sh_icon d-flex align-items-center rounded shadow" style="padding:15px;border:1px solid #814968bd;border-bottom:4px solid #814968bd;background-color:#81496826;">
+                     <span style="color:#212121;font-weight:600;padding-left:10px;">
+                        <i class="fa fa-line-chart" style="color:#875A7B;margin-right:8px;"></i>Velocity &amp; Burndown Reports
+                     </span>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
+      <!-- Feature list -->
+      <section style="padding-top: 50px;">
+         <div class="container">
+            <div class="sh_center text-center mb-5">
+               <h4 style="font-size:28px;font-weight:600;color:#875A7B;margin-bottom:10px;">Features</h4>
+               <img src="heading.png" alt="heading" />
+            </div>
+            <ul style="padding:0;list-style:none;">
+               <li class="shadow rounded" style="padding:20px;margin-bottom:20px;font-size:16px;color:#212121;font-weight:600;letter-spacing:1px;"><span class="fa fa-arrow-right" style="color:#875A7B;font-weight:600;font-size:18px;padding-right:10px;"></span>One visual board per sprint - all tasks, KPIs and objectives on a single screen.</li>
+               <li class="shadow rounded" style="padding:20px;margin-bottom:20px;font-size:16px;color:#212121;font-weight:600;letter-spacing:1px;"><span class="fa fa-arrow-right" style="color:#875A7B;font-weight:600;font-size:18px;padding-right:10px;"></span>Live KPIs: total tasks, completed, pending SP, days left and health status (On track / At risk / Critical).</li>
+               <li class="shadow rounded" style="padding:20px;margin-bottom:20px;font-size:16px;color:#212121;font-weight:600;letter-spacing:1px;"><span class="fa fa-arrow-right" style="color:#875A7B;font-weight:600;font-size:18px;padding-right:10px;"></span>AI sorts tasks by priority, deadline urgency, bug severity and story points - one click.</li>
+               <li class="shadow rounded" style="padding:20px;margin-bottom:20px;font-size:16px;color:#212121;font-weight:600;letter-spacing:1px;"><span class="fa fa-arrow-right" style="color:#875A7B;font-weight:600;font-size:18px;padding-right:10px;"></span>Smart AI recommendations rotate focus: velocity, risk, quality, workload - with thumbs-up/down feedback loop.</li>
+               <li class="shadow rounded" style="padding:20px;margin-bottom:20px;font-size:16px;color:#212121;font-weight:600;letter-spacing:1px;"><span class="fa fa-arrow-right" style="color:#875A7B;font-weight:600;font-size:18px;padding-right:10px;"></span>Sprint objectives tracker with completion percentage and auto-evaluation on sprint close.</li>
+               <li class="shadow rounded" style="padding:20px;margin-bottom:20px;font-size:16px;color:#212121;font-weight:600;letter-spacing:1px;"><span class="fa fa-arrow-right" style="color:#875A7B;font-weight:600;font-size:18px;padding-right:10px;"></span>Velocity comparison vs previous sprint and historical average - spot trends early.</li>
+               <li class="shadow rounded" style="padding:20px;margin-bottom:20px;font-size:16px;color:#212121;font-weight:600;letter-spacing:1px;"><span class="fa fa-arrow-right" style="color:#875A7B;font-weight:600;font-size:18px;padding-right:10px;"></span>Burndown chart with daily snapshots - actual vs ideal line stored automatically.</li>
+               <li class="shadow rounded" style="padding:20px;margin-bottom:20px;font-size:16px;color:#212121;font-weight:600;letter-spacing:1px;"><span class="fa fa-arrow-right" style="color:#875A7B;font-weight:600;font-size:18px;padding-right:10px;"></span>Kiosk mode: share a read-only live URL for any TV, projector or monitor - auto-refreshes every 30 seconds.</li>
+               <li class="shadow rounded" style="padding:20px;margin-bottom:20px;font-size:16px;color:#212121;font-weight:600;letter-spacing:1px;"><span class="fa fa-arrow-right" style="color:#875A7B;font-weight:600;font-size:18px;padding-right:10px;"></span>AI retrospective generated on sprint close: SUMMARY / WELL / IMPROVE / NEXT - editable before saving.</li>
+               <li class="shadow rounded" style="padding:20px;margin-bottom:20px;font-size:16px;color:#212121;font-weight:600;letter-spacing:1px;"><span class="fa fa-arrow-right" style="color:#875A7B;font-weight:600;font-size:18px;padding-right:10px;"></span>Previous retrospective injected as AI context for the next sprint - continuous improvement loop.</li>
+               <li class="shadow rounded" style="padding:20px;margin-bottom:20px;font-size:16px;color:#212121;font-weight:600;letter-spacing:1px;"><span class="fa fa-arrow-right" style="color:#875A7B;font-weight:600;font-size:18px;padding-right:10px;"></span>Filter tasks by department, project or assignee directly on the board.</li>
+               <li class="shadow rounded" style="padding:20px;margin-bottom:20px;font-size:16px;color:#212121;font-weight:600;letter-spacing:1px;"><span class="fa fa-arrow-right" style="color:#875A7B;font-weight:600;font-size:18px;padding-right:10px;"></span>Sprint sequence auto-assigned on start - sprints identified by <code>SPRINT/YYYY/NNNN</code>.</li>
+            </ul>
+         </div>
+      </section>
+
+      <!-- Tabs: Setup / FAQs / Support -->
+      <section style="padding-top: 50px;">
+         <div class="">
+            <ul class="nav nav-tabs justify-content-center" role="tablist" style="padding-bottom:10px;">
+               <li class="nav-item rounded" style="cursor:pointer;background-color:#814968d9;font-weight:600;font-size:14px;margin:0 2px;border-radius:0.25rem !important;">
+                  <a class="nav-link active rounded" data-toggle="tab" href="#Setup" style="color:#fff;border:1px solid #814968d9;padding:10px 20px;">Setup</a>
+               </li>
+               <li class="nav-item rounded" style="cursor:pointer;background-color:#814968d9;font-weight:600;font-size:14px;margin:0 2px;border-radius:0.25rem !important;">
+                  <a class="nav-link active rounded" data-toggle="tab" href="#FAQ" style="color:#fff;border:1px solid #814968d9;padding:10px 20px;">FAQs</a>
+               </li>
+               <li class="nav-item rounded" style="cursor:pointer;background-color:#814968d9;font-weight:600;font-size:14px;margin:0 2px;border-radius:0.25rem !important;">
+                  <a class="nav-link active rounded" data-toggle="tab" href="#Support" style="color:#fff;border:1px solid #814968d9;padding:10px 20px;">Support</a>
+               </li>
+            </ul>
+
+            <div class="tab-content" style="padding-top:30px;padding-bottom:30px;">
+
+               <!-- SETUP TAB -->
+               <div id="Setup" class="tab-pane active show">
+                  <section>
+                     <div class="container">
+                        <div class="text-center">
+
+                           <p style="color:#1b325f;font-size:20px;max-width:75%;margin:auto;margin-bottom:20px;letter-spacing:.5px;">
+                              Go to <strong>Settings &gt; Users</strong> and assign the <em>Board / Viewer</em> or <em>Board / Editor</em> role to each team member. Viewers can see boards; editors can create, close and configure them.
+                           </p>
+                           <div class="col-md-12">
+                              <img class="img-responsive rounded shadow" src="1_setting_user.png" style="width:100%;" />
+                           </div>
+                           <br/>
+
+                           <p style="color:#1b325f;font-size:20px;max-width:75%;margin:auto;margin-bottom:20px;letter-spacing:.5px;">
+                              In <strong>Settings &gt; Project &gt; AI Board</strong> enter your AI provider credentials - provider, API key and model. You can use <strong>Groq for free</strong> (<a href="https://console.groq.com/keys" target="_blank" style="color:#875A7B;font-weight:700;">console.groq.com/keys</a>). Optionally set a fallback model in case the primary one fails.
+                           </p>
+                           <div class="col-md-12">
+                              <img class="img-responsive rounded shadow" src="2_setting_project.png" style="width:100%;" />
+                           </div>
+                           <br/>
+
+                           <p style="color:#1b325f;font-size:20px;max-width:75%;margin:auto;margin-bottom:20px;letter-spacing:.5px;">
+                              The <strong>Board</strong> menu appears in Project. When no board exists for the current sprint you will see the empty state with a prompt to create one.
+                           </p>
+                           <div class="col-md-12">
+                              <img class="img-responsive rounded shadow" src="3_board_empty.png" style="width:100%;" />
+                           </div>
+                           <br/>
+
+                           <p style="color:#1b325f;font-size:20px;max-width:75%;margin:auto;margin-bottom:20px;letter-spacing:.5px;">
+                              Sprints are managed under <strong>Project &gt; Scrum &gt; Sprints</strong>. Set start and end dates, link to one or more projects, add objectives and track them. The sprint name is auto-generated as <code>SPRINT/YYYY/NNNN</code> when you click <em>Start</em>.
+                           </p>
+                           <div class="col-md-12">
+                              <img class="img-responsive rounded shadow" src="4_sprint.png" style="width:100%;" />
+                           </div>
+                           <br/>
+
+                           <p style="color:#1b325f;font-size:20px;max-width:75%;margin:auto;margin-bottom:20px;letter-spacing:.5px;">
+                              Click <strong>+ Create board</strong> to open the creation modal. Select the sprint, assign editors (pre-filled with project managers) and optionally include the previous retrospective as AI context.
+                           </p>
+                           <div class="col-md-12">
+                              <img class="img-responsive rounded shadow" src="5_create_board.png" style="width:100%;" />
+                           </div>
+                           <br/>
+
+                           <p style="color:#1b325f;font-size:20px;max-width:75%;margin:auto;margin-bottom:20px;letter-spacing:.5px;">
+                              The board opens with all sprint tasks grouped by status (Priority, Bugs, In Progress, Pending, Completed), live KPIs, health badge and an AI-generated headline. Use <em>Sort with AI</em> to reorder tasks by urgency.
+                           </p>
+                           <div class="col-md-12">
+                              <img class="img-responsive rounded shadow" src="6_view_board (ia,kpis).png" style="width:100%;" />
+                           </div>
+                           <br/>
+
+                           <p style="color:#1b325f;font-size:20px;max-width:75%;margin:auto;margin-bottom:20px;letter-spacing:.5px;">
+                              The AI generates contextual recommendations that rotate focus each time. Rate them with thumbs up / thumbs down - the feedback is used to improve future suggestions and adapt the style to your team's preferences.
+                           </p>
+                           <div class="col-md-12">
+                              <img class="img-responsive rounded shadow" src="7_feedback_ia.png" style="width:100%;" />
+                           </div>
+                           <br/>
+
+                           <p style="color:#1b325f;font-size:20px;max-width:75%;margin:auto;margin-bottom:20px;letter-spacing:.5px;">
+                              Click <strong>Kiosk</strong> to activate kiosk mode. A public URL is generated - share it on any TV, projector or monitor. The page auto-refreshes every 30 seconds and shows KPIs, objectives, tasks and the AI headline.
+                           </p>
+                           <div class="col-md-12">
+                              <img class="img-responsive rounded shadow" src="8_kiosk_share.png" style="width:100%;" />
+                           </div>
+                           <br/>
+
+                           <p style="color:#1b325f;font-size:20px;max-width:75%;margin:auto;margin-bottom:20px;letter-spacing:.5px;">
+                              The kiosk page adapts to any screen size. It supports dark and light themes, shows objectives with progress bars, priority tasks, active bugs, in-progress tasks and a velocity comparison panel.
+                           </p>
+                           <div class="col-md-12">
+                              <img class="img-responsive rounded shadow" src="9_kiosk_mode.png" style="width:100%;" />
+                           </div>
+                           <br/>
+
+                           <p style="color:#1b325f;font-size:20px;max-width:75%;margin:auto;margin-bottom:20px;letter-spacing:.5px;">
+                              The board list shows all active and closed boards with global KPIs: active boards, pending SP, completion percentage, bug count and at-risk count. Filter by status, period or date range.
+                           </p>
+                           <div class="col-md-12">
+                              <img class="img-responsive rounded shadow" src="10_view_list_boards.png" style="width:100%;" />
+                           </div>
+                           <br/>
+
+                           <p style="color:#1b325f;font-size:20px;max-width:75%;margin:auto;margin-bottom:20px;letter-spacing:.5px;">
+                              When closing a board, the AI generates a structured retrospective with <strong>SUMMARY / WELL / IMPROVE / NEXT</strong>. Review and edit before saving - it will be used as context in the next sprint's AI analysis.
+                           </p>
+                           <div class="col-md-12">
+                              <img class="img-responsive rounded shadow" src="11_retro_close_board.png" style="width:100%;" />
+                           </div>
+                           <br/>
+
+                           <p style="color:#1b325f;font-size:20px;max-width:75%;margin:auto;margin-bottom:20px;letter-spacing:.5px;">
+                              Closed boards are kept as a read-only record with the full sprint history - tasks, KPIs, retrospective and date closed. You can reopen from the board list to review past sprints at any time.
+                           </p>
+                           <div class="col-md-12">
+                              <img class="img-responsive rounded shadow" src="12_closed_board.png" style="width:100%;" />
+                           </div>
+                           <br/><br/>
+
+                        </div>
+                     </div>
+                  </section>
+               </div>
+
+               <!-- FAQ TAB -->
+               <div id="FAQ" class="tab-pane active show container">
+                  <div class="demo">
+                     <div class="panel-group" id="accordion" role="tablist">
+
+                        <div class="panel panel-default shadow rounded bg-white" style="padding:20px;margin-bottom:20px;">
+                           <div class="panel-heading" role="tab" style="border:0;padding:0;">
+                              <h4 class="panel-title" style="margin:0;">
+                                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#faq1" style="font-size:16px;color:#212121;text-decoration:none;font-weight:600;letter-spacing:1px;display:flex;">
+                                    <span class="fa fa-hand-o-right" style="color:#814968d9;font-weight:600;font-size:18px;padding-right:10px;"></span>
+                                    Does this module work with Odoo Community and Enterprise?
+                                 </a>
+                              </h4>
+                           </div>
+                           <div id="faq1" class="panel-collapse collapse show" role="tabpanel">
+                              <div class="panel-body" style="padding-top:20px;">
+                                 <ul style="list-style-type:disc;font-size:16px;padding-left:30px;color:#555;margin:0;">
+                                    <li>Yes, Sprint Board works with Odoo 17 Community and Enterprise editions.</li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </div>
+
+                        <div class="panel panel-default shadow rounded bg-white" style="padding:20px;margin-bottom:20px;">
+                           <div class="panel-heading" role="tab" style="border:0;padding:0;">
+                              <h4 class="panel-title" style="margin:0;">
+                                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#faq2" style="font-size:16px;color:#212121;text-decoration:none;font-weight:600;letter-spacing:1px;display:flex;">
+                                    <span class="fa fa-hand-o-right" style="color:#814968d9;font-weight:600;font-size:18px;padding-right:10px;"></span>
+                                    Is there a free AI option?
+                                 </a>
+                              </h4>
+                           </div>
+                           <div id="faq2" class="panel-collapse collapse show" role="tabpanel">
+                              <div class="panel-body" style="padding-top:20px;">
+                                 <ul style="list-style-type:disc;font-size:16px;padding-left:30px;color:#555;margin:0;">
+                                    <li>Yes - <strong>Groq</strong> provides a generous free tier with no credit card required. Get your API key at <a href="https://console.groq.com/keys" target="_blank" style="color:#875A7B;font-weight:700;">console.groq.com/keys</a> and paste it in <em>Settings &gt; Project &gt; AI Board</em>. Groq runs open models (Llama 3.3, Mixtral) with ultra-fast inference in the cloud.</li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </div>
+
+                        <div class="panel panel-default shadow rounded bg-white" style="padding:20px;margin-bottom:20px;">
+                           <div class="panel-heading" role="tab" style="border:0;padding:0;">
+                              <h4 class="panel-title" style="margin:0;">
+                                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#faq3" style="font-size:16px;color:#212121;text-decoration:none;font-weight:600;letter-spacing:1px;display:flex;">
+                                    <span class="fa fa-hand-o-right" style="color:#814968d9;font-weight:600;font-size:18px;padding-right:10px;"></span>
+                                    Are there OCA module dependencies?
+                                 </a>
+                              </h4>
+                           </div>
+                           <div id="faq3" class="panel-collapse collapse show" role="tabpanel">
+                              <div class="panel-body" style="padding-top:20px;">
+                                 <ul style="list-style-type:disc;font-size:16px;padding-left:30px;color:#555;margin:0;">
+                                    <li>Yes. <code>project_department</code> from <a href="https://github.com/OCA/project" target="_blank" style="color:#875A7B;font-weight:700;">github.com/OCA/project</a> is required. It adds department-level grouping to tasks, used by the board's department filter.</li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </div>
+
+                        <div class="panel panel-default shadow rounded bg-white" style="padding:20px;margin-bottom:20px;">
+                           <div class="panel-heading" role="tab" style="border:0;padding:0;">
+                              <h4 class="panel-title" style="margin:0;">
+                                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#faq4" style="font-size:16px;color:#212121;text-decoration:none;font-weight:600;letter-spacing:1px;display:flex;">
+                                    <span class="fa fa-hand-o-right" style="color:#814968d9;font-weight:600;font-size:18px;padding-right:10px;"></span>
+                                    Does the kiosk mode require authentication?
+                                 </a>
+                              </h4>
+                           </div>
+                           <div id="faq4" class="panel-collapse collapse show" role="tabpanel">
+                              <div class="panel-body" style="padding-top:20px;">
+                                 <ul style="list-style-type:disc;font-size:16px;padding-left:30px;color:#555;margin:0;">
+                                    <li>No. The kiosk URL is a public read-only link protected by a unique token. Share it with any TV or screen without requiring an Odoo login. The board data auto-refreshes every 30 seconds.</li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </div>
+
+                        <div class="panel panel-default shadow rounded bg-white" style="padding:20px;margin-bottom:20px;">
+                           <div class="panel-heading" role="tab" style="border:0;padding:0;">
+                              <h4 class="panel-title" style="margin:0;">
+                                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#faq5" style="font-size:16px;color:#212121;text-decoration:none;font-weight:600;letter-spacing:1px;display:flex;">
+                                    <span class="fa fa-hand-o-right" style="color:#814968d9;font-weight:600;font-size:18px;padding-right:10px;"></span>
+                                    Can I have multiple boards for the same sprint?
+                                 </a>
+                              </h4>
+                           </div>
+                           <div id="faq5" class="panel-collapse collapse show" role="tabpanel">
+                              <div class="panel-body" style="padding-top:20px;">
+                                 <ul style="list-style-type:disc;font-size:16px;padding-left:30px;color:#555;margin:0;">
+                                    <li>Only one active board per sprint is allowed. You must close the current board before creating a new one for the same sprint. Closed boards are preserved as historical records.</li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </div>
+
+                        <div class="panel panel-default shadow rounded bg-white" style="padding:20px;margin-bottom:20px;">
+                           <div class="panel-heading" role="tab" style="border:0;padding:0;">
+                              <h4 class="panel-title" style="margin:0;">
+                                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#faq6" style="font-size:16px;color:#212121;text-decoration:none;font-weight:600;letter-spacing:1px;display:flex;">
+                                    <span class="fa fa-hand-o-right" style="color:#814968d9;font-weight:600;font-size:18px;padding-right:10px;"></span>
+                                    I want customization in this module. How can I request it?
+                                 </a>
+                              </h4>
+                           </div>
+                           <div id="faq6" class="panel-collapse collapse show" role="tabpanel">
+                              <div class="panel-body" style="padding-top:20px;">
+                                 <ul style="list-style-type:disc;font-size:16px;padding-left:30px;color:#555;margin:0;">
+                                    <li>Please contact us at <a href="mailto:devtodoo@gmail.com" style="color:#007bff;font-weight:600;text-decoration:none;">devtodoo@gmail.com</a> to discuss customization options.</li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </div>
+
+                     </div>
+                  </div>
+               </div>
+
+               <!-- SUPPORT TAB -->
+               <div id="Support" class="tab-pane active show container">
+                  <div class="row">
+                     <div class="col-md">
+                        <div class="sh_content shadow rounded bg-white" style="padding:20px;">
+                           <h4 class="mb-0"><a href="mailto:devtodoo@gmail.com" style="text-decoration:none;color:#212121;font-size:18px;font-weight:600;letter-spacing:1px;"><span class="fa fa-envelope" style="color:#814968d9;padding-right:10px;font-size:20px;"></span>Please mail us for support at <b style="color:#3363c1">devtodoo@gmail.com</b></a></h4>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+            </div>
+         </div>
+      </section>
+
+      <!-- Our Apps -->
+      <section style="padding:40px 0;margin-top:2em;">
+         <div class="container">
+            <div class="sh_center text-center row">
+               <div class="col-lg-3 col-md-3 col-sm-12"></div>
+               <div class="col-lg-3 col-md-3 col-sm-12">
+                  <a class="shadow rounded py-3 px-4 mb-2 d-flex align-items-center justify-content-center" style="border:1px solid #814968d9;color:#fff;text-decoration:none;font-size:20px;font-weight:bold;width:100%;background-color:#814968d9;border-radius:0.25rem !important;" href="https://apps.odoo.com/apps/modules/browse?price=Paid&search=todooweb" target="_blank"><span class="fa fa-cube mr-3"></span><span> Our Apps (Paid)</span></a>
+               </div>
+               <div class="col-lg-3 col-md-3 col-sm-12">
+                  <a class="shadow rounded py-3 px-4 mb-2 d-flex align-items-center justify-content-center" style="border:1px solid #814968d9;color:#fff;text-decoration:none;font-size:20px;font-weight:bold;width:100%;background-color:#814968d9;border-radius:0.25rem !important;" href="https://apps.odoo.com/apps/modules/browse?price=Free&search=todooweb" target="_blank"><span class="fa fa-cube mr-3"></span><span> Our Apps (Free)</span></a>
+               </div>
+               <div class="col-lg-3 col-md-3 col-sm-12"></div>
+            </div>
+         </div>
+      </section>
+
+      <!-- You May Also Like -->
+      <section style="margin:50px 0;">
+         <div class="container">
+            <div class="sh_center text-center mb-5">
+               <h4 style="font-size:28px;font-weight:600;color:#814968d9;margin-bottom:10px;">You May Also Like</h4>
+               <img src="heading.png" alt="heading" />
+            </div>
+            <div class="row" style="margin-top:1rem;">
+               <div class="col-md-4 mb-3"><div class="sh_content shadow rounded text-center"><a href="https://apps.odoo.com/apps/modules/17.0/automatic_invoice_delivered/"><img class="rounded" src="module1.png" width="100%"></a></div></div>
+               <div class="col-md-4 mb-3"><div class="sh_content shadow rounded text-center"><a href="https://apps.odoo.com/apps/modules/16.0/todooweb_intercompany_plus/"><img class="rounded" src="module2.png" width="100%"></a></div></div>
+               <div class="col-md-4 mb-3"><div class="sh_content shadow rounded text-center"><a href="https://apps.odoo.com/apps/modules/16.0/fix_task_stage_creation/"><img class="rounded" src="module3.png" width="100%"></a></div></div>
+               <div class="col-md-4 mb-3"><div class="sh_content shadow rounded text-center"><a href="https://apps.odoo.com/apps/modules/16.0/helpdesk_pro/"><img class="rounded" src="module4.png" width="100%"></a></div></div>
+               <div class="col-md-4 mb-3"><div class="sh_content shadow rounded text-center"><a href="https://apps.odoo.com/apps/modules/16.0/timeoff_attendance_report/"><img class="rounded" src="module5.png" width="100%"></a></div></div>
+               <div class="col-md-4 mb-3"><div class="sh_content shadow rounded text-center"><a href="https://apps.odoo.com/apps/modules/17.0/todoo_search_systray/"><img class="rounded" src="module7.png" width="100%"></a></div></div>
+            </div>
+         </div>
+      </section>
+
+      <!-- Our Services -->
+      <section style="padding:50px 0;">
+         <div class="container">
+            <div class="sh_center text-center mb-5">
+               <h4 style="font-size:28px;font-weight:600;color:#814968d9;margin-bottom:10px;">Our Services</h4>
+               <img src="heading.png" alt="heading" />
+            </div>
+            <div class="row">
+               <div class="col-md-3 text-center">
+                  <div class="box p-4 shadow rounded mb-2" style="background-color:#dfd7ff;border:2px solid #9284d2;">
+                     <a href="mailto:devtodoo@gmail.com" target="_blank" style="text-decoration:none;">
+                        <img src="info.png" alt="info" style="height:55px;margin-bottom:10px;display:block;margin:auto;">
+                        <p class="mb-0" style="font-size:18px;color:#604eaf;font-weight:bold;">Odoo Implementation</p>
+                     </a>
+                  </div>
+               </div>
+               <div class="col-md-3 text-center">
+                  <div class="box p-4 shadow rounded mb-2" style="background-color:#ffcee2;border:2px solid #c5648c;">
+                     <a href="mailto:devtodoo@gmail.com" target="_blank" style="text-decoration:none;">
+                        <img src="setting.png" alt="setting" style="height:55px;margin-bottom:10px;display:block;margin:auto;">
+                        <p class="mb-0" style="font-size:18px;color:#b54574;font-weight:bold;">Odoo Customization</p>
+                     </a>
+                  </div>
+               </div>
+               <div class="col-md-3 text-center">
+                  <div class="box p-4 shadow rounded mb-2" style="background-color:#dfe8b4;border:2px solid #97a362;">
+                     <a href="mailto:devtodoo@gmail.com" target="_blank" style="text-decoration:none;">
+                        <img src="user.png" alt="user" style="height:55px;margin-bottom:10px;display:block;margin:auto;">
+                        <p class="mb-0" style="font-size:18px;color:#7f9037;font-weight:bold;">Support &amp; Maintenance</p>
+                     </a>
+                  </div>
+               </div>
+               <div class="col-md-3 text-center">
+                  <div class="box p-4 shadow rounded mb-2" style="background-color:#eaddca;border:2px solid #a38762;">
+                     <a href="mailto:devtodoo@gmail.com" target="_blank" style="text-decoration:none;">
+                        <img src="mobileapp.png" alt="mobileapp" style="height:55px;margin-bottom:10px;display:block;margin:auto;">
+                        <p class="mb-0" style="font-size:18px;color:#946d38;font-weight:bold;">Mobile Apps</p>
+                     </a>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
+      <!-- Help and Support -->
+      <section style="padding:40px 0;">
+         <div class="container">
+            <div class="sh_center text-center mb-5">
+               <h4 style="font-size:28px;font-weight:600;color:#814968d9;margin-bottom:10px;">Help and Support</h4>
+               <img src="heading.png" alt="heading" />
+            </div>
+            <div class="mt32 mb32">
+               <p class="text-center" style="color:#0f1e40;max-width:80%;margin:0 auto;font-size:18px;">
+                  If you face any issues while using our app and the issue is arising due to our app, we provide you complementary support for a duration of <b>90 days</b> from the date of purchase.
+               </p>
+            </div>
+            <div class="oe_slogan">
+               <a class="btn btn-primary btn-lg mt8" href="https://todooweb.com/" target="_blank"><i class="fa fa-globe"></i> Website</a>
+               <a class="btn btn-primary btn-lg mt8" href="mailto:devtodoo@gmail.com"><i class="fa fa-envelope"></i> Contact Us</a>
+               <a class="btn btn-primary btn-lg mt8" href="https://github.com/todooweb" target="_blank"><i class="fa fa-github"></i> Issues</a>
+            </div>
+            <img src="logo_todoo.svg" style="width:200px;margin:20px auto;display:block;" />
+         </div>
+      </section>
+
+   </body>
+   <footer>
+      <hr>
+      <p class="text-center">
+         Powered by <a href="https://todooweb.com/" title="Develop ToDOO">Develop ToDOO Web</a> from <a href="https://todooweb.com/" title="ToDOO">ToDOO Web</a>
+      </p>
+   </footer>
+</html>

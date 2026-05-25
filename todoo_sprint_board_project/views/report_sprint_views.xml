@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Report search -->
+    <record id="view_report_sprint_search" model="ir.ui.view">
+        <field name="name">report.sprint.summary.search</field>
+        <field name="model">report.sprint.summary</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="sprint_id" string="Sprint"/>
+                <field name="sprint_name"/>
+                <separator/>
+                <filter string="Planned"     name="draft"       domain="[('state','=','draft')]"/>
+                <filter string="In Progress" name="in_progress" domain="[('state','=','in_progress')]"/>
+                <filter string="Closed"      name="closed"      domain="[('state','=','closed')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Sprint" name="group_sprint" context="{'group_by': 'sprint_id'}"/>
+                    <filter string="Status" name="group_state"  context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_report_sprint_pivot" model="ir.ui.view">
+        <field name="name">report.sprint.summary.pivot</field>
+        <field name="model">report.sprint.summary</field>
+        <field name="arch" type="xml">
+            <pivot string="Sprint Velocity" sample="1">
+                <field name="sprint_name" type="row"/>
+                <field name="line_label"  type="col"/>
+                <field name="value"       type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- SP Estimated vs Actual -->
+    <record id="view_report_sprint_sp_graph" model="ir.ui.view">
+        <field name="name">report.sprint.summary.sp.graph</field>
+        <field name="model">report.sprint.summary</field>
+        <field name="arch" type="xml">
+            <graph string="Estimated vs Actual SP" type="line" stacked="0" sample="1">
+                <field name="sprint_name" type="row"/>
+                <field name="line_label"  type="col"/>
+                <field name="value"       type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_report_sprint_sp" model="ir.actions.act_window">
+        <field name="name">Velocity: Story Points</field>
+        <field name="res_model">report.sprint.summary</field>
+        <field name="view_mode">graph,pivot</field>
+        <field name="views" eval="[
+            (ref('view_report_sprint_sp_graph'), 'graph'),
+            (ref('view_report_sprint_pivot'),    'pivot'),
+        ]"/>
+        <field name="domain">[('metric_category', '=', 'sp')]</field>
+        <field name="context">{'search_default_closed': 1}</field>
+        <field name="search_view_id" ref="view_report_sprint_search"/>
+    </record>
+
+    <!-- Tasks Planned vs Completed -->
+    <record id="view_report_sprint_tasks_graph" model="ir.ui.view">
+        <field name="name">report.sprint.summary.tasks.graph</field>
+        <field name="model">report.sprint.summary</field>
+        <field name="arch" type="xml">
+            <graph string="Planned vs Completed Tasks" type="line" stacked="0" sample="1">
+                <field name="sprint_name" type="row"/>
+                <field name="line_label"  type="col"/>
+                <field name="value"       type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_report_sprint_tasks" model="ir.actions.act_window">
+        <field name="name">Velocity: Tasks</field>
+        <field name="res_model">report.sprint.summary</field>
+        <field name="view_mode">graph,pivot</field>
+        <field name="views" eval="[
+            (ref('view_report_sprint_tasks_graph'), 'graph'),
+            (ref('view_report_sprint_pivot'),       'pivot'),
+        ]"/>
+        <field name="domain">[('metric_category', '=', 'tasks')]</field>
+        <field name="context">{'search_default_closed': 1}</field>
+        <field name="search_view_id" ref="view_report_sprint_search"/>
+    </record>
+
+    <!-- Burndown Chart -->
+    <record id="view_sprint_burndown_graph" model="ir.ui.view">
+        <field name="name">project.sprint.burndown.line.graph</field>
+        <field name="model">project.sprint.burndown.line</field>
+        <field name="arch" type="xml">
+            <graph string="Burndown Chart" type="line" sample="1">
+                <field name="date"             type="row"/>
+                <field name="line_type"        type="col"/>
+                <field name="remaining_sp"     type="measure"/>
+                <field name="remaining_tasks"  type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_sprint_burndown_search" model="ir.ui.view">
+        <field name="name">project.sprint.burndown.line.search</field>
+        <field name="model">project.sprint.burndown.line</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="sprint_id" string="Sprint"/>
+                <separator/>
+                <filter string="Actual" name="actual" domain="[('line_type','=','actual')]"/>
+                <filter string="Ideal"  name="ideal"  domain="[('line_type','=','ideal')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Sprint" name="group_sprint" context="{'group_by': 'sprint_id'}"/>
+                    <filter string="Date"   name="group_date"   context="{'group_by': 'date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_sprint_burndown" model="ir.actions.act_window">
+        <field name="name">Burndown Chart</field>
+        <field name="res_model">project.sprint.burndown.line</field>
+        <field name="view_mode">graph</field>
+    </record>
+</odoo>

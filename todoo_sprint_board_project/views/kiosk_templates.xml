@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="kiosk_page" name="Board Kiosk">
+        <html lang="en">
+            <head>
+                <meta charset="UTF-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                <title><t t-esc="sprint.name"/> — Kiosk</title>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+                <style>
+                    *{box-sizing:border-box;margin:0;padding:0}
+
+                    /* ── TEMAS: variables CSS ── */
+                    body{
+                        --bg:       #060d1a;
+                        --bg2:      #0d1424;
+                        --bg3:      #1e293b;
+                        --border:   #1e293b;
+                        --border2:  #334155;
+                        --text:     #e2e8f0;
+                        --text2:    #cbd5e1;
+                        --muted:    #475569;
+                        --muted2:   #64748b;
+                        --pb-bg:    #1e293b;
+                        font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+                        background:var(--bg);color:var(--text);
+                        min-height:100vh;display:flex;flex-direction:column;
+                        transition:background .3s,color .3s;
+                    }
+                    body.light{
+                        --bg:       #f8fafc;
+                        --bg2:      #ffffff;
+                        --bg3:      #f1f5f9;
+                        --border:   #e2e8f0;
+                        --border2:  #cbd5e1;
+                        --text:     #1e293b;
+                        --text2:    #374151;
+                        --muted:    #64748b;
+                        --muted2:   #94a3b8;
+                        --pb-bg:    #e2e8f0;
+                    }
+
+                    /* ── HEADER ── */
+                    .hdr{background:var(--bg2);border-bottom:2px solid var(--border);
+                         padding:12px 28px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+                    .hdr h1{font-size:1.25rem;font-weight:800;color:var(--text);flex:1;display:flex;align-items:center;gap:8px}
+                    .health-badge{padding:4px 12px;border-radius:20px;font-size:.8rem;font-weight:700}
+                    .refresh-icon{animation:spin 3s linear infinite;color:#34d399;font-size:.8rem}
+                    @keyframes spin{to{transform:rotate(360deg)}}
+
+                    /* Theme button */
+                    .btn-theme{background:var(--bg3);border:1px solid var(--border2);
+                               border-radius:20px;padding:4px 12px;cursor:pointer;
+                               font-size:.75rem;color:var(--muted);font-weight:600;
+                               display:flex;align-items:center;gap:5px;flex-shrink:0}
+                    .btn-theme:hover{border-color:#6366f1;color:#6366f1}
+
+                    /* ── KPI BAR ── */
+                    .kpi-bar{display:grid;grid-template-columns:repeat(5,1fr);
+                             background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0}
+                    .kpi{padding:10px 16px;border-right:1px solid var(--border);text-align:center}
+                    .kpi:last-child{border-right:none}
+                    .kv{font-size:1.8rem;font-weight:900;line-height:1}
+                    .kl{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+                    .kv-blue{color:#6366f1}.kv-green{color:#10b981}
+                    .kv-amber{color:#f59e0b}.kv-slate{color:#94a3b8}.kv-pred{color:#8b5cf6}
+
+                    /* Barra progreso */
+                    .prog-row{background:var(--bg2);border-bottom:1px solid var(--border);
+                              padding:6px 28px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+                    .pb{flex:1;background:var(--pb-bg);border-radius:4px;height:6px;overflow:hidden}
+                    .pf{display:block;height:6px;border-radius:4px;background:linear-gradient(90deg,#6366f1,#8b5cf6);transition:width .5s}
+                    .prog-lbl{font-size:.72rem;color:var(--muted);white-space:nowrap}
+
+                    /* ── CUERPO ── */
+                    .body{display:grid;grid-template-columns:1fr 1fr;flex:1;overflow:hidden}
+                    .col-left{border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;padding:16px 20px;background:var(--bg)}
+                    .col-right{overflow-y:auto;padding:16px 20px;background:var(--bg)}
+
+                    /* SECCIONES */
+                    .sec-title{font-size:.68rem;font-weight:700;text-transform:uppercase;
+                               letter-spacing:.08em;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+                    .sec-title.obj{color:#8b5cf6}
+                    .sec-title.comp{color:#3b82f6}
+                    .sec-title.tasks-p{color:#f59e0b}
+                    .sec-title.tasks-b{color:#ef4444}
+                    .sec-title.tasks-i{color:#6366f1}
+
+                    /* COMPARATIVA */
+                    .comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+                    .comp-box{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;text-align:center}
+                    .comp-lbl{font-size:.62rem;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
+                    .comp-val{font-size:1.2rem;font-weight:800}
+                    .comp-sub{font-size:.62rem;color:var(--muted2);margin-top:1px}
+
+                    /* TAREAS */
+                    .task-sec{margin-bottom:12px}
+                    .col-right > .task-sec + .task-sec { margin-top: 4px; }
+                    #sec-obj-tasks { margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+                    #col-obj-tasks .task-row { margin-bottom: 4px; }
+                    .task-row{display:flex;align-items:center;gap:7px;
+                              padding:6px 8px;border-radius:6px;margin-bottom:2px;
+                              background:var(--bg3);border:1px solid var(--border);font-size:.78rem}
+                    .task-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+                    .task-proj{color:var(--muted2);font-size:.68rem;font-weight:600;flex-shrink:0;white-space:nowrap}
+                    .task-name{flex:1;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+                    .task-sp{font-size:.65rem;color:var(--muted);flex-shrink:0}
+                    .task-blocked{font-size:.65rem;color:#f59e0b;font-weight:700;flex-shrink:0}
+
+                    /* COUNT */
+                    .count{background:var(--bg3);border-radius:8px;padding:1px 7px;font-size:.65rem;color:var(--muted);margin-left:auto}
+                    /* OBJECTIVES — use CSS vars to respect theme */
+                    .obj-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 11px;margin-bottom:6px}
+                    .obj-name{font-size:.82rem;color:var(--text2);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+                    .obj-bar-bg{background:var(--pb-bg);height:5px;border-radius:4px;margin-bottom:3px}
+                    .obj-bar-fill{height:5px;border-radius:4px;transition:width .4s ease}
+                    .obj-row{display:flex;justify-content:space-between;margin-top:2px}
+                    .obj-pct{font-size:.68rem;font-weight:700}
+                    .obj-tasks{font-size:.62rem;color:var(--muted)}
+
+                    /* HEADLINE */
+                    .headline{text-align:center;padding:6px 28px 2px;
+                              font-family:Georgia,'Times New Roman',serif;
+                              font-style:italic;font-size:.9rem;color:var(--muted);flex-shrink:0}
+
+                    /* OBJECTIVE PANEL */
+                    .obj-panel-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:none}
+                    .obj-panel-overlay.open{display:block}
+                    .obj-panel{position:fixed;top:0;right:0;bottom:0;width:340px;max-width:95vw;
+                               background:var(--bg2);border-left:1px solid var(--border);
+                               z-index:101;display:flex;flex-direction:column;
+                               transform:translateX(100%);transition:transform .25s ease}
+                    .obj-panel.open{transform:translateX(0)}
+                    .obj-panel-hdr{padding:14px 16px;border-bottom:1px solid var(--border);
+                                   display:flex;align-items:center;gap:10px;flex-shrink:0}
+                    .obj-panel-title{flex:1;font-size:.9rem;font-weight:700;color:var(--text)}
+                    .obj-panel-close{background:none;border:none;color:var(--muted);cursor:pointer;
+                                     font-size:1rem;padding:4px;border-radius:4px}
+                    .obj-panel-close:hover{color:var(--text);background:var(--bg3)}
+                    .obj-panel-body{overflow-y:auto;padding:14px 16px;flex:1}
+                    .obj-panel-pct{font-size:2rem;font-weight:900;line-height:1;margin-bottom:4px}
+                    .obj-panel-task{display:flex;align-items:center;gap:8px;padding:8px 10px;
+                                    border-radius:6px;margin-bottom:4px;border:1px solid var(--border);
+                                    background:var(--bg3);font-size:.78rem}
+                    .obj-panel-task-name{flex:1;color:var(--text2);overflow:hidden;
+                                         text-overflow:ellipsis;white-space:nowrap}
+                    .obj-panel-task-sp{font-size:.68rem;color:var(--muted);flex-shrink:0}
+                    .obj-no-tasks{text-align:center;padding:24px 16px;color:var(--muted);font-size:.82rem}
+                    @media (max-width: 1024px) {
+                        .kpi-bar { grid-template-columns: repeat(3, 1fr); }
+                        .body    { grid-template-columns: 1fr; overflow-y: auto; }
+                        .col-left{ border-right: none; border-bottom: 1px solid var(--border); }
+                        .hdr h1  { font-size: 1rem; }
+                        .kv      { font-size: 1.4rem; }
+                    }
+                    @media (max-width: 640px) {
+                        .kpi-bar { grid-template-columns: repeat(2, 1fr); }
+                        .kpi:nth-child(5) { display: none; } /* ocultar pred en movil */
+                        .comp-grid { grid-template-columns: 1fr; }
+                        .hdr     { padding: 8px 12px; gap: 6px; }
+                        .hdr h1  { font-size: .9rem; }
+                        .col-left, .col-right { padding: 10px 12px; }
+                        .prog-row { padding: 5px 12px; }
+                        .kv      { font-size: 1.1rem; }
+                        .kl      { font-size: .58rem; }
+                        .task-row{ font-size: .7rem; padding: 5px 6px; }
+                        .obj-name{ font-size: .75rem; }
+                        .headline{ font-size: .78rem; padding: 4px 12px; }
+                    }
+                    @media (max-width: 400px) {
+                        .kpi-bar { grid-template-columns: repeat(2, 1fr); }
+                        .kpi     { padding: 8px; }
+                        .kv      { font-size: 1rem; }
+                        .btn-theme span { display: none; }
+                    }
+                </style>
+            </head>
+            <body>
+                <!-- HEADER -->
+                <div class="hdr">
+                    <h1><i class="fa fa-rocket" style="color:#6366f1"></i> <span id="sprint-name"><t t-esc="sprint.name"/></span></h1>
+                    <span class="hdr-meta" id="sprint-dates"/>
+                    <span class="health-badge" id="k-health" style="display:none"/>
+                    <button class="btn-theme" id="btn-theme" onclick="toggleTheme()">
+                        <i id="theme-icon" class="fa fa-moon"></i> <span id="theme-label">Light</span>
+                    </button>
+                    <span style="font-size:.7rem;color:#64748b;display:flex;align-items:center;gap:4px">
+                        <i class="fa fa-rotate refresh-icon"></i> 30s
+                    </span>
+                </div>
+
+                <!-- AI HEADLINE -->
+                <div class="headline" id="k-headline" style="display:none"/>
+
+                <!-- KPI BAR -->
+                <div class="kpi-bar">
+                    <div class="kpi"><div class="kv kv-blue" id="k-pct">--%</div><div class="kl">Progress</div></div>
+                    <div class="kpi"><div class="kv kv-green" id="k-done">--/--</div><div class="kl">Completed</div></div>
+                    <div class="kpi"><div class="kv kv-amber" id="k-sp">-- SP</div><div class="kl">SP done</div></div>
+                    <div class="kpi"><div class="kv kv-slate" id="k-days">--</div><div class="kl">Days left</div></div>
+                    <div class="kpi"><div class="kv kv-pred" id="k-pred-pct">--%</div><div class="kl">Pred. completion</div></div>
+                </div>
+
+                <!-- PROGRESS BAR -->
+                <div class="prog-row">
+                    <span class="prog-lbl">Sprint progress</span>
+                    <div class="pb"><div class="pf" id="k-prog" style="width:0%"></div></div>
+                    <strong id="pct-label" style="font-size:.75rem;color:#6366f1;white-space:nowrap">0%</strong>
+                </div>
+
+                <!-- BODY -->
+                <div class="body">
+                    <!-- LEFT COLUMN: Objectives + Comparison -->
+                    <div class="col-left">
+                        <!-- Objectives -->
+                        <div id="sec-objectives" style="display:none;margin-bottom:16px">
+                            <div class="sec-title obj"><i class="fa fa-bullseye"></i> Sprint objectives <span class="count" id="cnt-obj">0</span></div>
+                            <div id="col-objectives"/>
+                        </div>
+                        <!-- Comparison -->
+                        <div id="sec-comparison" style="display:none">
+                            <div class="sec-title comp"><i class="fa fa-chart-bar"></i> Comparison</div>
+                            <div class="comp-grid" id="col-comparison"/>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT COLUMN: selected objective tasks + priority, bugs, in progress -->
+                    <div class="col-right">
+                        <div class="task-sec" id="sec-obj-tasks" style="display:none">
+                            <div class="sec-title" style="color:#8b5cf6;display:flex;align-items:center;justify-content:space-between">
+                                <span><i class="fa fa-bullseye"></i> <span id="obj-tasks-title">Objective</span></span>
+                                <button onclick="clearObjTasks()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:.75rem;padding:2px 6px;border-radius:4px"><i class="fa fa-xmark"></i></button>
+                            </div>
+                            <div id="col-obj-tasks"/>
+                        </div>
+                        <div class="task-sec" id="sec-priority" style="display:none">
+                            <div class="sec-title tasks-p"><i class="fa fa-star"></i> Priority <span class="count" id="cnt-priority">0</span></div>
+                            <div id="col-priority"/>
+                        </div>
+                        <div class="task-sec" id="sec-bugs" style="display:none">
+                            <div class="sec-title tasks-b"><i class="fa fa-bug"></i> Active bugs <span class="count" id="cnt-bug">0</span></div>
+                            <div id="col-bug"/>
+                        </div>
+                        <div class="task-sec" id="sec-inprog" style="display:none">
+                            <div class="sec-title tasks-i"><i class="fa fa-bolt"></i> In progress <span class="count" id="cnt-inprog">0</span></div>
+                            <div id="col-inprog"/>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    const TOKEN = '<t t-esc="token"/>';
+
+                    async function poll() {
+                        try {
+                            const r = await fetch('/sprint-board/kiosk/' + TOKEN + '/data', {
+                                method: 'POST',
+                                headers: {'Content-Type': 'application/json'},
+                                body: JSON.stringify({jsonrpc: '2.0', method: 'call', id: 1, params: {}})
+                            });
+                            const d = (await r.json()).result;
+                            if (!d || d.error) return;
+                            render(d);
+                        } catch(e) { console.warn('Kiosk poll error:', e); }
+                    }
+
+                    function render(d) {
+                        const k = d.kpis;
+                        // KPIs
+                        $('k-pct').textContent  = k.pct + '%';
+                        $('k-done').textContent = k.done_tasks + '/' + k.total_tasks;
+                        $('k-sp').textContent   = k.done_sp + ' SP';
+                        $('k-days').textContent = k.days_left;
+                        $('k-prog').style.display = 'block';
+                        $('k-prog').style.width = k.pct + '%';
+                        $('pct-label').textContent = k.pct + '%';
+                        $('sprint-dates').textContent = (d.sprint.start_date||'') + ' → ' + (d.sprint.end_date||'');
+
+                        // Prediction
+                        const pred = d.prediction;
+                        if (pred) $('k-pred-pct').textContent = pred.pct_chance + '%';
+
+                        // Health
+                        const h = d.health;
+                        if (h &amp;&amp; h.status !== 'unknown') {
+                            const colors = {on_track:'#10b981',at_risk:'#f59e0b',critical:'#ef4444'};
+                            const bgs    = {on_track:'#d1fae5',at_risk:'#fef3c7',critical:'#fee2e2'};
+                            const el = $('k-health');
+                            el.style.display = 'inline-block';
+                            el.style.background = bgs[h.status]||'#f1f5f9';
+                            el.style.color = colors[h.status]||'#94a3b8';
+                            el.innerHTML = {on_track:'<i class="fa fa-circle-check"></i> On track',at_risk:'<i class="fa fa-triangle-exclamation"></i> At risk',critical:'<i class="fa fa-circle-xmark"></i> Critical'}[h.status]||h.label;
+                        }
+
+                        // Headline IA
+                        if (d.board &amp;&amp; d.board.headline) {
+                            const hl = $('k-headline');
+                            hl.textContent = '" ' + d.board.headline + ' "';
+                            hl.style.display = 'block';
+                        }
+
+                        // Objectives
+                        const objs = d.objectives || [];
+                        _objData = objs;
+                        if (objs.length) {
+                            show('sec-objectives');
+                            $('cnt-obj').textContent = objs.length;
+                            var objContainer = document.getElementById('col-objectives');
+                            objContainer.innerHTML = '';
+                            objs.forEach(function(o, idx) {
+                                var pct = Math.round(o.completion_rate || 0);
+                                var isCompleted   = (o.state === 'achieved' || pct >= 100);
+                                var isNotAchieved = (o.state === 'not_achieved' || o.state === 'failed');
+                                var col = isCompleted ? '#34d399' : (isNotAchieved ? '#ef4444' : (pct >= 50 ? '#6366f1' : '#f59e0b'));
+                                var item = document.createElement('div');
+                                item.className = 'obj-card';
+                                item.style.cursor = 'pointer';
+                                item.style.transition = 'border-color .15s, background .15s';
+                                if (isCompleted) {
+                                    item.style.borderColor = '#34d399';
+                                    item.style.background  = 'rgba(52,211,153,.07)';
+                                } else if (isNotAchieved) {
+                                    item.style.borderColor = '#ef4444';
+                                    item.style.background  = 'rgba(239,68,68,.05)';
+                                }
+                                item.addEventListener('mouseenter', function(){ if (!isCompleted &amp;&amp; !isNotAchieved) item.style.borderColor = '#6366f1'; });
+                                item.addEventListener('mouseleave', function(){ item.style.borderColor = isCompleted ? '#34d399' : (isNotAchieved ? '#ef4444' : ''); });
+                                item.addEventListener('click', function(){ openObjPanel(idx); });
+                                // Header row: status icon + name
+                                var nameRow = document.createElement('div');
+                                nameRow.style.display     = 'flex';
+                                nameRow.style.alignItems  = 'center';
+                                nameRow.style.gap         = '6px';
+                                nameRow.style.marginBottom = '4px';
+                                var icon = document.createElement('i');
+                                icon.className = isCompleted
+                                    ? 'fa fa-circle-check'
+                                    : (isNotAchieved ? 'fa fa-circle-xmark' : 'fa fa-circle');
+                                icon.style.color      = col;
+                                icon.style.fontSize   = '.75rem';
+                                icon.style.flexShrink = '0';
+                                var name = document.createElement('div');
+                                name.className        = 'obj-name';
+                                name.style.flex       = '1';
+                                name.style.margin     = '0';
+                                name.textContent      = o.name;
+                                nameRow.appendChild(icon);
+                                nameRow.appendChild(name);
+                                var bg = document.createElement('div');
+                                bg.className = 'obj-bar-bg';
+                                var fill = document.createElement('div');
+                                fill.className = 'obj-bar-fill';
+                                fill.style.background = col;
+                                fill.style.width = pct + '%';
+                                bg.appendChild(fill);
+                                var meta = document.createElement('div');
+                                meta.className = 'obj-row';
+                                var pctSpan = document.createElement('span');
+                                pctSpan.className = 'obj-pct';
+                                pctSpan.style.color = col;
+                                pctSpan.textContent = pct + '%';
+                                var countSpan = document.createElement('span');
+                                countSpan.className = 'obj-tasks';
+                                countSpan.textContent = (o.task_count > 0)
+                                    ? (o.completed_task_count || 0) + '/' + o.task_count + ' tasks'
+                                    : 'No tasks';
+                                meta.appendChild(pctSpan);
+                                meta.appendChild(countSpan);
+                                item.appendChild(nameRow);
+                                item.appendChild(bg);
+                                item.appendChild(meta);
+                                objContainer.appendChild(item);
+                            });
+                        }
+
+                        // Comparison
+                        const comp = d.comparison;
+                        if (comp) {
+                            show('sec-comparison');
+                            const vp = comp.vs_prev, va = comp.vs_avg;
+                            document.getElementById('col-comparison').innerHTML =
+                                compBox('vs prev. sprint', vp.velocity_delta, vp.sprint_name||'') +
+                                compBox('vs avg. (' + va.sprint_count + ' sprints)', va.velocity_delta, comp.current_velocity + ' t/day');
+                        }
+
+                        // Tareas
+                        const tasks = d.tasks || [];
+                        const priority = tasks.filter(function(t) { return !t.is_closed &amp;&amp; t.is_priority; });
+                        const bugs     = tasks.filter(function(t) { return t.is_bug &amp;&amp; !t.is_closed &amp;&amp; !t.is_priority; });
+                        const inprog   = tasks.filter(function(t) { return t.state === '01_in_progress' &amp;&amp; !t.is_closed &amp;&amp; !t.is_bug &amp;&amp; !t.is_priority; });
+
+                        renderTasks('sec-priority','col-priority','cnt-priority', priority, '#f59e0b');
+                        renderTasks('sec-bugs',    'col-bug',     'cnt-bug',      bugs,     '#f87171');
+                        renderTasks('sec-inprog',  'col-inprog',  'cnt-inprog',   inprog,   '#818cf8');
+                    }
+
+                    function compBox(label, delta, sub) {
+                        const isPos = delta >= 0;
+                        const col = isPos ? '#34d399' : '#f87171';
+                        return '<div class="comp-box">' +
+                            '<div class="comp-lbl">' + esc(label) + '</div>' +
+                            '<div class="comp-val" style="color:' + col + '">' +
+                            (isPos ? '↑' : '↓') + ' ' + Math.abs(delta) + '%</div>' +
+                            '<div class="comp-sub">' + esc(String(sub)) + '</div>' +
+                            '</div>';
+                    }
+
+                    function renderTasks(secId, colId, cntId, tasks, dotColor) {
+                        if (!tasks.length) { hide(secId); return; }
+                        show(secId);
+                        document.getElementById(cntId).textContent = tasks.length;
+                        document.getElementById(colId).innerHTML = tasks.slice(0, 6).map(function(t) {
+                            const proj = t.project_name ? '<span class="task-proj">(' + esc(t.project_name) + ')</span>' : '';
+                            const blocked = t.blocked_days ? '<span class="task-blocked"><i class="fa fa-triangle-exclamation"></i> ' + t.blocked_days + 'd</span>' : '';
+                            const sp = t.sp ? '<span class="task-sp">' + t.sp + ' SP</span>' : '';
+                            return '<div class="task-row">' +
+                                '<div class="task-dot" style="background:' + dotColor + '"/>' +
+                                proj +
+                                '<span class="task-name">' + esc(t.name) + '</span>' +
+                                sp + blocked +
+                                '</div>';
+                        }).join('');
+                    }
+
+                    function $(id) { return document.getElementById(id); }
+                    function show(id) { const e = $(id); if(e) e.style.display = ''; }
+                    function hide(id) { const e = $(id); if(e) e.style.display = 'none'; }
+                    function esc(s) { return String(s).replace(/&amp;/g,'&amp;amp;').replace(/&lt;/g,'&amp;lt;').replace(/&gt;/g,'&amp;gt;'); }
+
+                    // ── OBJECTIVE → tasks in col-right ──
+                    let _objData = [];
+                    let _selectedObjIdx = null;
+
+                    function openObjPanel(idx) {
+                        _selectedObjIdx = idx;
+                        const o = _objData[idx];
+                        if (!o) return;
+                        $('obj-tasks-title').textContent = o.name;
+                        const tasks = o.tasks || [];
+                        const done  = tasks.filter(function(t){ return t.is_closed; });
+                        const open  = tasks.filter(function(t){ return !t.is_closed; });
+                        let html = '';
+                        if (!tasks.length) {
+                            html = '<div style="text-align:center;padding:16px;color:var(--muted);font-size:.78rem"><i class="fa fa-bullseye" style="display:block;font-size:1.2rem;margin-bottom:6px"></i>Sin tareas relacionadas</div>';
+                        } else {
+                            if (open.length) html += open.map(function(t){ return taskRow(t, false); }).join('');
+                            if (done.length) {
+                                html += '<div style="font-size:.62rem;font-weight:700;text-transform:uppercase;color:var(--muted);margin:8px 0 4px">Completed</div>';
+                                html += done.map(function(t){ return taskRow(t, true); }).join('');
+                            }
+                        }
+                        $('col-obj-tasks').innerHTML = html;
+                        show('sec-obj-tasks');
+                        // Marcar objetivo seleccionado
+                        document.querySelectorAll('.obj-card').forEach(function(el, i){
+                            el.style.borderColor = i === idx ? '#8b5cf6' : '';
+                        });
+                    }
+
+                    function clearObjTasks() {
+                        _selectedObjIdx = null;
+                        hide('sec-obj-tasks');
+                        document.querySelectorAll('.obj-card').forEach(function(el){ el.style.borderColor = ''; });
+                    }
+
+                    function taskRow(t, isDone) {
+                        const proj = t.project_name ? '<span style="font-size:.65rem;color:var(--muted2);font-weight:600;flex-shrink:0">(' + esc(t.project_name) + ')&amp;nbsp;</span>' : '';
+                        const sp   = t.sp ? '<span class="task-sp">' + t.sp + ' SP</span>' : '';
+                        const dot  = '<div class="task-dot" style="background:' + (isDone ? '#34d399' : '#818cf8') + '"></div>';
+                        return '<div class="task-row" style="' + (isDone ? 'opacity:.5' : '') + '">' +
+                            dot + proj +
+                            '<span class="task-name" style="' + (isDone ? 'text-decoration:line-through' : '') + '">' + esc(t.name) + '</span>' +
+                            sp + '</div>';
+                    }
+
+                    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') clearObjTasks(); });
+
+                    // ── TEMA CLARO/OSCURO ──
+                    function toggleTheme() {
+                        const isLight = document.body.classList.toggle('light');
+                        localStorage.setItem('kiosk_theme', isLight ? 'light' : 'dark');
+                        var ti = document.getElementById('theme-icon'); ti.className = isLight ? 'fa fa-sun' : 'fa fa-moon';
+                        document.getElementById('theme-label').textContent = isLight ? 'Dark'  : 'Light';
+                    }
+                    // Restaurar tema guardado
+                    (function(){
+                        if (localStorage.getItem('kiosk_theme') === 'light') {
+                            document.body.classList.add('light');
+                            document.getElementById('theme-icon').className = 'fa fa-sun';
+                            document.getElementById('theme-label').textContent = 'Dark';
+                        }
+                    })();
+
+                    poll();
+                    setInterval(poll, 30000);
+                </script>
+            </body>
+        </html>
+    </template>
+</odoo>
