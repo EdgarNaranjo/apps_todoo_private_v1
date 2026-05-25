@@ -1,5 +1,6 @@
 from odoo import api, models, fields, _
 from odoo.exceptions import ValidationError, UserError
+from .const import CLOSING_STAGE_KEYWORDS
 
 
 class TaskScrumExtend(models.Model):
@@ -82,7 +83,7 @@ class TaskScrumExtend(models.Model):
                               "without a deadline.") % task.name
                         )
 
-    _CLOSING_STAGES = ('resuelta', 'completada', 'done', 'completed')
+    _CLOSING_STAGES = CLOSING_STAGE_KEYWORDS
 
     def _is_closing_stage(self, stage):
         name = (stage.name or '').lower().strip()
@@ -127,3 +128,12 @@ class TaskScrumExtend(models.Model):
             if self._is_closing_stage(new_stage):
                 self._check_effort_for_closing(new_stage, vals)
         return super().write(vals)
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        if not self.env.context.get('install_mode'):
+            for record in records:
+                if record.stage_id and record._is_closing_stage(record.stage_id):
+                    record._check_effort_for_closing(record.stage_id)
+        return records

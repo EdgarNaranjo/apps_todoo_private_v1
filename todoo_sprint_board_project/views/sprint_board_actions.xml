@@ -14,5 +14,5 @@
         parent="project.menu_main_pm"
         action="action_sprint_board"
         sequence="0"
-        groups="todoo_sprint_board_project_19.group_sprint_board_viewer,todoo_sprint_board_project_19.group_sprint_board_editor"/>
+        groups="todoo_sprint_board_project.group_sprint_board_viewer,todoo_sprint_board_project.group_sprint_board_editor"/>
 </odoo>

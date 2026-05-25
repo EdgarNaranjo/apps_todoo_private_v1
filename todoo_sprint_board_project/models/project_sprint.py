@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
 from odoo import api, models, fields, _
 from odoo.exceptions import ValidationError
 from random import randint
+from .const import CLOSING_STAGE_KEYWORDS
 
 
 class ProjectSprint(models.Model):
@@ -106,7 +106,7 @@ class ProjectSprint(models.Model):
     # Burndown
     # -------------------------------------------------------------------------
 
-    _CLOSING_STAGES = ("resuelta", "completada", "done", "completed")
+    _CLOSING_STAGES = CLOSING_STAGE_KEYWORDS
 
     def _get_incomplete_tasks(self):
         self.ensure_one()

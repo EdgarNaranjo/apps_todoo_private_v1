@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//app[@name='project']" position="inside">
                 <block title="AI Board" id="sprint_board_ai"
-                       groups="todoo_sprint_board_project_19.group_sprint_board_editor">
+                       groups="todoo_sprint_board_project.group_sprint_board_editor">
                     <setting id="sprint_board_ai_provider_setting"
                              help="AI provider used to sort tasks and generate analysis in active boards.">
                         <field name="sprint_board_ai_provider"/>

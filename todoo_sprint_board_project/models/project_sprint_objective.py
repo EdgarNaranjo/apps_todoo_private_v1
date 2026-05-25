@@ -1,6 +1,5 @@
 from odoo import api, fields, models, _
-
-CLOSED_STATES = frozenset(("1_done", "1_canceled", "03_approved"))
+from .const import CLOSED_TASK_STATES
 
 
 class ProjectSprintObjective(models.Model):
@@ -57,7 +56,7 @@ class ProjectSprintObjective(models.Model):
     def _compute_stats(self):
         for obj in self:
             total = len(obj.task_ids)
-            completed = sum(1 for t in obj.task_ids if t.state in CLOSED_STATES)
+            completed = sum(1 for t in obj.task_ids if t.state in CLOSED_TASK_STATES)
             obj.task_count = total
             obj.completed_task_count = completed
             obj.completion_rate = (completed / total) if total else 0.0
@@ -78,5 +77,5 @@ class ProjectSprintObjective(models.Model):
             if total == 0:
                 # No tasks: keep current state, don't force not_achieved
                 continue
-            completed = sum(1 for t in obj.task_ids if t.state in CLOSED_STATES)
+            completed = sum(1 for t in obj.task_ids if t.state in CLOSED_TASK_STATES)
             obj.state = "achieved" if completed >= total else "not_achieved"

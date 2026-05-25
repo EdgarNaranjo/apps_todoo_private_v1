@@ -4,6 +4,7 @@ import uuid
 from datetime import date, datetime
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from .const import CLOSED_TASK_STATES, is_bug_task, task_type_id, task_department_id
 
 
 class SprintBoard(models.Model):
@@ -46,18 +47,8 @@ class SprintBoard(models.Model):
 
     @staticmethod
     def _is_bug_task(task):
-        """True si la tarea es un bug.
-        1. If type_id.code is set: code in ('ERR','BUG','ERROR','DEFECTO')
-        2. If code is empty: type_id.name contains .error. or .bug..
-        """
-        type_id = getattr(task, 'type_id', None)
-        if not type_id:
-            return False
-        code = (type_id.code or "").strip().upper() if hasattr(type_id, 'code') else ""
-        if code:
-            return code in ("ERR", "BUG", "ERROR", "DEFECTO", "DEFECT")
-        name = (type_id.name or "").lower()
-        return "error" in name or "bug" in name
+        """True si la tarea es un bug. Delega en const.is_bug_task."""
+        return is_bug_task(task)
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -100,10 +91,9 @@ class SprintBoard(models.Model):
         if self.state == "closed":
             raise UserError(_("This board is already closed."))
         # Auto-mark objectives as achieved if all their tasks are closed
-        closed_states = {"1_done", "1_canceled", "03_approved"}
         for obj in self.sprint_id.objective_ids:
             if obj.state == "pending" and obj.task_ids:
-                all_done = all(t.state in closed_states for t in obj.task_ids)
+                all_done = all(t.state in CLOSED_TASK_STATES for t in obj.task_ids)
                 if all_done:
                     obj.sudo().write({"state": "achieved"})
         self.write({
@@ -165,7 +155,7 @@ class SprintBoard(models.Model):
         sprint = self.sprint_id
         tasks = sprint.task_ids
         can_edit = self.env.user in (self.creator_id | self.responsible_ids)
-        closed_states = {"1_done", "1_canceled", "03_approved"}
+        closed_states = CLOSED_TASK_STATES
 
         def sp(t):
             try:
@@ -198,7 +188,7 @@ class SprintBoard(models.Model):
             return elapsed if elapsed >= threshold else None
 
         def serialize_task(t):
-            type_code = getattr(t, 'type_id', None) and t.type_id.code or ""
+            type_code = (getattr(task_type_id(t), 'code', '') or '')
             # Days until deadline (None if not set)
             deadline_days = None
             if t.date_deadline:
@@ -216,12 +206,12 @@ class SprintBoard(models.Model):
                 "is_priority": bool(t.priority and t.priority != "0"),
                 "is_closed": t.state in closed_states,
                 "is_bug": SprintBoard._is_bug_task(t),
-                "type_name": t.type_id.name if getattr(t, 'type_id', None) else "",
+                "type_name": (task_type_id(t).name if task_type_id(t) else ""),
                 "type_code": type_code,
                 "sp": sp(t),
-                "deadline_days": deadline_days,  # None = no date, <0 = overdue, >=0 = days remaining
-                "department_id":   t.project_department_id.id   if getattr(t, 'project_department_id', None) else None,
-                "department_name": t.project_department_id.name if getattr(t, 'project_department_id', None) else None,
+                "deadline_days": deadline_days,
+                "department_id":   (task_department_id(t).id   if task_department_id(t) else None),
+                "department_name": (task_department_id(t).name if task_department_id(t) else None),
                 "blocked_days": _blocked_days(t),
                 "assignees": [
                     {"id": u.id, "name": u.name, "initials": (u.name or "?")[:2].upper()}
@@ -318,7 +308,7 @@ class SprintBoard(models.Model):
         """Compare with previous sprint and historical average."""
         if not sprint.project_ids:
             return None
-        closed = {"1_done", "1_canceled", "03_approved"}
+        closed = CLOSED_TASK_STATES
         project_ids = sprint.project_ids.ids
 
         def _sprint_metrics(s):
@@ -375,7 +365,7 @@ class SprintBoard(models.Model):
         with Board/Viewer group. Useful for already created boards."""
         self.ensure_one()
         viewer_group = self.env.ref(
-            "todoo_sprint_board_project_19.group_sprint_board_viewer",
+            "todoo_sprint_board_project.group_sprint_board_viewer",
             raise_if_not_found=False,
         )
         if not viewer_group:
@@ -443,7 +433,7 @@ class ProjectTaskBoardSync(models.Model):
         """Add to viewer_ids the users assigned to sprint tasks
         que tengan el grupo Board/Viewer o Board/Editor."""
         viewer_group = self.env.ref(
-            "todoo_sprint_board_project_19.group_sprint_board_viewer",
+            "todoo_sprint_board_project.group_sprint_board_viewer",
             raise_if_not_found=False,
         )
         if not viewer_group:

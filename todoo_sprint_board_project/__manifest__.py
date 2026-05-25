@@ -1,6 +1,6 @@
 {
     'name': 'Sprint Board',
-    'version': '19.0.2.1.0',
+    'version': '19.0.2.2.0',
     'category': 'Project/Project',
     'summary': 'Visual sprint dashboard with KPIs, AI analysis and kiosk mode',
     'description': """
@@ -21,6 +21,12 @@
         'project',
         'mail',
     ],
+    # Optional OCA integrations — install separately to enable extra features:
+    #   project_type       → task type classification (type_id field on tasks)
+    #                        https://github.com/OCA/project/tree/19.0/project_type
+    #   project_department → department filtering in board views
+    #                        https://github.com/OCA/project/tree/19.0/project_department
+    # The module works without them; these fields are accessed with getattr() fallbacks.
     'data': [
         'security/sprint_board_security.xml',
         'security/ir.model.access.csv',
@@ -37,13 +43,15 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'todoo_sprint_board_project_19/static/src/components/SprintBoardAction/SprintBoardAction.js',
-            'todoo_sprint_board_project_19/static/src/components/SprintBoardAction/SprintBoardAction.xml',
-            'todoo_sprint_board_project_19/static/src/components/SprintBoardList/SprintBoardList.js',
-            'todoo_sprint_board_project_19/static/src/components/SprintBoardList/SprintBoardList.xml',
-            'todoo_sprint_board_project_19/static/src/components/SprintBoardDashboard/SprintBoardDashboard.js',
-            'todoo_sprint_board_project_19/static/src/components/SprintBoardDashboard/SprintBoardDashboard.xml',
-            'todoo_sprint_board_project_19/static/src/scss/sprint_board.scss',
+            'todoo_sprint_board_project/static/src/components/SprintBoardAction/SprintBoardAction.js',
+            'todoo_sprint_board_project/static/src/components/SprintBoardAction/SprintBoardAction.xml',
+            'todoo_sprint_board_project/static/src/components/SprintBoardList/SprintBoardList.js',
+            'todoo_sprint_board_project/static/src/components/SprintBoardList/SprintBoardList.xml',
+            'todoo_sprint_board_project/static/src/components/SprintBoardDashboard/SprintBoardDashboard.js',
+            'todoo_sprint_board_project/static/src/components/SprintBoardDashboard/SprintBoardDashboard.xml',
+            'todoo_sprint_board_project/static/src/components/AIModelSelector/AIModelSelector.js',
+            'todoo_sprint_board_project/static/src/components/AIModelSelector/AIModelSelector.xml',
+            'todoo_sprint_board_project/static/src/scss/sprint_board.scss',
         ],
     },
     'images': ['static/description/screenshoot_sprint.png'],

@@ -15,7 +15,7 @@ class TestSprintBoardModel(TransactionCase):
             "login": "sprint_editor_test",
             "email": "editor@test.com",
             "groups_id": [(6, 0, [
-                cls.env.ref("todoo_sprint_board_project_19.group_sprint_board_editor").id,
+                cls.env.ref("todoo_sprint_board_project.group_sprint_board_editor").id,
                 cls.env.ref("project.group_project_user").id,
             ])],
         })

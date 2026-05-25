@@ -5,11 +5,12 @@ from datetime import date, datetime
 from odoo import http, _
 from odoo.http import request
 import random
-from odoo.addons.todoo_sprint_board_project_19.services.ai_service import SprintBoardAIService
+from odoo.addons.todoo_sprint_board_project.services.ai_service import SprintBoardAIService
+from odoo.addons.todoo_sprint_board_project.models.const import CLOSED_TASK_STATES, is_bug_task, task_type_id
 
 _logger = logging.getLogger(__name__)
 
-CLOSED_STATES = {"1_done", "1_canceled", "03_approved"}
+CLOSED_STATES = CLOSED_TASK_STATES
 
 
 class SprintBoardController(http.Controller):
@@ -24,18 +25,8 @@ class SprintBoardController(http.Controller):
 
     @staticmethod
     def _is_bug(task):
-        """True si la tarea es un bug.
-        1. If type_id.code is set: code in ('ERR','BUG','ERROR','DEFECTO')
-        2. If code is empty: type_id.name contains .error. or .bug..
-        """
-        type_id = getattr(task, 'type_id', None)
-        if not type_id:
-            return False
-        code = (type_id.code or "").strip().upper() if hasattr(type_id, 'code') else ""
-        if code:
-            return code in ("ERR", "BUG", "ERROR", "DEFECTO", "DEFECT")
-        name = (type_id.name or "").lower()
-        return "error" in name or "bug" in name
+        """True si la tarea es un bug. Delega en const.is_bug_task."""
+        return is_bug_task(task)
 
     # ── Rutas autenticadas ─────────────────────────────────────────────────
 
@@ -107,6 +98,7 @@ class SprintBoardController(http.Controller):
                               for t in b.sprint_id.task_ids)
             )
         elif kpi_filter == "at_risk":
+            today = date.today()
             def _is_at_risk(b):
                 if not b.sprint_id.end_date:
                     return False
@@ -162,7 +154,7 @@ class SprintBoardController(http.Controller):
             }
         # Explicit prefetch to avoid N+1 queries in _serialize
         paged.mapped("sprint_id.task_ids")
-        is_editor = request.env.user.has_group("todoo_sprint_board_project_19.group_sprint_board_editor")
+        is_editor = request.env.user.has_group("todoo_sprint_board_project.group_sprint_board_editor")
         return {
             "boards": [_serialize(b) for b in paged],
             "total": total,
@@ -287,8 +279,8 @@ class SprintBoardController(http.Controller):
         tasks_data = [
             {
                 "id": t.id, "name": t.name,
-                "type_code": getattr(t, 'type_id', None) and t.type_id.code or "",
-                "type_name": t.type_id.name if getattr(t, 'type_id', None) else "",
+                "type_code": (getattr(task_type_id(t), 'code', '') or ''),
+                "type_name": (task_type_id(t).name if task_type_id(t) else ""),
                 "sp": int(t.estimate_effort) if t.estimate_effort and t.estimate_effort != "00" else 0,
                 "state": t.state,
                 "priority": t.priority,
@@ -403,7 +395,7 @@ class SprintBoardController(http.Controller):
             {
                 "name":    t.name,
                 "sp":      int(t.estimate_effort) if t.estimate_effort and t.estimate_effort != "00" else 0,
-                "type":    t.type_id.name if getattr(t, 'type_id', None) else "",
+                "type":    (task_type_id(t).name if task_type_id(t) else ""),
                 "is_bug":  SprintBoardController._is_bug(t),
                 "state":   t.state,
                 "blocked": bool(t.write_date and (datetime.utcnow() - t.write_date).days >= 2 and t.state == "01_in_progress"),
@@ -651,7 +643,7 @@ class SprintBoardController(http.Controller):
         # Usuarios asignados a tareas del sprint
         task_users = sprint.task_ids.mapped("user_ids").filtered(lambda u: not u.share)
         # Filtrar: solo los que tienen al menos grupo Viewer
-        viewer_group = request.env.ref("todoo_sprint_board_project_19.group_sprint_board_viewer", raise_if_not_found=False)
+        viewer_group = request.env.ref("todoo_sprint_board_project.group_sprint_board_viewer", raise_if_not_found=False)
         if viewer_group:
             task_users = task_users.filtered(lambda u: viewer_group in u.groups_id)
         return [{"id": u.id, "name": u.name, "initials": (u.name or "?")[:2].upper()} for u in task_users]
@@ -695,7 +687,7 @@ class SprintBoardController(http.Controller):
         )
         if not board:
             return request.not_found()
-        return request.render("todoo_sprint_board_project_19.kiosk_page", {
+        return request.render("todoo_sprint_board_project.kiosk_page", {
             "board": board, "sprint": board.sprint_id, "token": token,
         })
 
@@ -713,7 +705,7 @@ class SprintBoardController(http.Controller):
         data.pop("recommendations", None)
         # Titular IA para el kiosk (generado sin throttle)
         try:
-            from odoo.addons.todoo_sprint_board_project_19.services.ai_service import SprintBoardAIService
+            from odoo.addons.todoo_sprint_board_project.services.ai_service import SprintBoardAIService
             sprint   = board.sprint_id
             tasks    = sprint.task_ids
             cls_st   = CLOSED_STATES
