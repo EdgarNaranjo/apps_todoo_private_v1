@@ -1,6 +1,6 @@
 {
     'name': 'Sprint Board',
-    'version': '17.0.2.1.1',
+    'version': '17.0.2.1.2',
     'category': 'Project/Project',
     'summary': 'Visual sprint dashboard with KPIs, AI analysis and kiosk mode',
     'description': """
@@ -19,8 +19,8 @@
     'support': 'devtodoo@gmail.com',
     'depends': [
         'project',
-        'project_department',  # OCA: https://github.com/OCA/project
-        # 'project_type' is optional (OCA) — not available for 17.0; accessed via getattr guards
+        # 'project_department' is optional (OCA AGPL-3) — not listed as hard dep to keep LGPL-3 compatibility; accessed via getattr guards
+        # 'project_type'      is optional (OCA AGPL-3) — not available for 17.0; accessed via getattr guards
         'mail',
     ],
     'data': [
