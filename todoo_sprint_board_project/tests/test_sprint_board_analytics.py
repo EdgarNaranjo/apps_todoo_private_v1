@@ -33,7 +33,14 @@ class TestSprintBoardAnalytics(TransactionCase):
     # ── _is_bug_task ──────────────────────────────────────────────────────
 
     def _make_type(self, name, code=""):
-        return self.env["project.type"].create({"name": name, "code": code, "task_ok": True})
+        """Crea un project.type (OCA). Salta los tests si el módulo no está instalado."""
+        if 'project.type' not in self.env:
+            self.skipTest("Módulo OCA project_type no instalado — tests de type_id omitidos")
+        # task_ok es un campo propio de OCA; lo pasamos solo si existe
+        vals = {"name": name, "code": code}
+        if 'task_ok' in self.env['project.type']._fields:
+            vals['task_ok'] = True
+        return self.env["project.type"].create(vals)
 
     def test_ANAL01_is_bug_by_code_ERR(self):
         t = self.env["project.task"].create({

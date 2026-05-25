@@ -1,6 +1,6 @@
 {
     'name': 'Sprint Board',
-    'version': '18.0.2.1.0',
+    'version': '18.0.2.1.1',
     'category': 'Project/Project',
     'summary': 'Visual sprint dashboard with KPIs, AI analysis and kiosk mode',
     'description': """
@@ -19,13 +19,13 @@
     'support': 'devtodoo@gmail.com',
     'depends': [
         'project',
-        'project_department',  # OCA: https://github.com/OCA/project  (branch 18.0)
-        'project_type',        # OCA: https://github.com/OCA/project  (branch 18.0)
         'mail',
     ],
-    # ⚠️  project_department y project_type son módulos OCA.
-    #     Instalar desde: https://github.com/OCA/project (rama 18.0)
-    #     antes de instalar este módulo.
+    # ℹ️  project_department y project_type son módulos OCA opcionales.
+    #     Si están instalados (https://github.com/OCA/project rama 18.0)
+    #     el módulo los detecta automáticamente y expone los campos
+    #     department_id y type_id en el board. Sin ellos, esos campos
+    #     simplemente quedan vacíos.
     'data': [
         'security/sprint_board_security.xml',
         'security/ir.model.access.csv',
